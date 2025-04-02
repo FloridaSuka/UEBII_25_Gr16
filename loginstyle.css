@@ -1,0 +1,123 @@
+*{
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+}
+.login{
+    height: 100%;
+    width: 100% ;
+    background-image: linear-gradient(to right, rgba(0, 0, 0, 0.4), rgba(124, 79, 79, 0.4)),
+    url(foto/b1.jpg),
+    url(foto/b2.jpg),
+    url(foto/b3.jpg),
+    url(foto/b4.jpg);
+    background-position: center, top left, top right, bottom left, bottom right; /* Pozicionimi për secilin sfond */
+    background-size: 50%, 50%, 50%, 50%; /* Përmasat për secilin sfond */
+    background-repeat: no-repeat, no-repeat, no-repeat, no-repeat ; /* Përsëritja për secilin sfond */
+    position: absolute;
+}
+.form-box{
+    width: 430px;
+    height:480px;
+    position: relative;
+    margin: 6% auto;
+    background: #ffffff ;
+    padding: 5px;
+    overflow: hidden;
+    border-radius: 10%;
+
+}
+.button-box{
+    width: 220px;
+    margin:35px auto ;
+    position: relative;
+    box-shadow:0 0 20px 9px rgb(197, 236, 211) ;
+    border-radius:30px;
+    display: flex; 
+    justify-content: space-between; 
+}
+.toggle-btn{
+    flex: 1; 
+    text-align: center; 
+    padding: 10px 0px; 
+    cursor:pointer;
+    background:transparent ;
+    border:0;
+    outline:none;
+    position: relative;
+}
+#btn{
+    top:0;
+    left:0;
+    position: absolute;
+    width: 110px;
+    height:100%;
+    background: linear-gradient(to right, #45cfbf, #2A9D8F)  ;
+    border-radius:30px ;
+    transition: .5s;
+}
+.input-group{
+    top:120px;
+    position: absolute;
+    width: 340px;
+    transition: .5s;
+}
+.input-field{
+    width:100%;
+    padding: 10px 0 ;
+    margin:5px 0;
+    border-left: 0;
+    border-top: 0;
+    border-right: 0;
+    border-bottom: 1px solid #999;
+    outline:none;
+    background: transparent;
+}
+.submit-btn{
+    width:85%;
+    padding: 10px 10px;
+    cursor:pointer;
+    display: block;
+    margin:20px;
+    background:  radial-gradient(ellipse farthest-corner, #45cfbf, #2A9D8F);
+    border:0;
+    outline: none;
+    border-radius: 30px;
+}
+.check-box{
+    margin: 0 10px 0 0;
+}
+span{
+    color:#fff;
+    font-size: 12px;
+    bottom:15px ;
+    position: absolute;
+
+}
+p{
+    padding: 10px  10px ;
+    height: auto;
+    text-align: left;
+    font-size: 15px;
+}
+li{
+    color: #F4A261; 
+    text-decoration: underline; 
+    margin-right: 5px; 
+}
+span{
+    color:#777 ;
+    font-size: 12px;
+    bottom:155px ;
+    position: absolute;
+
+}
+
+#login{
+    left:50px;
+}
+#register{
+    left:450px;
+
+}
+

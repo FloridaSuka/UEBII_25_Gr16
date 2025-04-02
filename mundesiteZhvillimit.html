@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="sq">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <title>Cilat jan&#235 disa nga mund&#235sit&#235 e zhvillimit profesional</title>
+    <style>
+        ::-webkit-scrollbar{
+        width: 10px;
+        }
+        ::-webkit-scrollbar-track{
+        
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb{
+            background:#264653;
+            border-radius: 10px;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            background-color: #e6e3e3fa;
+            margin: 0;
+            padding: 0;
+        }
+
+        main {
+            margin: 20px;
+        }
+
+        section {
+            background: #264653;
+            color: white;
+            border-radius: 12px; 
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); 
+            padding: 20px; 
+            margin-bottom: 40px; 
+        }
+        .mundesit-h3{
+            font-size: 1.2em;
+        }
+        .mundesit-h1 {
+            color: #264653;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .mundesit-h2 {
+            font-weight: bold;
+            margin-top: 20px;
+        }
+
+        .mundesit-p {
+            font-size: 1em;
+            color: white;
+            font-style: italic;
+        }
+
+        .mundesit-ol {
+            margin: 20px;
+            padding-left: 40px;
+        }
+
+        .mundesit-ol li {
+            margin-bottom: 10px;
+        }
+        .back-btn {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 12px 25px;
+            background-color: #264653;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 16px;
+            text-align: center;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        .back-btn:hover {
+            background-color: #21867a;
+            transform: scale(1.05);
+        }
+
+        .back-btn::before {
+            content: "←"; 
+            font-size: 18px;
+        }
+
+        .back-btn-floating {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 100;
+            padding: 12px 25px;
+            background-color: #264653;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        .back-btn-floating:hover {
+            background-color: #21867a;
+            transform: scale(1.05);
+        }
+
+        .back-btn-floating::before {
+            content: "←"; 
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+    <div id="header-container"></div>
+    <script>
+        // JavaScript për të ngarkuar header-in nga file-i i jashtëm
+        fetch('nav.html')
+        .then(response => response.text())
+        .then(data => {
+            // Vendos përmbajtjen e header-it në div-in me id="header-container"
+            document.getElementById('header-container').innerHTML = data;
+            // Lidh eventet pasi përmbajtja të jetë ngarkuar
+            const loginIcon = document.getElementById('loginIcon');
+            const loginModal = document.getElementById('loginModal');
+            const closeBtn = document.getElementById('closeBtn');
+            const initialPosition = { top: 50, left: 50 }; // Pozita fillestare e modalit
+  
+            //hap modalin
+            if (loginIcon) {
+                loginIcon.addEventListener('click', () => {
+                    loginModal.style.display = 'block';
+                    loginModal.style.top = `${initialPosition.top}px`;
+                    loginModal.style.left = `${initialPosition.left}px`;
+                });
+            }
+            //mbyll modalin
+            if (closeBtn) {
+                closeBtn.addEventListener('click', () => {
+                    loginModal.style.display = 'none';
+                });
+            }
+           // Kthimi i modalit në pozitën fillestare
+            loginModal.addEventListener('dblclick', () => {
+                loginModal.style.top = `${initialPosition.top}px`;
+                loginModal.style.left = `${initialPosition.left}px`;
+            });
+            //mbyllja kur klikohet jasht modalit
+            window.addEventListener('click', (e) => {
+                if (e.target === loginModal) {
+                    loginModal.style.display = 'none';
+                }
+            });
+            // Drag and drop
+            let offsetX = 0, offsetY = 0;
+  
+            loginModal.addEventListener('dragstart', (e) => {
+                const rect = loginModal.getBoundingClientRect();
+                offsetX = e.clientX - rect.left;
+                offsetY = e.clientY - rect.top;
+            });
+  
+            document.addEventListener('dragover', (e) => {
+                e.preventDefault();
+            });
+  
+            document.addEventListener('drop', (e) => {
+                e.preventDefault();
+                const x = e.clientX - offsetX;
+                const y = e.clientY - offsetY;
+                loginModal.style.top = `${y}px`;
+                loginModal.style.left = `${x}px`;
+            });        
+        })
+        .catch(err => console.error('Gabim gjat&#235 ngarkimit t&#235 header-it:', err));
+    </script>
+
+    <!-- Main content -->
+    <main>
+        <h1 class="mundesit-h1">Mundësitë për Zhvillim Profesional</h1>
+
+        <section>
+            <h2 class="mundesit-h2">Fushat ku mund të zhvilloheni</h2>
+            <p class="mundesit-p">
+                <em>Zhvillimi profesional është një proces i vazhdueshëm që ndihmon individët të përmirësojnë aftësitë e tyre dhe të arrijnë suksese të reja në karrierën e tyre. Ja disa mundësi që mund t'ju ndihmojnë në zhvillimin e karrierës tuaj:</em>
+            </p>
+
+            <ol class="mundesit-ol">
+                <li>
+                    <h3 class="mundesit-h3">Kurse dhe Trajnime</h3>
+                    <p class="mundesit-p"><em>Kurset dhe trajnimet e specializuara janë mundësi të shkëlqyera për të mësuar aftësi të reja ose për të përmirësuar ato ekzistuese. Kjo mund të përfshijë trajnimet në fushën e menaxhimit, teknologjisë, financave dhe shumë të tjera.</em></p>
+                </li>
+                <li>
+                    <h3 class="mundesit-h3">Arsimimi i Mëtejshëm</h3>
+                    <p class="mundesit-p"><em>Një mundësi tjetër për zhvillim është vazhdimi i arsimit të lartë, përmes studimeve master ose doktoraturë, që mund të hapin mundësi të reja në karrierën tuaj profesionale.</em></p>
+                </li>
+                <li>
+                    <h3 class="mundesit-h3">Mentorimi dhe Këshillimi</h3>
+                    <p class="mundesit-p"><em>Një mentor ose këshilltar profesional mund të ofrojë udhëzime dhe mbështetje në karrierën tuaj, duke ndihmuar në zhvillimin e aftësive dhe rrjetit tuaj profesional.</em></p>
+                </li>
+                <li>
+                    <h3 class="mundesit-h3">Pjesëmarrja në Konferenca dhe Seminare</h3>
+                    <p class="mundesit-p"><em>Pjesëmarrja në ngjarje profesionale si konferenca dhe seminare është një mundësi e shkëlqyer për të mësuar rreth zhvillimeve të fundit në fushën tuaj dhe për të ndërtuar lidhje profesionale.</em></p>
+                </li>
+                <li>
+                    <h3 class="mundesit-h3">Voluntariati</h3>
+                    <p class="mundesit-p"><em>Angazhimi në aktivitete vullnetarizmi mund të ju ofrojë përvojë praktike dhe mundësi për të zhvilluar aftësi të reja që mund t'ju ndihmojnë në rritjen profesionale.</em></p>
+                </li>
+            </ol>
+        </section>
+
+    </main>
+     <!-- Shigjeta flotuese për kthim -->
+     <a href="#" class="back-btn-floating" onclick="kthehu();"></a>
+
+    <div id="footer-container"></div>
+    <script>
+      // JavaScript per ngarkim i footer-it nga file-i i jashtëm
+      fetch('footer.html')
+          .then(response => response.text())
+          .then(data => {
+              // Vendos pjese e footer-it ne div-in me id="footer-container"
+              document.getElementById('footer-container').innerHTML = data;
+          })
+          .catch(err => console.error('Gabim gjatë ngarkimit të footer-it:', err));
+     // Funksioni për navigim te faqja e re
+        function kthehu() {
+        window.location.href = "keshilla.html"; // Këtu vendos destinacionin tënd
+    }
+    </script>
+    <script src="loginPopup.js"></script>
+
+</body>
+</html>

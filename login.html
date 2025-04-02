@@ -1,0 +1,41 @@
+<!DOCTYPE html> 
+<html><head>
+    <title>
+        Forma e regjistrimit dhe hyrjes
+    </title>
+    <link rel="stylesheet" href="loginstyle.css">
+    </head>
+    <body>
+        <div class="login">
+            <div class="form-box">
+                <div class="button-box">
+                    <div id="btn"></div>
+                    <button type="button" class="toggle-btn" onclick="login()" >Hyr</button>
+                    <button type="button" class="toggle-btn" onclick="register()">Regjistrohu</button>
+                </div>
+            
+                <form id="login" class="input-group">
+                    <input type="text" class="input-field" placeholder="Perdoruesi"  required>
+                    <input type="password" class="input-field" minlength="8" placeholder="Fjalkalimi" required>
+                    <input type="checkbox" class="check-box"><span>Kujto Fjalekalimin</span> 
+                    <button type="submit" class="submit-btn"  id="btn2" onclick="audio.play();">Hyr</button>
+                       <p>Nuk keni llogari?</p>
+                     <div id="button" class="toggle-btn" onclick="register()"> 
+                       <ul style="list-style-position: inside; padding: 0; margin: 0; text-align: left;">
+                         <li>  Regjistrohu </li></ul></div>
+                </form>
+               
+                <form id="register" class="input-group">
+                    <input type="text" class="input-field" placeholder="Emri" required>
+                    <input type="text" class="input-field" placeholder="Mbiemri" required>
+                    <input type="email" class="input-field" placeholder="Email"  autocomplete="on" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" required>
+                    <input type="password" class="input-field" placeholder="Fjalkalimi" required>
+                    <input type="password" class="input-field" placeholder="Konfirmo Fjalkalimin" required>
+                    <button type="submit" class="submit-btn"  id="btn2" onclick="audio.play();">Regjistrohu</button>
+                </form>
+            </div>
+        </div>
+     
+    </body>
+     <script src="login.js"></script>
+</html>

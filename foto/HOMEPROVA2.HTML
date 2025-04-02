@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="sq">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <title>Orientimi n&#235 Karrier&#235</title>
+    <link rel="stylesheet" href="homestyle.css">
+</head>
+<body>
+    <!-- importo file te html per nav ne div -->
+
+    <div id="header-container"></div>
+    <script>
+      // JavaScript për të ngarkuar header-in nga file-i i jashtëm
+      fetch('nav.html')
+          .then(response => response.text())
+          .then(data => {
+              // Vendos përmbajtjen e header-it në div-in me id="header-container"
+              document.getElementById('header-container').innerHTML = data;
+          })
+          .catch(err => console.error('Gabim gjat&#235 ngarkimit t&#235 header-it:', err));
+    </script>
+
+     <!-- Hero Section -->
+     <section class="hero">
+        <div class="container">
+            <h2>Nd&#235rto t&#235 Ardhmen T&#235nde Profesionale!</h2>
+            <p>Gjeni mund&#235sit&#235 p&#235r nj&#235 karrier&#235 t&#235 suksesshme me orientimin e duhur.</p>
+            <a href="#jobs" class="btn-primary">Shiko Mund&#235sit&#235</a>
+        </div>
+    </section>
+
+    <!-- Mundësitë e Karrierës -->
+    <section id="jobs" class="jobs-section" >
+        <div class="mundesite-container">
+            <h3>Mund&#235sit&#235 e Pun&#235s</h3>
+            <div class="job-list">
+                <div class="job-card">
+                    <h4>Menaxher i Projekteve</h4>
+                    <p>P&#235rgjegj&#235s p&#235r menaxhimin e projekteve t&#235 ndryshme n&#235 sektorin e teknologjis&#235.</p>
+                    <a href="#" class="btn btn-light">Shiko detajet</a>
+                </div>
+                <div class="job-card">
+                    <h4>Inxhinier Software</h4>
+                    <p>Angazhohuni n&#235 zhvillimin e aplikacioneve t&#235 reja p&#235r teknologjit&#235 e avancuara.</p>
+                    <a href="#" class="btn btn-light">Shiko detajet</a>
+                </div>
+                <div class="job-card">
+                    <h4>Specialist Marketingu</h4>
+                    <p>P&#235rgjegj&#235s p&#235r krijimin dhe implementimin e strategjive t&#235 marketingut digjital.</p>
+                    <a href="#" class="btn btn-light">Shiko detajet</a>
+                </div>
+                <div class="job-card">
+                    <h4>Ekspert i HR</h4>
+                    <p>Mb&#235shtetje p&#235r rekrutimin dhe menaxhimin e burimeve njer&#235zore.</p>
+                    <a href="#" class="btn btn-light">Shiko detajet</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sekcioni i Përfitimeve -->
+    <section id="benefits" class="benefits-section">
+        <div class="container">
+            <h3>P&#235rfitimet q&#235 Ofron Kompania</h3>
+            <div class="benefits-list">
+                <div class="benefit-item">
+                    <img src="foto/stapler-solid.svg" alt="">
+                    <h4>Trajnime dhe Zhvillim</h4>
+                    <p>Ofroni mund&#235si trajnimi dhe zhvillimi t&#235 vazhduesh&#235m p&#235r t&#235 mbajtur mund&#235si t&#235 hapura p&#235r karrier&#235n tuaj.</p>
+                </div>
+                <div class="benefit-item">
+                    <img src="foto/business-time-solid.svg" alt="">
+                    <h4>Orar Fleksibil</h4>
+                    <p>Shfryt&#235zoni mund&#235sin&#235 p&#235r t&#235 pasur orar fleksibil dhe mund&#235si p&#235r pun&#235 nga distanca.</p>
+                </div>
+                <div class="benefit-item">
+                    <img src="foto/seedling-solid.svg" alt="">
+                    <h4>Ambient i P&#235rshtatsh&#235m</h4>
+                    <p>Nj&#235 ambient pune i hapur dhe inovativ q&#235 mund&#235son zhvillim personal dhe kolektiv.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- footer imported -->
+    <div id="footer-container"></div>
+    <script>
+      // JavaScript per ngarkim te footer-it nga file-i i jashtem
+      fetch('footer.html')
+          .then(response => response.text())
+          .then(data => {
+              // Vendos pjese e footer-it ne div-in me id="footer-container"
+              document.getElementById('footer-container').innerHTML = data;
+          })
+          .catch(err => console.error('Gabim gjat&#235 ngarkimit te footer-it:', err));
+    </script>
+
+</body>
+</html>

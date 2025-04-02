@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="sq">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <title>5 Libra p&eumlr t&euml Frym&eumlzuar Suksesin</title>
+    <style>
+     ::-webkit-scrollbar{
+      width: 10px;
+    }
+    ::-webkit-scrollbar-track{
+   
+     border-radius: 10px;
+    }
+    ::-webkit-scrollbar-thumb{
+        background:#264653;
+        border-radius: 10px;
+    }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #e6e3e3fa;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        .librat-h2 {
+            text-align: center;
+            color: hsl(0, 0%, 0%);
+        }
+        .librat {
+            padding-left: 20px;
+            color: white;
+        }
+        .libri::marker {
+                color: #264653; 
+                font-size: 2.5em; 
+                font-family: 'Georgia', serif; 
+            }
+        .libri {
+            margin: 15px 0 15px 50px;
+            width: 900px;
+            padding: 10px;
+            font-style: italic;
+            background-color: #264653;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            transition: transform 0.5s, background 0.5s;
+        }
+        .libri:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 4px 15px rgb(38, 70, 83.2);
+            background-color: #264653
+        }        
+        .back-btn {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 12px 25px;
+            background-color: #264653;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 16px;
+            text-align: center;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        .back-btn:hover {
+            background-color: #21867a;
+            transform: scale(1.05);
+        }
+
+        .back-btn::before {
+            content: "←"; 
+            font-size: 18px;
+        }
+
+        .back-btn-floating {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 100;
+            padding: 12px 25px;
+            background-color: #264653;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        .back-btn-floating:hover {
+            background-color: #21867a;
+            transform: scale(1.05);
+        }
+
+        .back-btn-floating::before {
+            content: "←"; 
+            font-size: 18px;
+        }
+     
+    </style>
+</head>
+<body>
+    <div id="header-container"></div>
+    <script>
+        // JavaScript për të ngarkuar header-in nga file-i i jashtëm
+        fetch('nav.html')
+        .then(response => response.text())
+        .then(data => {
+            // Vendos përmbajtjen e header-it në div-in me id="header-container"
+            document.getElementById('header-container').innerHTML = data;
+            // Lidh eventet pasi përmbajtja të jetë ngarkuar
+            const loginIcon = document.getElementById('loginIcon');
+            const loginModal = document.getElementById('loginModal');
+            const closeBtn = document.getElementById('closeBtn');
+            const initialPosition = { top: 50, left: 50 }; // Pozita fillestare e modalit
+  
+            //hap modalin
+            if (loginIcon) {
+                loginIcon.addEventListener('click', () => {
+                    loginModal.style.display = 'block';
+                    loginModal.style.top = `${initialPosition.top}px`;
+                    loginModal.style.left = `${initialPosition.left}px`;
+                });
+            }
+            //mbyll modalin
+            if (closeBtn) {
+                closeBtn.addEventListener('click', () => {
+                    loginModal.style.display = 'none';
+                });
+            }
+           // Kthimi i modalit në pozitën fillestare
+            loginModal.addEventListener('dblclick', () => {
+                loginModal.style.top = `${initialPosition.top}px`;
+                loginModal.style.left = `${initialPosition.left}px`;
+            });
+            //mbyllja kur klikohet jasht modalit
+            window.addEventListener('click', (e) => {
+                if (e.target === loginModal) {
+                    loginModal.style.display = 'none';
+                }
+            });
+            // Drag and drop
+            let offsetX = 0, offsetY = 0;
+  
+            loginModal.addEventListener('dragstart', (e) => {
+                const rect = loginModal.getBoundingClientRect();
+                offsetX = e.clientX - rect.left;
+                offsetY = e.clientY - rect.top;
+            });
+  
+            document.addEventListener('dragover', (e) => {
+                e.preventDefault();
+            });
+  
+            document.addEventListener('drop', (e) => {
+                e.preventDefault();
+                const x = e.clientX - offsetX;
+                const y = e.clientY - offsetY;
+                loginModal.style.top = `${y}px`;
+                loginModal.style.left = `${x}px`;
+            });        
+        })
+        .catch(err => console.error('Gabim gjat&#235 ngarkimit t&#235 header-it:', err));
+    </script>
+
+    <div class="container">
+        <h2 class="librat-h2">5 Libra q&euml Duhet Lexuar p&eumlr t&euml Frym&eumlzuar Suksesin</h1>
+        <ol type="I" class="librat">
+            <li class="libri"><strong>"The Power of Habit"</strong>- Charles Duhigg: 
+                <ul>
+                    <li>Njohuri mbi r&eumlnd&eumlsin&euml e zakoneve</li>
+                    <li> dhe si ato ndikojn&euml n&euml suksesin personal dhe profesional.</li>
+                </ul>
+            </li>
+            <li class="libri"><strong>"Atomic Habits"</strong> - James Clear:
+                <ul>
+                    <li>P&eumlrcakton se si p&eumlrmir&eumlsimi i zakoneve t&euml vogla mund t&euml &#231oj&euml n&euml ndryshime t&euml m&eumldha n&euml jet&euml.</li>
+                    <li>dhe si ato ndikojn&euml n&euml karrier.</li>
+                </ul>
+            </li>
+            <li class="libri"><strong>"The 7 Habits of Highly Effective People"</strong> - Stephen Covey:
+                <ul>
+                    <li>Nj&euml udh&eumlzues p&eumlr zhvillimin e zakoneve</li>
+                    <li>dhe parimeve q&euml udh&eumltojn&euml drejt suksesit afatgjat&euml.</li>
+                </ul>
+            </li>  
+            <li class="libri"><strong>"Think and Grow Rich"</strong> - Napoleon Hill: 
+                <ul>
+                    <li>Nj&euml lib&eumlr klasik p&eumlr mendimin pozitiv</li>
+                    <li>dhe r&eumlnd&eumlsin&euml e q&eumlllimeve t&euml qarta n&euml arritjen e suksesit.</li>
+                </ul>    
+            </li>
+            <li class="libri"><strong>"Start with Why"</strong> - Simon Sinek: 
+                <ul>
+                    <li>Ndihmon individ&eumlt dhe lider&eumlt t&euml kuptojn&euml r&eumlnd&eumlsin&euml e q&eumlllimit</li>
+                    <li>dhe misionit n&euml arritjen e suksesit.</li>
+                </ul>
+            </li>
+        </ol>
+    </div>
+     <!-- Shigjeta flotuese për kthim -->
+     <a href="#" class="back-btn-floating" onclick="kthehu();"></a>
+    <div id="footer-container"></div>
+    <script>
+      // JavaScript per ngarkim i footer-it nga file-i i jashtëm
+      fetch('footer.html')
+          .then(response => response.text())
+          .then(data => {
+              // Vendos pjese e footer-it ne div-in me id="footer-container"
+              document.getElementById('footer-container').innerHTML = data;
+          })
+          .catch(err => console.error('Gabim gjatë ngarkimit të footer-it:', err));
+        // Funksioni për navigim te faqja e re
+         function kthehu() {
+        window.location.href = "keshilla.html"; // Këtu vendos destinacionin tënd
+    }
+    </script>
+    <script src="loginPopup.js"></script>
+</body>
+</html>

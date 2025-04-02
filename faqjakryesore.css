@@ -1,0 +1,197 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;400&display=swap');
+::-webkit-scrollbar{
+    width: 10px;
+    }
+    ::-webkit-scrollbar-track{
+    
+        border-radius: 10px;
+    }
+    ::-webkit-scrollbar-thumb{
+        background:#264653;
+        border-radius: 10px;
+    }
+body{
+    font-family: 'Poppins', sans-serif ;
+    background: linear-gradient(to right, #2e728d, #264653);
+}
+.show{
+    margin: 106px 20px;
+    font-size: 30px;
+    font-weight: 500;
+    color: white;
+}
+.show{
+    position: absolute;
+    top: 30%;
+    left: 25%;
+    transform: translate(-50%,0%);
+    text-align: center;
+}
+a{
+    padding: 10px 20px;
+    font-size: 15px;
+    font-weight: 500;
+    color: white;
+    text-decoration: none;
+}
+
+ a{
+    position: absolute;
+    top: 50%;
+    left: 25%;
+    transform: translate(-50%,0%);
+    text-align: center
+    
+}
+
+.login{
+   
+    position:absolute;
+    left: 65%;
+    top: 8%;
+
+}
+.form-box{
+    width: 380px;
+    height:500px;
+    position: relative;
+    margin: 6% auto;
+    background: rgba(255, 255, 255, 0.207) ;
+    padding: 6px;
+    overflow: hidden;
+    border-radius: 10%;
+
+}
+.button-box{
+    width: 220px;
+    margin:35px auto ;
+    position: relative;
+    box-shadow: 0px 0px 0px 1px rgb(235, 194, 194) ;
+    border-radius:30px;
+    color: #fff;
+    display: flex; 
+    justify-content: space-between; 
+}
+
+.toggle-btn{
+    flex: 1; 
+    text-align: center;
+    padding:10px 25px ;
+    cursor:pointer;
+    background:transparent ;
+    border:0;
+    outline: none;
+    position: relative;
+    color: #fff;
+}
+#btn{
+    top:0;
+    left:0;
+    position: absolute;
+    width: 110px;
+    height:100%;
+    background: linear-gradient(to right, #45cfbf, #2A9D8F)  ;
+    border-radius:30px ;
+    transition: .5s;
+    
+}
+.input-group{
+    top:140px;
+    position: absolute;
+    width:280px;
+    transition: .5s;
+
+    
+}
+.return-link {
+    margin: 90px 20px;
+    text-decoration: underline;
+    color: white;
+    font-size: 15px;
+}
+
+.return-link:hover {
+    color: #F4A261; 
+}
+
+.button a{
+    text-decoration: underline;
+    color: white;
+    font-size: 12px;
+    top: 65%;
+    left:27%
+
+
+}
+.button a:hover{
+    color: #F4A261;
+}
+.input-field{
+    width:100%;
+    padding: 10px 0 ;
+    margin:5px 0;
+    border-left: 0;
+    border-top: 0;
+    border-right: 0;
+    border-bottom: 1px solid #fff;
+    outline:none;
+    background: transparent;
+    color: #fff;
+}
+::placeholder {
+    color: #fff; /* Ngjyra e bardhë për placeholder */
+    opacity: 1;
+}
+.submit-btn{
+    width:85%;
+    padding: 10px 30px;
+    cursor:pointer;
+    display: block;
+    margin:auto;
+    background:  linear-gradient(to right, #45cfbf 50%, #2A9D8F 80%);
+    border:0;
+    outline: none;
+    border-radius: 30px;
+    color: #fff;
+
+    
+}
+@keyframes zoomLogo {
+    0% {
+        opacity: 0; /* Fillon i padukshëm */
+        transform: scale(0); /* Fillon me përmasë të vogël (0) */
+    }
+    50% {
+        opacity: 0.5; /* Pjesërisht i dukshëm */
+        transform: scale(1.1); /* Zmadhohet pak */
+    }
+    100% {
+        opacity: 1; /* Plotësisht i dukshëm */
+        transform: scale(1); /* Kthehet në madhësinë origjinale */
+    }
+}
+.logo {
+    position: absolute; 
+    top: 10%;
+    left: 18%; /* Pozicioni nga e djathta (rregullojeni sipas nevojës) */
+    width: 230px; /* Madhësia e logos */
+    height: auto;
+    animation: zoomLogo 3s ease-out forwards; /* Aplikoni animacionin për 3 sekonda */
+    transform-origin: center; 
+}
+
+.check-box{
+    margin: 30px 10px 30px 0;
+}
+span{
+    color:#fff;
+    font-size: 12px;
+    bottom:64px ;
+    position: absolute;
+}
+#login{
+    left:50px;
+}
+#register{
+    left:450px;
+}

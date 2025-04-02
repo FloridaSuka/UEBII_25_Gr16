@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+    /* Footer styles */
+    footer {
+        background-color: #264653 !important;
+        color: #FFFFFF !important;
+        padding: 40px 20px 5px  !important;
+    }
+
+    .footer-container {
+        display: grid !important;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)) !important;
+        gap: 20px !important;
+        max-width: 1200px !important;
+        margin: 0 auto !important;
+    }
+
+    .footer-nav h3 {
+        color: #E9C46A !important;
+        margin-bottom: 15px !important;
+    }
+    .footer-nav p{
+        margin: 0 !important;
+        line-height: 1.6 !important;
+    }
+
+    .footer-nav ul {
+        list-style: none !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        line-height: 1.6 !important;
+    }
+
+    .footer-nav ul li {
+        margin: 10px 0 !important;
+    }
+
+    .footer-nav a {
+        text-decoration: none !important;
+        color: #FFFFFF !important;
+        transition: color 0.3s ease !important;
+    }
+
+    .footer-nav ul li a:hover {
+        color: #E9C46A !important;
+    }
+
+    .social-icons {
+        display: flex !important;
+        gap: 10px !important;
+    }
+
+    .social-icons a {
+        display: inline-block !important;
+        width: 40px !important;
+        height: 40px !important;
+        border-radius: 50% !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        transition: transform 0.3s ease !important;
+    }
+
+    .btn-dergo {
+        background-color: #f3f2f1 !important;
+        color: #264653 !important;
+        border: none !important;
+        padding: 10px 20px !important;
+        border-radius: 5px !important;
+        cursor: pointer !important;
+        transition: background-color 0.3s ease !important;
+    }
+    .social-icons a:hover {
+        transform: scale(1.1) !important;
+    }
+
+    .social-icons img {
+        width: 20px !important;
+        height: 20px !important;
+    }
+
+    .footer-bottom {
+        text-align: center !important;
+        margin-top: 20px !important;
+        border-top: 1px solid #E9C46A !important;
+        padding-top: 10px !important;
+    }
+    .footer-contact a{
+        text-decoration: none !important;
+        color: #E9C46A !important;
+        transition: color 0.3s ease !important;    
+    }
+
+    
+    @media (max-width: 768px) {
+        .footer-container {
+            grid-template-columns: 1fr !important;
+        }
+    }
+    .contact-form {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 10px !important;
+        width: 60% !important;
+        padding-right: 10px !important;
+
+    }
+    
+    
+</style>
+</head>
+
+
+
+<footer>
+    <div class="footer-container">
+    <form action="mailto:findyourway@gmail.com" method="POST" class="contact-form" style="padding-left: 10px;">
+        <fieldset class="form-group">
+            <h3 style="color: #FFFFFF;">Na kontaktoni</h3>
+        </fieldset>
+        <fieldset class="form-group">
+            <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Sh&#235no emailin">
+        </fieldset>
+        <fieldset class="form-group">
+            <textarea class="form-control" id="exampleMessage" placeholder="Mesazhi juaj.."></textarea>
+        </fieldset>
+        <fieldset class="form-group text-xs-right">
+            <button type="submit" class="btn-dergo">D&#235rgo</button>
+        </fieldset>
+    </form>
+    
+   
+    <!-- Social Media Links -->
+    <div class="footer-social">
+        <h3 style="color: #FFFFFF;">Na ndiqni ne rrjete sociale</h3>
+        <div class="social-icons">
+            <a href="https://www.facebook.com/fiek.edu" class="icon" target="_blank"><img src="foto/facebook.svg" alt="Facebook"></a>
+            <a href="https://x.com/findyourwayQ" class="icon" target="_blank"><img src="foto/twitter.svg" alt="Twitter"></a>
+            <a href="https://github.com/florjete/UEB24_GR15/" class="icon" target="_blank"><img src="foto/github.svg" alt="Github"></a>
+            <a href="https://www.linkedin.com/school/university-of-prishtina-up/posts/?feedView=all" class="icon" target="_blank"><img src="foto/linkedin.svg" alt="LinkedIn"></a>
+        </div>
+    </div>
+
+    <!-- Contact Section -->
+    <address class="footer-contact">
+        <h3 style="color: #FFFFFF;">Na kontaktoni</h3>
+        <i style="color: #FFFFFF;">Email: </i><a href="mailto:findyourway@gmail.com">findyourway@gmail.com</a><br>
+        <i style="color: #FFFFFF;">Nr telefoni: </i><a href="tel:+38349123456">+383 49 123 456</a> <br>
+        <i style="color: #FFFFFF;">Adresa: </i><a href="https://maps.app.goo.gl/8Hw7bdG147Xg8SWv7" target="_blank"><abbr style="color: white;" title="Fakulteti i Inxhinieris&#235 Elektrike dhe Kompjuterike">FIEK</abbr>, Bregu i Diellit, Prishtine</a>
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d883.7419795612805!2d21.167981821531953!3d42.64797775698764!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x13549ec1b0cdc52b%3A0xdc5147a159d868a9!2sFakulteti%20i%20Inxhinieris%C3%AB%20Elektrike%20dhe%20Kompjuterike!5e0!3m2!1sen!2s!4v1736000829542!5m2!1sen!2s" width="400" height="200" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    </address>
+</div>
+</div>
+    <div class="footer-bottom ">
+        <p style="color: #FFFFFF;">&copy; 2024 Find Your Way. Te drejtat e rezervuara.</p>
+    </div>
+</footer>
+

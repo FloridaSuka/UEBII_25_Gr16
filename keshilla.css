@@ -1,0 +1,301 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;400&display=swap');
+
+/* *{
+    box-sizing: border-box;
+    font-family: 'Popins' sans-serif;
+   
+} */
+::-webkit-scrollbar{
+    width: 10px;
+}
+::-webkit-scrollbar-track{
+   
+    border-radius: 10px;
+}
+::-webkit-scrollbar-thumb{
+    background:#264653;
+    border-radius: 10px;
+}
+
+body {
+    font-family: "Poppins", sans-serif;
+    font-size: 16px;
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+    background-color: rgba(128, 128, 128, 0.059) ; 
+    height:70%;
+    /* font-family: "Nunito Sans", sans-serif; */
+    -webkit-font-smoothing: antialiased;
+} 
+.wrapper {
+    padding: 0 70px;
+    max-width: 450px;
+    height: 120vh;
+    width: 100%;
+}
+.head {
+    padding-top: 50px;
+    margin-bottom: 50px;
+    margin-left: 10px;
+    flex-direction: row;
+}
+.head h1 {
+    font-size: 30px;
+    margin-bottom: 10px;
+    color: #264653;
+    font-weight: bold; 
+    font-style: italic;
+    text-transform: uppercase; 
+    letter-spacing: 2px;
+    text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.2);
+}
+.cards {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    overflow: hidden;
+    margin: 0;
+    width: 90vw;
+    margin-top: -180px;
+    gap: 20px;
+}
+
+.cards .card {
+    width: 250px;
+    height: 250px;
+    background-color: #264653;
+    color: #fff;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    border: 3px solid #fff;
+    box-shadow: 3px 3px 0px #264653;
+    position: relative;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.cards  .card h4 {
+    margin: 0;
+    font-weight: bold;
+    font-size: 16px;
+   
+}
+
+.card-content {
+    padding: 25px 15px 15px;
+    overflow: auto;
+    height: 150%;
+    color: #fff;
+    background: linear-gradient(to right, #264653, #2A9D8F);
+}
+.card-content > * {
+    transform: translateY(-35px);
+    opacity: 0;
+}
+.card-content h4 {
+    font-size: 32px;
+    margin-bottom: 35px !important;
+    animation: slideDown 0.5s ease-out forwards;
+}
+.card-content img {
+    width: 100%;
+    background-color: #fff;
+    margin-bottom: 10px;
+    animation: slideDown 0.5s ease-out 0.2s forwards;
+}
+.cards img{
+    width: 100%;              
+    height: 100%;              
+    object-fit: cover;          
+    border-radius: 5%;       
+    border: 3px solid #2A9D8F;
+    margin-bottom: 10px;
+}
+.card:hover {
+    transform: scale(1.05); 
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+    
+  }
+  .card {
+    position: relative;
+    width: 250px;
+    height: 350px;
+    border: 2px solid #ccc;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    background-color: #fff;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  .mid-message {
+    margin: 20px 20px;
+    bottom: 300px;
+    color: #264653;
+    position: relative; 
+    font-size: 20px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.2);
+  }
+table{
+    align-items: center;
+    justify-content: center;
+    border: 3px solid#264653;
+    margin-top: -300px;
+    margin-left: 25%;
+    width: 80%;  
+    margin-left: 20px;
+}
+table td{
+    border: 3px solid #264653;
+    text-align: center;
+    font-weight: 500;
+    font-size: 12px;
+    background:  rgb(244, 244, 244);
+    width: 0px;
+   
+}
+table th{
+    text-align: center;
+    font-size: 16px;
+    font-weight: bold;
+    background-color:#264653;
+    color: #fff;
+}
+#link-tab{
+    text-decoration: none;
+    color: black;
+}
+#link-tab:hover{
+    color:#264653;
+}
+.V1 {
+    margin-top: 50px;
+    display: flex; 
+    justify-content: space-between; 
+    gap: 20px; 
+}
+
+.video {
+    width: 50%;
+    display: flex;
+    flex-direction: column; 
+    align-items: center;
+    position: relative;
+}
+
+
+.video h5 {
+    text-align: center; 
+    margin-bottom: 20px;
+}
+
+
+.video video {
+    width: 98%;
+    max-width: 100%; 
+    box-shadow: 2px 2px 2px 2px rgb(42, 157, 143);
+}
+
+.play-button {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 50px;
+    color: white;
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 20px;
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 10;
+}
+
+/* Butoni mund të ndryshojë gjatë lojës */
+.hidden {
+    display: none;
+}
+.mov{
+    color: #fff;
+    font-weight: bold;
+    text-decoration: underline;
+    text-transform: uppercase;
+    list-style: none;
+}
+
+.movie{
+    font-size: 16px;
+    color: #fff;
+    font-weight: bold;
+    list-style-image: url(foto/check-solid.svg);
+    color: #E9C46A;
+  
+}
+
+#link-movie{
+    color:#E9C46A ;
+    text-decoration: none;
+}
+#link-movie:hover{
+    color: #F4A261;
+}
+.movies{
+    line-height: 35px;
+    margin-top: 150px;
+    margin-left: 60px;
+ 
+}
+.contai{
+    max-width: 500px;
+    margin: auto;
+    overflow: auto;
+    margin-top: -490px;
+    margin-left: 55%;
+}
+.we{
+    background: #264653;
+    text-decoration: none;
+    height: 500px;
+    margin-top: -450px;
+    z-index: -1;
+}
+.gallery{
+    margin:5px;
+    border: 3px solid #fff;
+    float: left;
+    margin-left: 10px;
+    width: 150px;
+    
+}
+.gallery img{
+    width: 100%;
+    height: auto;
+}
+.audio-container {
+    display: flex;         
+    gap: 400px;              
+    justify-content: center;
+}
+.audio-item {
+    display: flex;          
+    flex-direction: column;
+    align-items: center;  
+    margin-top: 100px;   
+    margin-bottom: 100px;
+}
+.au{
+    color: #264653;        
+    font-weight: bold;
+    font-size: 16px;       
+    margin-bottom: 10px;
+}

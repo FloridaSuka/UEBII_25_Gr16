@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Navigation and Login</title>
+    <style>
+    /*login*/
+    nav {
+        position: relative;
+        z-index: 10;
+        background-color: #264653;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px 20px;
+    }
+    
+    .logo-container {
+        display: flex;
+        align-items: center;
+    }
+    /* Logo Styles */
+    .logo-container img {
+        width: 80px;
+        margin-right: 10px;
+        animation: flip 6s infinite linear; /* aplikon infinite spinning animation */
+        transform-style: preserve-3d;
+    }
+    .logo-container h3 {
+        margin: 0;
+        color: white;
+        font-size: 30px;
+        font-weight: bold;
+    }
+
+    /* Keyframe animacion per kthimin e logos (logoja e Find your way) */
+    @keyframes flip {
+        0% {
+            transform: rotateY(0deg);
+        }
+        100% {
+            transform: rotateY(360deg); /* kthim i plote horizontalisht */
+        }
+    }
+
+    /* Styles for navigation links */
+    .nav-links {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        display: flex;
+    }
+    .nav-links li {
+        margin: 0 15px;
+    }
+    .nav-links a {
+        pointer-events: auto;
+        text-decoration: none;
+        color: #FFFAFE;
+        font-size: 20px;
+    }
+    .nav-links a:hover {
+        color: #E9C46A;
+    }
+    .nav-links img{
+        width: 20px;
+        margin-right: 10px;
+        margin-left: 20px;
+
+    }
+    .hamburger {
+        position: relative;
+        z-index: 1000;
+        display: none;
+        font-size: 24px;
+        cursor: pointer;
+    }
+
+    /* Dizajn responsive */
+    @media (max-width: 768px) {
+        .nav-links {
+            display: none;
+            flex-direction: column;
+            width: 100%;
+            background-color: #264653;
+            position: absolute;
+            top: 60px;
+            left: 0;
+            text-align: center;
+        }
+        .nav-links.show {
+            display: flex;
+            margin-top: 40px;
+        }
+        .nav-links li {
+            margin: 10px 0;
+        }
+        .hamburger {
+            display: block;
+        }
+    }
+    .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: transparent;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .modal-content {
+        position: absolute; 
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: white;
+        padding: 20px;
+        border-radius: 5px;
+        width: 300px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    }
+
+    .modal-content h2 {
+        margin-top: 0;
+    }
+
+    .close-btn {
+        background:rgba(197, 193, 193, 0.326);
+        color: black;
+        border: none;
+        padding: 5px 8px;
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        width: 40px; 
+        border-radius: 5px;
+        cursor: pointer;
+        float: right;
+    }
+
+        .close-btn:hover {
+            background: #264653b5;
+            color:white;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .form-group input {
+        width: 100%;
+        padding: 8px;
+        box-sizing: border-box;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+
+    .submit-btn {
+        width: 100%;
+        padding: 10px;
+        background-color: #264653b5;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+    #button li{
+        list-style: none;
+    }
+    .submit-btn:hover {
+        background-color: #264653;
+    }
+    .nav-p{
+        margin-top: 20px;
+    }
+    #loginModal {
+        z-index: 1000; /* Prioritet i lartë */
+    }
+
+    #loginIcon {
+        z-index: 1001; /* Siguron që ikona është mbi të gjitha elementet */
+    }
+    @font-face {
+    font-family: 'myfont1regular';
+    src: url('fonts/myfont1-regular-webfont.woff2') format('woff2'),
+         url('fonts/myfont1-regular-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+</style>
+</head>
+<header>
+<nav>
+    <!-- Logo dhe text container -->
+    <div class="logo-container">
+        <a href="home.html">
+            <img src="foto/logo.svg" alt="Logo">
+        </a>
+        <h3 style="font-family: 'myfont1regular' , sans-serif;">Find Your Way</h3>
+    </div>
+
+    <!-- Navigation links -->
+    <ul class="nav-links">
+        <li><a href="home.html">Ballina</a></li>
+        <li><a href="rrethnesh.html">Rreth nesh</a></li>
+        <li><a href="shpalljet.html">Shpallje</a></li>
+        <li><a href="keshilla.html">K&#235shilla</a></li>
+        <li><a href="#log-in" id="loginIcon"><img src="foto/user-icon.svg" alt="user icon"></a></li>
+    </ul>
+
+    <!-- Pjesa e hamburger per menu -->
+    <div class="hamburger">&#9776;</div>
+</nav>
+
+<script>
+    const hamburger = document.querySelector('.hamburger');
+    const navLinks = document.querySelector('.nav-links');
+
+    hamburger.addEventListener('click', () => {
+        navLinks.classList.toggle('show');
+    });
+</script>
+</header>
+
+    <div class="modal" id="loginModal">
+        <div class="modal-content" id="draggableModal" draggable="true">
+            <button class="close-btn" id="closeBtn">X</button>
+            <h2>Ky&ccediluni</h2>
+            <form>
+                <div class="form-group">
+                    <label for="username">Emri i perdoruesit:</label>
+                    <input type="text" id="username" name="username" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Fjal&#235kalimi:</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                <button type="submit" class="submit-btn">Ky&ccediluni</button>
+                <p class ="nav-p">Nuk keni llogari?</p>
+                <div id="button" class="toggle-btn" onclick="register()"> 
+                    <ul>
+                       <li><a href="index.html">Regjistrohu </li>
+                    </ul>
+                </div>
+            </form>
+        </div>
+    </div>
+</html>
