@@ -1,4 +1,115 @@
 <? php
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Aplikimi për Punë - Kontabilist</title>
+</head>
+<body>
+    <h2>Forma e Aplikimit për Kontabilist</h2>
+
+    <!-- Mesazh për versionin e ri -->
+    <div style="background-color: #d4edda; color: #155724; padding: 10px; border: 1px solid #c3e6cb; margin-bottom: 15px;">
+        ✅ <strong>Ky është versioni i ri i faqes</strong> - Aplikimi ruhet në file dhe CV ngarkohet!
+    </div>
+
+    <form action="kontabilist.php" method="post" enctype="multipart/form-data">
+        <label>Emri:</label><br>
+        <input type="text" name="emri" required><br><br>
+
+        <label>Email:</label><br>
+        <input type="email" name="email" required><br><br>
+
+        <label>CV (PDF vetëm):</label><br>
+        <input type="file" name="cv_file" accept=".pdf" required><br><br>
+
+        <input type="submit" value="Dërgo tani aplikimin ✅">
+    </form>
+
+<?php
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $emri = $_POST['emri'];
+    $email = $_POST['email'];
+
+    // Krijo folderin uploads nëse nuk ekziston
+    if (!is_dir("uploads")) {
+        mkdir("uploads", 0777, true);
+    }
+
+    // Ruaj CV në folderin uploads
+    $cvName = $_FILES["cv_file"]["name"];
+    $cvTmp = $_FILES["cv_file"]["tmp_name"];
+    $cvPath = "uploads/" . basename($cvName);
+
+    if (move_uploaded_file($cvTmp, $cvPath)) {
+        // Ruaj të dhënat në file tekst
+        $file = fopen("aplikimet.txt", "a");
+        fwrite($file, "Emri: $emri\nEmail: $email\nCV: $cvPath\n------------------\n");
+        fclose($file);
+
+        echo "<p style='color: green;'>✅ Aplikimi u ruajt me sukses në <strong>aplikimet.txt</strong> dhe CV u ngarkua në <strong>uploads/</strong>!</p>";
+    } else {
+        echo "<p style='color: red;'>❌ Ngarkimi i CV-së dështoi.</p>";
+    }
+}
+?>
+</body>
+</html>
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Aplikimi për kontabilist</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="application-container">
+    <h2>Apliko për vendin e punës: Kontabilist</h2>
+    <form id="application-form" action="kontabilist.php" method="POST" enctype="multipart/form-data"> <!-- <-- ndryshuar nga HTML për të dërguar në PHP -->
+      <label for="first-name">Emri:</label>
+      <input type="text" id="first-name" name="first-name" required>
+
+      <label for="last-name">Mbiemri:</label>
+      <input type="text" id="last-name" name="last-name" required>
+
+      <label for="phone-or-email">Email ose Numër Telefoni:</label>
+      <input type="text" id="phone-or-email" name="phone-or-email" required>
+
+      <label for="age">Mosha:</label>
+      <input type="number" id="age" name="age" required>
+
+      <label for="qyteti">Qyteti:</label>
+      <select id="qyteti" name="qyteti" required>
+        <option value="">Zgjedh qytetin</option>
+        <option value="Prishtinë">Prishtinë</option>
+        <option value="Prizren">Prizren</option>
+        <option value="Pejë">Pejë</option>
+        <option value="Ferizaj">Ferizaj</option>
+        <option value="Mitrovicë">Mitrovicë</option>
+        <option value="Gjakovë">Gjakovë</option>
+        <option value="Gjilan">Gjilan</option>
+      </select>
+
+      <label for="experience">A keni përvojë pune në këtë fushë?</label>
+      <select id="experience" name="experience" required>
+        <option value="">Zgjedh një opsion</option>
+        <option value="Po">Po</option>
+        <option value="Jo">Jo</option>
+      </select>
+
+      <label for="cv">Ngarkoni CV-në tuaj:</label>
+      <input type="file" id="cv" name="cv" accept=".pdf,.doc,.docx" required>
+
+      <label for="cover-letter">Shkruani një letër motivimi:</label>
+      <textarea id="cover-letter" name="cover-letter" rows="5" required></textarea>
+
+      <button type="submit">Dërgo aplikimin</button>
+    </form>
+  </div>
+</body>
+</html>
 
 <html lang="sq">
 <head>
