@@ -1,4 +1,5 @@
-<!DOCTYPE html>
+<? php
+
 <html lang="sq">
 <head>
     <meta charset="UTF-8">
