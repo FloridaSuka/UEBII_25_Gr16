@@ -1,63 +1,7 @@
 <? php
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>Aplikimi për Punë - Kontabilist</title>
-</head>
-<body>
-    <h2>Forma e Aplikimit për Kontabilist</h2>
-
-    <!-- Mesazh për versionin e ri -->
-    <div style="background-color: #d4edda; color: #155724; padding: 10px; border: 1px solid #c3e6cb; margin-bottom: 15px;">
-        ✅ <strong>Ky është versioni i ri i faqes</strong> - Aplikimi ruhet në file dhe CV ngarkohet!
-    </div>
-
-    <form action="kontabilist.php" method="post" enctype="multipart/form-data">
-        <label>Emri:</label><br>
-        <input type="text" name="emri" required><br><br>
-
-        <label>Email:</label><br>
-        <input type="email" name="email" required><br><br>
-
-        <label>CV (PDF vetëm):</label><br>
-        <input type="file" name="cv_file" accept=".pdf" required><br><br>
-
-        <input type="submit" value="Dërgo tani aplikimin ✅">
-    </form>
-
-<?php
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $emri = $_POST['emri'];
-    $email = $_POST['email'];
-
-    // Krijo folderin uploads nëse nuk ekziston
-    if (!is_dir("uploads")) {
-        mkdir("uploads", 0777, true);
-    }
-
-    // Ruaj CV në folderin uploads
-    $cvName = $_FILES["cv_file"]["name"];
-    $cvTmp = $_FILES["cv_file"]["tmp_name"];
-    $cvPath = "uploads/" . basename($cvName);
-
-    if (move_uploaded_file($cvTmp, $cvPath)) {
-        // Ruaj të dhënat në file tekst
-        $file = fopen("aplikimet.txt", "a");
-        fwrite($file, "Emri: $emri\nEmail: $email\nCV: $cvPath\n------------------\n");
-        fclose($file);
-
-        echo "<p style='color: green;'>✅ Aplikimi u ruajt me sukses në <strong>aplikimet.txt</strong> dhe CV u ngarkua në <strong>uploads/</strong>!</p>";
-    } else {
-        echo "<p style='color: red;'>❌ Ngarkimi i CV-së dështoi.</p>";
-    }
-}
-?>
-</body>
-</html>
 
 
-<!DOCTYPE html>
+
 <html lang="en">
 <head>
   <meta charset="UTF-8">
