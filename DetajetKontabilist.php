@@ -1,34 +1,5 @@
 <?php
-$servername = "localhost";
-$username = "postgres";
-$password = "123456";
-$dbname = "projekti";
-$port = "5432";
 
-$conn = pg_connect("host=$servername port=$port dbname=$dbname user=$username password=$password");
-if (!$conn) {
-    die("Lidhja me bazën e të dhënave dështoi: " . pg_last_error());
-}
-
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
-    $emri = $_POST['emri'];
-    $mbiemri = $_POST['mbiemri'];
-    $mosha = $_POST['mosha'];
-    
-    if (!empty($emri) && !empty($mbiemri) && !empty($mosha)) {
-        $query = "INSERT INTO perdoruesit (emri, mbiemri, mosha) VALUES ($1, $2, $3)";
-        $result = pg_query_params($conn, $query, array($emri, $mbiemri, $mosha));
-        
-        if ($result) {
-            echo "Të dhënat u shtuan me sukses!";
-        } else {
-            echo "Gabim në shtimin e të dhënave: " . pg_last_error($conn);
-        }
-    } else {
-        echo "Ju lutemi plotësoni të gjitha fushat!";
-    }
-}
-pg_close($conn);
 ?>
 
 <!DOCTYPE html>
