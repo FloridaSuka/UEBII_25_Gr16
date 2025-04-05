@@ -1,3 +1,4 @@
+<?php
 <!DOCTYPE html>
 <html lang="sq">
 <head>
@@ -518,3 +519,4 @@ if (!isValid) {
 
 </body>
 </html>
+?>
