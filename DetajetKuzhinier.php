@@ -1,5 +1,8 @@
 <?php
+<<<<<<< HEAD
 
+=======
+>>>>>>> 568e9a5be68f8136a3acd4e37169c1629d4f1daa
 <!DOCTYPE html>
 <html lang="sq">
 <head>
