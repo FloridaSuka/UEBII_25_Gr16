@@ -1,4 +1,4 @@
-< ?php
+<?php
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $emri = $_POST['first-name'];
     $mbiemri = $_POST['last-name'];
@@ -70,40 +70,49 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $aplikues = new KandidatMeEksperience($emri, $mbiemri, $mosha, $qyteti, $vite);
 
     ob_start();
-    echo "<div style='background:#dff0d8; padding:15px; border-radius:10px; margin-top:30px;'>";
-    echo "<p>" . pershendetje($emri) . "</p>";
-    echo "<p>Faleminderit që aplikove për pozitën: <b>$profesioni</b>.</p>";
+    ?>
+    <div class="container mt-5">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h4 class="card-title text-success"><?= pershendetje($emri) ?></h4>
+                <p class="card-text">Faleminderit që aplikove për pozitën: <strong><?= $profesioni ?></strong>.</p>
 
-    if ($mosha >= $moshaMin && $mosha <= $moshaMax) {
-        echo "<p>Mosha është e pranueshme.</p>";
-    } else {
-        echo "<p style='color:red;'>Mosha nuk është e pranueshme!</p>";
-    }
+                <?php if ($mosha >= $moshaMin && $mosha <= $moshaMax): ?>
+                    <p class="text-success">Mosha është e pranueshme.</p>
+                <?php else: ?>
+                    <p class="text-danger">Mosha nuk është e pranueshme!</p>
+                <?php endif; ?>
 
-    echo "<p>" . $aplikues->prezanto() . "</p>";
+                <p><?= $aplikues->prezanto() ?></p>
 
-    if (filter_var($emailOseTel, FILTER_VALIDATE_EMAIL)) {
-        echo "<p>Email i vlefshëm: $emailOseTel</p>";
-    } elseif (preg_match("/^\+383-\d{2}-\d{3}-\d{3}$/", $emailOseTel)) {
-        echo "<p>Numri i telefonit i vlefshëm: $emailOseTel</p>";
-    } else {
-        echo "<p style='color:red;'>Email ose numër jo valid!</p>";
-    }
+                <?php if (filter_var($emailOseTel, FILTER_VALIDATE_EMAIL)): ?>
+                    <p>Email i vlefshëm: <strong><?= $emailOseTel ?></strong></p>
+                <?php elseif (preg_match("/^\+383-\d{2}-\d{3}-\d{3}$/", $emailOseTel)): ?>
+                    <p>Numri i telefonit i vlefshëm: <strong><?= $emailOseTel ?></strong></p>
+                <?php else: ?>
+                    <p class="text-danger">Email ose numër jo valid!</p>
+                <?php endif; ?>
 
-    echo "<p><b>Kërkesat për pozitën:</b></p><ul>";
-    asort($kerkesat);
-    foreach ($kerkesat as $k) {
-        echo "<li>$k</li>";
-    }
-    echo "</ul>";
+                <h5 class="mt-4">Kërkesat për pozitën:</h5>
+                <ul>
+                    <?php 
+                    asort($kerkesat);
+                    foreach ($kerkesat as $k): ?>
+                        <li><?= $k ?></li>
+                    <?php endforeach; ?>
+                </ul>
 
-    if (!empty($motivimi)) {
-        echo "<p><b>Letra motivuese:</b><br>$motivimi</p>";
-    }
-
-    echo "</div>";
+                <?php if (!empty($motivimi)): ?>
+                    <div class="mt-3">
+                        <strong>Letra motivuese:</strong>
+                        <p><?= nl2br(htmlspecialchars($motivimi)) ?></p>
+                    </div>
+                <?php endif; ?>
+            </div>
+        </div>
+    </div>
+    <?php
     $output = ob_get_clean();
 }
 ?>
-<!-- Pjesa tjetër e HTML që ti e ke do vendoset këtu kur bashkohet -->
 <?php if (isset($output)) echo $output; ?>
