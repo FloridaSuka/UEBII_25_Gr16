@@ -13,13 +13,16 @@
 
 <h2>Aplikim për pozitën Kuzhinier</h2>
 
-<!-- Formë për input -->
-<form method="post">
+<!-- Forma që qëndron në të njëjtën faqe -->
+<form method="post" action="">
     <label for="emri">Emri:</label>
     <input type="text" name="emri" required>
 
     <label for="telefoni">Numri i telefonit:</label>
-    <input type="text" name="telefoni" id="telefoni" placeholder="+383-44-123-456" required oninput="vetemNumra(this)">
+    <input type="text" name="telefoni" id="telefoni" 
+           placeholder="+383-44-123-456" required
+           pattern="\+383-\d{2}-\d{3}-\d{3}"
+           onkeypress="return vetemTastetELejueshme(event)">
 
     <label for="email">Email:</label>
     <input type="email" name="email" required>
@@ -27,16 +30,22 @@
     <input type="submit" name="apliko" value="Apliko">
 </form>
 
+<!-- JavaScript: lejon vetëm numra, + dhe - -->
 <script>
-function vetemNumra(input) {
-    input.value = input.value.replace(/[^0-9+\-]/g, "");
+function vetemTastetELejueshme(e) {
+    const lejuar = /[0-9+\-]/;
+    const tast = String.fromCharCode(e.which);
+    if (!lejuar.test(tast)) {
+        e.preventDefault();
+        return false;
+    }
+    return true;
 }
 </script>
 
 <?php
 if (isset($_POST['apliko'])) {
 
-    // ------------------ PHP Bazik ------------------
     $profesioni = "Kuzhinier";
     $moshaMin = 18;
     $moshaMax = 65;
@@ -48,12 +57,10 @@ if (isset($_POST['apliko'])) {
         "Punë në presion"
     ];
 
-    // Marrja e inputeve nga forma
     $emri = $_POST['emri'];
     $email = $_POST['email'];
     $telefoni = $_POST['telefoni'];
 
-    // Funksion për përshëndetje
     function pershendetje($emri) {
         return "Mirë se vjen, " . ucfirst($emri) . "!";
     }
@@ -61,7 +68,6 @@ if (isset($_POST['apliko'])) {
     echo "<p>" . pershendetje($emri) . "</p>";
     echo "<p>Apliko në: Akademia e Kuzhinierëve</p>";
 
-    // Mosha për testim (mund të lidhet me formë)
     $mosha = 25;
     if ($mosha >= $moshaMin && $mosha <= $moshaMax) {
         echo "<p>Mosha është e pranueshme.</p>";
@@ -77,7 +83,6 @@ if (isset($_POST['apliko'])) {
             echo "<p>Ju lutem kontrolloni sërish.</p>";
     }
 
-    // Listimi i kërkesave
     asort($kerkesat);
     echo "<p>Kërkesat:</p><ul>";
     foreach ($kerkesat as $k) {
@@ -85,7 +90,6 @@ if (isset($_POST['apliko'])) {
     }
     echo "</ul>";
 
-    // ------------------ OOP PHP ------------------
     class Kandidat {
         private $emri;
         private $mosha;
@@ -137,8 +141,6 @@ if (isset($_POST['apliko'])) {
 
     $aplikues = new KandidatMeEksperience($emri, $mosha, "Prizren", 3);
     echo "<p>" . $aplikues->prezanto() . "</p>";
-
-    // ------------------ RegEx Validim ------------------
 
     if (preg_match("/^[\w.-]+@[\w.-]+\.\w{2,}$/", $email)) {
         echo "<p>Email i vlefshëm: $email</p>";
