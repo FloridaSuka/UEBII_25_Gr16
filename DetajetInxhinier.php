@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <title>Detajet e Profesionit - Mësuese</title>
+    <title>Detajet e Profesionit - Inxhinier Ndërtimi</title>
     <style>
          ::-webkit-scrollbar{
         width: 10px;
@@ -40,7 +40,7 @@
             background-color: #264653;
             color: white;
             padding: 15px 20px;
-            text-align:center;
+            text-align: center;
             font-size: 24px;
             font-weight: bold;
             margin-bottom: 10px;
@@ -48,10 +48,10 @@
 
         .profession-details {
             position: relative;
-            background-image: url('foto/Shkolla e Mesme Alpbach.jpg'); /* Ndryshoni për foton e mësuese */
+            background-image: url('foto/Ndertimi.webp'); 
             background-size: cover;
             background-position: center;
-            background-repeat:no-repeat;
+            background-repeat: no-repeat;
             height: 400px;
             border-radius: 10px;
             overflow: hidden;
@@ -81,18 +81,23 @@
             margin-bottom: 15px;
         }
 
+        .btn:hover {
+            padding-left: 20px;
+            list-style: none;
+        }
+        
         .ul {
             padding-left: 20px;
             list-style: none;
         }
 
-        .ul li {
+        .ul .li {
             margin-bottom: 10px;
             display: flex;
             align-items: center;
         }
 
-        .ul li::before {
+        .ul .li::before {
             content: "";
             width: 10px;
             height: 10px;
@@ -122,6 +127,7 @@
         .image-section {
             margin-top: 20px;
             text-align: center;
+            background-origin: padding-box; 
         }
 
         .image-section img {
@@ -129,22 +135,6 @@
             height: auto;
             border-radius: 20px;
             box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
-        }
-        .btn {
-            display: inline-block;
-            margin-top: 20px;
-            padding: 12px 25px;
-            background-color: #264653;
-            color: white;
-            text-decoration: none;
-            border-radius: 8px;
-            font-size: 16px;
-            transition: background-color 0.3s, transform 0.2s;
-        }
-
-        .btn:hover {
-            background-color: #21867a;
-            transform: scale(1.05);
         }
 
         .form-section {
@@ -185,7 +175,6 @@
             background-color: #21867a;
         }
 
-        /* Shigjetë për butonin Apliko Tani dhe butonin për kthim */
         .back-btn {
             display: inline-block;
             margin-top: 20px;
@@ -205,11 +194,10 @@
         }
 
         .back-btn::before {
-            content: "←"; /* Shigjeta e kthimit */
+            content: "←"; 
             font-size: 18px;
         }
 
-        /* Shigjeta flotuese në cepin e djathtë të faqes */
         .back-btn-floating {
             position: fixed;
             bottom: 20px;
@@ -230,7 +218,7 @@
         }
 
         .back-btn-floating::before {
-            content: "←"; /* Shigjeta e kthimit */
+            content: "←"; 
             font-size: 18px;
         }
     </style>
@@ -244,132 +232,127 @@
     </script>
 </head>
 <body>
-   <!-- importo file te html per nav ne div -->
+    <!-- importo file te html per nav ne div -->
 
-   <div id="header-container"></div>
-   <script>
-    // JavaScript për të ngarkuar header-in nga file-i i jashtëm
-    fetch('nav.html')
-    .then(response => response.text())
-    .then(data => {
-        // Vendos përmbajtjen e header-it në div-in me id="header-container"
-        document.getElementById('header-container').innerHTML = data;
-        // Lidh eventet pasi përmbajtja të jetë ngarkuar
-        const loginIcon = document.getElementById('loginIcon');
-        const loginModal = document.getElementById('loginModal');
-        const closeBtn = document.getElementById('closeBtn');
-        const initialPosition = { top: 50, left: 50 }; // Pozita fillestare e modalit
-
-        //hap modalin
-        if (loginIcon) {
-            loginIcon.addEventListener('click', () => {
-                loginModal.style.display = 'block';
+    <div id="header-container"></div>
+    <script>
+        // JavaScript për të ngarkuar header-in nga file-i i jashtëm
+        fetch('nav.html')
+        .then(response => response.text())
+        .then(data => {
+            // Vendos përmbajtjen e header-it në div-in me id="header-container"
+            document.getElementById('header-container').innerHTML = data;
+            // Lidh eventet pasi përmbajtja të jetë ngarkuar
+            const loginIcon = document.getElementById('loginIcon');
+            const loginModal = document.getElementById('loginModal');
+            const closeBtn = document.getElementById('closeBtn');
+            const initialPosition = { top: 50, left: 50 }; // Pozita fillestare e modalit
+  
+            //hap modalin
+            if (loginIcon) {
+                loginIcon.addEventListener('click', () => {
+                    loginModal.style.display = 'block';
+                    loginModal.style.top = `${initialPosition.top}px`;
+                    loginModal.style.left = `${initialPosition.left}px`;
+                });
+            }
+            //mbyll modalin
+            if (closeBtn) {
+                closeBtn.addEventListener('click', () => {
+                    loginModal.style.display = 'none';
+                });
+            }
+           // Kthimi i modalit në pozitën fillestare
+            loginModal.addEventListener('dblclick', () => {
                 loginModal.style.top = `${initialPosition.top}px`;
                 loginModal.style.left = `${initialPosition.left}px`;
             });
-        }
-        //mbyll modalin
-        if (closeBtn) {
-            closeBtn.addEventListener('click', () => {
-                loginModal.style.display = 'none';
+            //mbyllja kur klikohet jasht modalit
+            window.addEventListener('click', (e) => {
+                if (e.target === loginModal) {
+                    loginModal.style.display = 'none';
+                }
             });
-        }
-       // Kthimi i modalit në pozitën fillestare
-        loginModal.addEventListener('dblclick', () => {
-            loginModal.style.top = `${initialPosition.top}px`;
-            loginModal.style.left = `${initialPosition.left}px`;
-        });
-        //mbyllja kur klikohet jasht modalit
-        window.addEventListener('click', (e) => {
-            if (e.target === loginModal) {
-                loginModal.style.display = 'none';
-            }
-        });
-        // Drag and drop
-        let offsetX = 0, offsetY = 0;
-
-        loginModal.addEventListener('dragstart', (e) => {
-            const rect = loginModal.getBoundingClientRect();
-            offsetX = e.clientX - rect.left;
-            offsetY = e.clientY - rect.top;
-        });
-
-        document.addEventListener('dragover', (e) => {
-            e.preventDefault();
-        });
-
-        document.addEventListener('drop', (e) => {
-            e.preventDefault();
-            const x = e.clientX - offsetX;
-            const y = e.clientY - offsetY;
-            loginModal.style.top = `${y}px`;
-            loginModal.style.left = `${x}px`;
-        });        
-    })
-    .catch(err => console.error('Gabim gjat&#235 ngarkimit t&#235 header-it:', err));
-</script>
+            // Drag and drop
+            let offsetX = 0, offsetY = 0;
+  
+            loginModal.addEventListener('dragstart', (e) => {
+                const rect = loginModal.getBoundingClientRect();
+                offsetX = e.clientX - rect.left;
+                offsetY = e.clientY - rect.top;
+            });
+  
+            document.addEventListener('dragover', (e) => {
+                e.preventDefault();
+            });
+  
+            document.addEventListener('drop', (e) => {
+                e.preventDefault();
+                const x = e.clientX - offsetX;
+                const y = e.clientY - offsetY;
+                loginModal.style.top = `${y}px`;
+                loginModal.style.left = `${x}px`;
+            });        
+        })
+        .catch(err => console.error('Gabim gjat&#235 ngarkimit t&#235 header-it:', err));
+    </script>
 <main>
-    <!-- Titulli Kryesor -->
     <div class="profession-title">
-      <b>  Detajet e Profesionit - Mësuese</b>
+      <b>  Detajet e Profesionit - Inxhinier Ndërtimi</b>
     </div>
 
-    <!-- Seksioni i Detajeve -->
     <div class="profession-details">
-        <!-- Nuk është nevoja për seksionin e fotos më vete pasi është background i seksionit -->
     </div>
 
-    <!-- Seksioni i Profilit -->
     <div class="profilit">
         <h1>
-            Profili i Mësueses
+            Profili i Inxhinierit të Ndërtimit
         </h1>
         <h3>
-            Mësimi dhe udhëzimi i studentëve në përvetësimin e njohurive dhe zhvillimin e aftësive.
+            Projektimi, mbikëqyrja dhe ekzekutimi i strukturave ndërtimore, duke siguruar qëndrueshmëri dhe siguri në çdo projekt.
         </h3>
     </div>
 
-    <!-- Seksioni i Kërkesave -->
     <div class="requirements">
         <h2>Kërkesat Kryesore</h2>
         <ul class="ul">
-            <li>Diplomë e lartë në fushën përkatëse (p.sh., edukim, shkenca, letërsi, etj.).</li>
-            <li>Eksperiencë mësimdhënieje ose praktika mësimore.</li>
-            <li>Aftësi të shkëlqyera komunikimi dhe udhëheqjeje të klasës.</li>
-            <li>Njohuri të forta të metodologjisë mësimore dhe përdorimi i mjeteve edukative.</li>
+            <li class="li">Diplomë në Inxhinieri Ndërtimi ose fusha të ngjashme.</li>
+            <li class="li">Aftësi për të punuar me software profesional (AutoCAD, SAP2000, ETABS, etj.).</li>
+            <li class="li">Njohuri mbi standardet dhe kodet e ndërtimit ndërkombëtare.</li>
+            <li class="li">Aftësi për të menaxhuar ekipe dhe resurse në projekte komplekse.</li>
         </ul>
     </div>
 
-    <!-- Seksioni i Përfitimeve -->
     <h2>Përfitimet</h2>
     <p>
-        Duke punuar si mësuese, mund të përfitoni:
+        Duke punuar si inxhinier ndërtimi, mund të përfitoni:
     </p>
     <ul class="ul">
-        <li>Stabilitet profesional dhe mundësi për zhvillim të vazhdueshëm.</li>
-        <li>Pushime verore dhe periudha të tjera pushimi.</li>
-        <li>Fleksibilitet në orarin e punës dhe mundësi për krijimin e materiale mësimore kreative.</li>
+        <li class="li">Paga të larta dhe stabilitet në karrierë.</li>
+        <li class="li">Mundësi për të qenë pjesë e projekteve që lënë gjurmë në komunitet.</li>
+        <li class="li">Punë dinamike dhe sfiduese në një mjedis profesional.</li>
     </ul>
+
     
-<!-- Seksioni i Aplikimit -->
+   <!-- Seksioni i Aplikimit -->
 <div class="form-section">
     <h3>Aplikoni për këtë Pozitë</h3>
-    <form id="application-form" action="" method="POST" enctype="multipart/form-data" >
+    <form id="application-form" action="" method="POST" enctype="multipart/form-data">
         <label for="first-name">Emri</label>
-        <input type="text"  class="input" id="first-name" name="first-name" required>
+        <input type="text" class="input" id="first-name" name="first-name" required>
         <span id="first-name-error" class="error-message"></span>
 
         <label for="last-name">Mbiemri</label>
-        <input type="text" class="input" id="last-name" name="last-name" required>
+        <input type="text" class="input"  id="last-name" name="last-name" required>
         <span id="last-name-error" class="error-message"></span>
 
         <label for="phone-or-email">Numri i Telefonit ose Email</label>
-        <input type="text" class="input" id="phone-or-email" name="phone-or-email" required placeholder=" ">
+        <input type="text"  class="input" id="phone-or-email" name="phone-or-email" required placeholder=" ">
         <span id="phone-or-email-error" class="error-message"></span>
         <label for="age">Mosha:</label>
-            <input type="number" id="age" name="age" min="18" max="65" required><br>
-            <small id="age-warning" style="color: red; display: none;">Ju lutemi zgjidhni një moshë mes 18 dhe 65.</small>
-        <br>
+        <input type="number" id="age" name="age" min="18" max="65" required><br>
+        <small id="age-warning" style="color: red; display: none;">Ju lutemi zgjidhni një moshë mes 18 dhe 65.</small>
+    <br>
 
         <label for="qyteti">Zgjedh qytetin:</label>
         <input list="qyteti"  class="input" id="qytetet" name="qyteti" />
@@ -402,8 +385,6 @@
               <label for="no">Jo</label>
             </div>
           </form>
-
-
         <label for="cv">Ngarkoni CV-në tuaj</label>
         <input type="file" class="input" id="cv" name="cv" accept=".pdf, .docx" required>
         <span id="cv-error" class="error-message"></span>
@@ -415,11 +396,11 @@
         <h1>Vlerësimi i Përshtatshmërisë për Pozicionin</h1>
         <form oninput="calculateMatch()">
             <p>Zgjidhni aftësitë që zotëroni:</p>
-            <label><input type="checkbox" name="skill" value="1"> Diplomë Universitare në Edukim</label><br>
-            <label><input type="checkbox" name="skill" value="2"> Përvoja e Mësimdhënies</label><br>
-            <label><input type="checkbox" name="skill" value="3"> Aftësi për Menaxhimin e Klasës dhe Komunikim me Nxënësit</label><br>
-            <label><input type="checkbox" name="skill" value="4"> Aftësi të Përshtatshme për Teknologjinë dhe Mjete të Mësimdhënies</label><br>
-            <label><input type="checkbox" name="skill" value="5"> Aftësi të Forta Komunikimi dhe Ndërveprimi me Prindërit</label><br><br>
+            <label><input type="checkbox" name="skill" value="1"> Eksperiencë në Projektim dhe Ndërtim të Strukturave</label><br>
+            <label><input type="checkbox" name="skill" value="2"> Aftësi në Përdorimin e Software-ve për Projektim dhe Analizë</label><br>
+            <label><input type="checkbox" name="skill" value="3"> Njohuri të Normave dhe Standardeve të Ndërtimit</label><br>
+            <label><input type="checkbox" name="skill" value="4"> Aftësi për Menaxhimin e Projekteve të Ndërtimit dhe Koordinimi i Ekipit</label><br>
+            <label><input type="checkbox" name="skill" value="5"> Aftësi për Përcaktimin e Kostove dhe Përdorimin e Burimeve</label><br><br>
     
             <label for="matchOutput">Përputhshmëria juaj me pozicionin:</label>
             <output id="matchOutput">0%</output>
@@ -473,9 +454,9 @@
             document.getElementById('cv-error').textContent = 'Kjo fushë nuk mund të jetë e zbrazët.';
             isValid = false;
         }
-        
-// Alert për përdoruesin që t'i plotësojë të gjitha fushat nëse ndodhin gabime
-if (!isValid) {
+
+        // Alert për përdoruesin që t'i plotësojë të gjitha fushat nëse ndodhin gabime
+        if (!isValid) {
             alert('Ju lutem plotësoni të gjitha fushat!');
         }
         // Nëse të gjitha fushat janë të mbushura, drejto te faqja tjetër
@@ -494,12 +475,10 @@ if (!isValid) {
     }
 </style>
 
-
-   
 </main>
+
 <!-- Shigjeta flotuese për kthim -->
 <a href="#" class="back-btn-floating" onclick="shkoTeFaqja();"></a>
-
 
 <div id="footer-container"></div>
 <script>
@@ -519,4 +498,3 @@ if (!isValid) {
 <script src="loginPopup.js"></script>
 </body>
 </html>
- 
