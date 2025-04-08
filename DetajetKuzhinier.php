@@ -4,155 +4,161 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Detajet e Profesionit - Kuzhinier</title>
+    <style>
+        body { font-family: Arial; line-height: 1.6; padding: 20px; }
+        input, label { display: block; margin: 10px 0; }
+    </style>
 </head>
 <body>
+
+<h2>Aplikim për pozitën Kuzhinier</h2>
+
+<!-- Formë për input -->
+<form method="post">
+    <label for="emri">Emri:</label>
+    <input type="text" name="emri" required>
+
+    <label for="telefoni">Numri i telefonit:</label>
+    <input type="text" name="telefoni" id="telefoni" placeholder="+383-44-123-456" required oninput="vetemNumra(this)">
+
+    <label for="email">Email:</label>
+    <input type="email" name="email" required>
+
+    <input type="submit" name="apliko" value="Apliko">
+</form>
+
+<script>
+function vetemNumra(input) {
+    input.value = input.value.replace(/[^0-9+\-]/g, "");
+}
+</script>
+
 <?php
-// ------------------ PHP Bazik ------------------
+if (isset($_POST['apliko'])) {
 
-// Variabla dhe var_dump()
-$profesioni = "Kuzhinier";
-$moshaMin = 18;
-$moshaMax = 65;
-$kerkesat = [
-    "Eksperiencë në gatim",
-    "Aftësi në grup",
-    "Njohuri të higjenës",
-    "Menaxhim kohe",
-    "Punë në presion"
-];
+    // ------------------ PHP Bazik ------------------
+    $profesioni = "Kuzhinier";
+    $moshaMin = 18;
+    $moshaMax = 65;
+    $kerkesat = [
+        "Eksperiencë në gatim",
+        "Aftësi në grup",
+        "Njohuri të higjenës",
+        "Menaxhim kohe",
+        "Punë në presion"
+    ];
 
-var_dump($profesioni);
+    // Marrja e inputeve nga forma
+    $emri = $_POST['emri'];
+    $email = $_POST['email'];
+    $telefoni = $_POST['telefoni'];
 
-// Funksion me parametra dhe kthim vlere
-function pershendetje($emri) {
-    return "Mirë se vjen, " . ucfirst($emri) . "!";
-}
-
-// String functions
-$emri = "gresa";
-$pershendetje = pershendetje($emri);
-echo "<p>$pershendetje</p>";
-
-// Përdorimi i konstantave
-const SHKOLLA = "Akademia e Kuzhinierëve";
-echo "<p>Apliko në: " . SHKOLLA . "</p>";
-
-// Operatorë dhe kushtet
-$mosha = 25;
-if ($mosha >= $moshaMin && $mosha <= $moshaMax) {
-    echo "<p>Mosha është e pranueshme.</p>";
-} elseif ($mosha < $moshaMin) {
-    echo "<p>Mosha është nën kufirin minimal.</p>";
-} else {
-    echo "<p>Mosha kalon kufirin maksimal.</p>";
-}
-
-// Switch example
-switch ($profesioni) {
-    case "Kuzhinier":
-        echo "<p>Pozita e kuzhinierit është e hapur.</p>";
-        break;
-    case "Kamerier":
-        echo "<p>Na vjen keq, pozita nuk është aktive.</p>";
-        break;
-    default:
-        echo "<p>Ju lutem kontrolloni sërish.</p>";
-}
-
-// Arrays: associative dhe multidimensional
-$kandidatet = [
-    ["emri" => "Arta", "qyteti" => "Prishtinë"],
-    ["emri" => "Luan", "qyteti" => "Pejë"]
-];
-
-foreach ($kandidatet as $k) {
-    echo "<p>Kandidat: " . $k['emri'] . ", Qyteti: " . $k['qyteti'] . "</p>";
-}
-
-// Sortime
-asort($kerkesat);
-ksort($kandidatet);
-echo "<ul>";
-foreach ($kerkesat as $k) {
-    echo "<li>$k</li>";
-}
-echo "</ul>";
-
-// ------------------ OOP PHP ------------------
-
-class Kandidat {
-    private $emri;
-    private $mosha;
-    protected $qyteti;
-
-    public function __construct($emri, $mosha, $qyteti) {
-        $this->emri = $emri;
-        $this->mosha = $mosha;
-        $this->qyteti = $qyteti;
+    // Funksion për përshëndetje
+    function pershendetje($emri) {
+        return "Mirë se vjen, " . ucfirst($emri) . "!";
     }
 
-    public function getEmri() {
-        return ucfirst($this->emri);
+    echo "<p>" . pershendetje($emri) . "</p>";
+    echo "<p>Apliko në: Akademia e Kuzhinierëve</p>";
+
+    // Mosha për testim (mund të lidhet me formë)
+    $mosha = 25;
+    if ($mosha >= $moshaMin && $mosha <= $moshaMax) {
+        echo "<p>Mosha është e pranueshme.</p>";
+    } else {
+        echo "<p>Mosha nuk është e pranueshme.</p>";
     }
 
-    public function getMosha() {
-        return $this->mosha;
+    switch ($profesioni) {
+        case "Kuzhinier":
+            echo "<p>Pozita e kuzhinierit është e hapur.</p>";
+            break;
+        default:
+            echo "<p>Ju lutem kontrolloni sërish.</p>";
     }
 
-    public function setQyteti($qyteti) {
-        $this->qyteti = $qyteti;
+    // Listimi i kërkesave
+    asort($kerkesat);
+    echo "<p>Kërkesat:</p><ul>";
+    foreach ($kerkesat as $k) {
+        echo "<li>$k</li>";
+    }
+    echo "</ul>";
+
+    // ------------------ OOP PHP ------------------
+    class Kandidat {
+        private $emri;
+        private $mosha;
+        protected $qyteti;
+
+        public function __construct($emri, $mosha, $qyteti) {
+            $this->emri = $emri;
+            $this->mosha = $mosha;
+            $this->qyteti = $qyteti;
+        }
+
+        public function getEmri() {
+            return ucfirst($this->emri);
+        }
+
+        public function getMosha() {
+            return $this->mosha;
+        }
+
+        public function setQyteti($qyteti) {
+            $this->qyteti = $qyteti;
+        }
+
+        public function getQyteti() {
+            return $this->qyteti;
+        }
+
+        public function prezanto() {
+            return "Unë jam " . $this->getEmri() . ", jam " . $this->getMosha() . " vjeç dhe vij nga " . $this->getQyteti() . ".";
+        }
+
+        public function __destruct() {
+            echo "<p>Destruktori u thirr për " . $this->getEmri() . "</p>";
+        }
     }
 
-    public function getQyteti() {
-        return $this->qyteti;
+    class KandidatMeEksperience extends Kandidat {
+        public $viteEksperience;
+
+        public function __construct($emri, $mosha, $qyteti, $viteEksperience) {
+            parent::__construct($emri, $mosha, $qyteti);
+            $this->viteEksperience = $viteEksperience;
+        }
+
+        public function prezanto() {
+            return parent::prezanto() . " Kam " . $this->viteEksperience . " vite eksperiencë.";
+        }
     }
 
-    public function prezanto() {
-        return "Unë jam " . $this->getEmri() . ", jam " . $this->getMosha() . " vjeç dhe vij nga " . $this->getQyteti() . ".";
+    $aplikues = new KandidatMeEksperience($emri, $mosha, "Prizren", 3);
+    echo "<p>" . $aplikues->prezanto() . "</p>";
+
+    // ------------------ RegEx Validim ------------------
+
+    if (preg_match("/^[\w.-]+@[\w.-]+\.\w{2,}$/", $email)) {
+        echo "<p>Email i vlefshëm: $email</p>";
+    } else {
+        echo "<p>Email i pavlefshëm</p>";
     }
 
-    public function __destruct() {
-        echo "<p>Destruktori u thirr për " . $this->getEmri() . "</p>";
-    }
-}
-
-class KandidatMeEksperience extends Kandidat {
-    public $viteEksperience;
-
-    public function __construct($emri, $mosha, $qyteti, $viteEksperience) {
-        parent::__construct($emri, $mosha, $qyteti);
-        $this->viteEksperience = $viteEksperience;
+    if (preg_match("/^\+383-\d{2}-\d{3}-\d{3}$/", $telefoni)) {
+        echo "<p>Numri i saktë: $telefoni</p>";
+    } else {
+        echo "<p>Numri nuk është në formatin e duhur</p>";
     }
 
-    public function prezanto() {
-        return parent::prezanto() . " Kam " . $this->viteEksperience . " vite eksperiencë.";
+    $string = "Emri: $emri - Pozita: Kuzhinier - Mosha: $mosha";
+    $pattern = "/Pozita: (\w+)/";
+    if (preg_match($pattern, $string, $matches)) {
+        echo "<p>Pozita e lexuar nga string: " . $matches[1] . "</p>";
     }
-}
-
-$aplikues = new KandidatMeEksperience("gresa", 25, "Prizren", 3);
-echo "<p>" . $aplikues->prezanto() . "</p>";
-
-// ------------------ RegEx Validim ------------------
-
-$email = "gresa@example.com";
-if (preg_match("/^[\w.-]+@[\w.-]+\.\w{2,}$/", $email)) {
-    echo "<p>Email i vlefshëm: $email</p>";
-} else {
-    echo "<p>Email i pavlefshëm</p>";
-}
-
-$numri = "+383-44-123-456";
-if (preg_match("/^\+383-\d{2}-\d{3}-\d{3}$/", $numri)) {
-    echo "<p>Numri i saktë: $numri</p>";
-} else {
-    echo "<p>Numri nuk është në formatin e duhur</p>";
-}
-
-$string = "Emri: Gresa - Pozita: Kuzhinier - Mosha: 25";
-$pattern = "/Pozita: (\w+)/";
-if (preg_match($pattern, $string, $matches)) {
-    echo "<p>Pozita e lexuar nga string: " . $matches[1] . "</p>";
 }
 ?>
+
 </body>
 </html>
