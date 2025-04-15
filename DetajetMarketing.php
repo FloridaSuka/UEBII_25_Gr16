@@ -120,6 +120,67 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <title>Forma e Aplikimit</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
+<div id="header-container"></div>
+    <script src="navHandler.js"></script>
+    <script>
+        fetch('nav.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('header-container').innerHTML = data;
+                setupNavigation(); // Funksioni nga navHandler.js
+                const loginIcon = document.getElementById('loginIcon');
+                const loginModal = document.getElementById('loginModal');
+                const closeBtn = document.getElementById('closeBtn');
+            const initialPosition = { top: 50, left: 50 }; // Pozita fillestare e modalit
+  
+            //hap modalin
+            if (loginIcon) {
+                loginIcon.addEventListener('click', () => {
+                    loginModal.style.display = 'block';
+                    loginModal.style.top = `${initialPosition.top}px`;
+                    loginModal.style.left = `${initialPosition.left}px`;
+                });
+            }
+            //mbyll modalin
+            if (closeBtn) {
+                closeBtn.addEventListener('click', () => {
+                    loginModal.style.display = 'none';
+                });
+            }
+           // Kthimi i modalit në pozitën fillestare
+            loginModal.addEventListener('dblclick', () => {
+                loginModal.style.top = `${initialPosition.top}px`;
+                loginModal.style.left = `${initialPosition.left}px`;
+            });
+            //mbyllja kur klikohet jasht modalit
+            window.addEventListener('click', (e) => {
+                if (e.target === loginModal) {
+                    loginModal.style.display = 'none';
+                }
+            });
+            // Drag and drop
+            let offsetX = 0, offsetY = 0;
+  
+            loginModal.addEventListener('dragstart', (e) => {
+                const rect = loginModal.getBoundingClientRect();
+                offsetX = e.clientX - rect.left;
+                offsetY = e.clientY - rect.top;
+            });
+  
+            document.addEventListener('dragover', (e) => {
+                e.preventDefault();
+            });
+  
+            document.addEventListener('drop', (e) => {
+                e.preventDefault();
+                const x = e.clientX - offsetX;
+                const y = e.clientY - offsetY;
+                loginModal.style.top = `${y}px`;
+                loginModal.style.left = `${x}px`;
+            }); 
+            })
+            .catch(err => console.error('Gabim gjatë ngarkimit të header-it:', err));
+    </script>
 <body class="bg-light">
     <div class="container mt-5">
         <h2 class="mb-4">Aplikoni për Pozitën</h2>

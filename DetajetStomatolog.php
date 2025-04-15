@@ -229,17 +229,16 @@
     <!-- importo file te html per nav ne div -->
 
     <div id="header-container"></div>
+    <script src="navHandler.js"></script>
     <script>
-        // JavaScript për të ngarkuar header-in nga file-i i jashtëm
         fetch('nav.html')
-        .then(response => response.text())
-        .then(data => {
-            // Vendos përmbajtjen e header-it në div-in me id="header-container"
-            document.getElementById('header-container').innerHTML = data;
-            // Lidh eventet pasi përmbajtja të jetë ngarkuar
-            const loginIcon = document.getElementById('loginIcon');
-            const loginModal = document.getElementById('loginModal');
-            const closeBtn = document.getElementById('closeBtn');
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('header-container').innerHTML = data;
+                setupNavigation(); // Funksioni nga navHandler.js
+                const loginIcon = document.getElementById('loginIcon');
+                const loginModal = document.getElementById('loginModal');
+                const closeBtn = document.getElementById('closeBtn');
             const initialPosition = { top: 50, left: 50 }; // Pozita fillestare e modalit
   
             //hap modalin
@@ -286,9 +285,9 @@
                 const y = e.clientY - offsetY;
                 loginModal.style.top = `${y}px`;
                 loginModal.style.left = `${x}px`;
-            });        
-        })
-        .catch(err => console.error('Gabim gjat&#235 ngarkimit t&#235 header-it:', err));
+            }); 
+            })
+            .catch(err => console.error('Gabim gjatë ngarkimit të header-it:', err));
     </script>
 <main>
     <div class="profession-title">
