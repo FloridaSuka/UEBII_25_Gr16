@@ -202,94 +202,67 @@
 
       animateTimeline(); // Fillimi i animimit
     </script>
+                <div class="reviews-section">
+    <h1 ><mark style="color: #ff9800; ">Çfarë thonë klientët tanë?</mark></h1>
+    <div class="reviews-container">
+    <?php
+    class Reviewer {
+        public $foto;
+        public $name;
+        public $review_text;
+        public $rating;
+    
+        function __construct($foto, $name,$rating, $review_text) {
+            $this->foto = $foto;
+            $this->name = $name;
+            $this-> rating = $rating;
+            $this->review_text = $review_text;
 
-    <section class="reviews-section">
-      <h1><mark style="color: #ff9800">Çfarë thonë klientët tanë?</mark></h1>
-      <div class="reviews-container">
-        <div class="review-card">
-          <div class="review-header">
-            <img src="foto/profile1.jpg" alt="Customer" />
-            <div class="name">John D.</div>
-          </div>
-          <div class="review-rating">★★★★★</div>
-          <div class="review-text">
-            Kjo është platforma më e mirë që kam përdorur ndonjëherë për të
+        }
+
+        function shfaq() {
+          echo '
+            <div class="review-card">
+              <div class="review-header">
+                <img src="' . $this->foto . '" alt="Customer" />
+                <div class="name">' . $this->name . '</div>
+              </div>
+              <div class="review-rating">' . $this->rating . '</div>
+              <div class="review-text">' . $this->review_text . '</div>
+            </div>';
+        }
+    }
+
+    $reviews = [
+        new Reviewer("foto/profile1.jpg", "John D.","★★★★★","Kjo është platforma më e mirë që kam përdorur ndonjëherë për të
             gjetur projekte freelance. Shumë profesionale dhe e lehtë për t’u
-            përdorur!
-          </div>
-        </div>
-
-        <div class="review-card">
-          <div class="review-header">
-            <img src="foto/profile2.jpg" alt="Customer" />
-            <div class="name">Jane S.</div>
-          </div>
-          <div class="review-rating">★★★★☆</div>
-          <div class="review-text">
-            Kjo faqe më ndihmoi të gjej punën e ëndrrave në vetëm dy javë!
+            përdorur! "),
+        new Reviewer("foto/profile2.jpg", "Jane S.","★★★★☆"," Kjo faqe më ndihmoi të gjej punën e ëndrrave në vetëm dy javë!
             Ndërfaqja është e lehtë për t’u përdorur dhe filtrat më ndihmuan të
-            gjej pikërisht ofertat që më përshtateshin.
-          </div>
-        </div>
-
-        <div class="review-card">
-          <div class="review-header">
-            <img src="foto/profile3.jpg" alt="Customer" />
-            <div class="name">Alex J.</div>
-          </div>
-          <div class="review-rating">★★★★★</div>
-          <div class="review-text">
-            Gjetja e një pune të re ishte stresuese derisa përdora këtë
+            gjej pikërisht ofertat që më përshtateshin."),
+        new Reviewer("foto/profile3.jpg","Alex J.","★★★★★","Gjetja e një pune të re ishte stresuese derisa përdora këtë
             platformë. E thjeshtë për t’u naviguar dhe plot me oferta të
-            përditësuara pune në sektorin tim.
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="reviews-section" style="margin-top: -50px">
-      <div class="reviews-container">
-        <div class="review-card">
-          <div class="review-header">
-            <img src="foto/profile4.jpg" alt="Customer" />
-            <div class="name">Chris N.</div>
-          </div>
-          <div class="review-rating">★★★★☆</div>
-          <div class="review-text">
-            "Kam aplikuar për disa pozita nëpërmjet kësaj platforme dhe brenda
+            përditësuara pune në sektorin tim."),
+        new Reviewer("foto/profile4.jpg","Chris N.","★★★★☆","Kam aplikuar për disa pozita nëpërmjet kësaj platforme dhe brenda
             një muaji mora disa oferta! Mund të përmirësojnë më tej mënyrën e
-            krijimit të profilit, por në përgjithësi jam shumë e kënaqur."
-          </div>
-        </div>
-
-        <div class="review-card">
-          <div class="review-header">
-            <img src="foto/profile5.jpg" alt="Customer" />
-            <div class="name">Mark L.</div>
-          </div>
-          <div class="review-rating">★★★★★</div>
-          <div class="review-text">
-            "Platforma është shumë e dobishme për rekrutuesit. Gjetëm disa
+            krijimit të profilit, por në përgjithësi jam shumë e kënaqur."),
+        new Reviewer("foto/profile5.jpg","Mark L.","★★★★★","Platforma është shumë e dobishme për rekrutuesit. Gjetëm disa
             kandidatë të shkëlqyer për pozitat që kishim të hapura. Sistemi i
             komunikimit të brendshëm është një veçori që na ka kursyer shumë
-            kohë."
-          </div>
-        </div>
-
-        <div class="review-card">
-          <div class="review-header">
-            <img src="foto/profile6.jpg" alt="Customer" />
-            <div class="name">Sophie H.</div>
-          </div>
-          <div class="review-rating">★★★★☆</div>
-          <div class="review-text">
-            Një mjet shumë i dobishëm për profesionistët financiarë. Filtrat e
+            kohë."),
+        new Reviewer("foto/profile6.jpg","Sophie H.","★★★★☆","Një mjet shumë i dobishëm për profesionistët financiarë. Filtrat e
             kërkimit janë shumë të detajuar dhe të saktë. Do të ishte mirë nëse
-            do të shtonin më shumë artikuj për karrierën.
-          </div>
-        </div>
-      </div>
-    </section>
+            do të shtonin më shumë artikuj për karrierën.")
+    ];
+
+    foreach ($reviews as $review) {
+        $review->shfaq();
+    }
+?>
+</div>
+</div>
+
+    
 
     <section id="statistics">
       <h2 style="color: #ff9800">Statistikat tona</h2>
