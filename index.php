@@ -33,7 +33,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $password = $_POST["password"] ?? "";
 
         // Validim i thjeshtë
-        if (!preg_match("/^[a-zA-Z0-9]{3,20}$/", $username)) {
+        if (!preg_match("/^[a-zA-Z]{3,20}$/", $username)|| !preg_match("/^[a-zA-Z]{3,20}$/", $password)) {
             $mesazhi = "Emri i përdoruesit është i pavlefshëm!";
         } else {
             $perdorues = new Perdorues($username, $password);
@@ -45,9 +45,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $username = $_POST["register_username"] ?? "";
         $password = $_POST["register_password"] ?? "";
 
-        if (!preg_match("/^[a-zA-Z0-9]{3,20}$/", $username)) {
+        if (!preg_match("/^[a-zA-Z]{3,20}$/", $username)) {
             $mesazhi = "Emri i përdoruesit është i pavlefshëm për regjistrim!";
-        } else {
+        }
+        else if (!preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#\$%\^&\*()_\+\-=\[\]{};\':"\\\\|,.<>\/?]).{8,}$/', $password)){
+            $mesazhi = "Fjalëkalimi nuk është i sigurt!";
+         }else {
             $perdorues = new Perdorues($username, $password);
             $mesazhi = $perdorues->register();
         }
