@@ -231,16 +231,17 @@
     <!-- importo file te html per nav ne div -->
 
     <div id="header-container"></div>
-    <script src="navHandler.js"></script>
     <script>
+        // JavaScript për të ngarkuar header-in nga file-i i jashtëm
         fetch('nav.html')
-            .then(response => response.text())
-            .then(data => {
-                document.getElementById('header-container').innerHTML = data;
-                setupNavigation(); // Funksioni nga navHandler.js
-                const loginIcon = document.getElementById('loginIcon');
-                const loginModal = document.getElementById('loginModal');
-                const closeBtn = document.getElementById('closeBtn');
+        .then(response => response.text())
+        .then(data => {
+            // Vendos përmbajtjen e header-it në div-in me id="header-container"
+            document.getElementById('header-container').innerHTML = data;
+            // Lidh eventet pasi përmbajtja të jetë ngarkuar
+            const loginIcon = document.getElementById('loginIcon');
+            const loginModal = document.getElementById('loginModal');
+            const closeBtn = document.getElementById('closeBtn');
             const initialPosition = { top: 50, left: 50 }; // Pozita fillestare e modalit
   
             //hap modalin
@@ -287,9 +288,9 @@
                 const y = e.clientY - offsetY;
                 loginModal.style.top = `${y}px`;
                 loginModal.style.left = `${x}px`;
-            }); 
-            })
-            .catch(err => console.error('Gabim gjatë ngarkimit të header-it:', err));
+            });        
+        })
+        .catch(err => console.error('Gabim gjat&#235 ngarkimit t&#235 header-it:', err));
     </script>
 <main>
     <div class="profession-title">
@@ -330,126 +331,129 @@
 
     
    
-    <!-- Seksioni i Aplikimit -->
+    <?php
+// ------------------- BACKEND LOGJIKA -------------------
+define("MIN_AGE", 18);
+define("MAX_AGE", 65);
+
+function isValidEmailOrPhone($input) {
+    $emailRegex = "/^[\w\-\.]+@[\w\-]+\.\w{2,4}$/";
+    $phoneRegex = "/^\+?[0-9]{8,15}$/";
+    return preg_match($emailRegex, $input) || preg_match($phoneRegex, $input);
+}
+
+class Applicant {
+    private $firstName;
+    private $lastName;
+    private $emailOrPhone;
+    private $age;
+    private $city;
+    private $experience;
+    private $skills = [];
+
+    public function __construct($f, $l, $e, $a, $c, $ex, $sk) {
+        $this->firstName = $f;
+        $this->lastName = $l;
+        $this->emailOrPhone = $e;
+        $this->age = $a;
+        $this->city = $c;
+        $this->experience = $ex;
+        $this->skills = $sk;
+    }
+
+    public function summary() {
+        return "Aplikuesi <b>{$this->firstName} {$this->lastName}</b>, nga <b>{$this->city}</b>, me moshë <b>{$this->age}</b>, ka përvojë: <b>{$this->experience}</b>, dhe ka zgjedhur " . count($this->skills) . " aftësi.";
+    }
+}
+
+$errors = [];
+$result = "";
+
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    $firstName = $_POST['first-name'] ?? '';
+    $lastName = $_POST['last-name'] ?? '';
+    $contact = $_POST['phone-or-email'] ?? '';
+    $age = $_POST['age'] ?? 0;
+    $city = $_POST['qyteti'] ?? '';
+    $experience = $_POST['experience'] ?? 'jo';
+    $skills = $_POST['skill'] ?? [];
+
+    if (strlen($firstName) < 2) $errors[] = "Emri është shumë i shkurtër.";
+    if (strlen($lastName) < 2) $errors[] = "Mbiemri është shumë i shkurtër.";
+    if (!isValidEmailOrPhone($contact)) $errors[] = "Email ose numër telefoni i pavlefshëm.";
+    if ($age < MIN_AGE || $age > MAX_AGE) $errors[] = "Mosha duhet të jetë mes " . MIN_AGE . " dhe " . MAX_AGE . ".";
+
+    if (empty($errors)) {
+        $applicant = new Applicant($firstName, $lastName, $contact, $age, $city, $experience, $skills);
+        $result = $applicant->summary();
+    }
+}
+?>
+
+<!-- ------------------- HTML + PHP FORMA ------------------- -->
+<!DOCTYPE html>
+<html lang="sq">
+<head>
+    <meta charset="UTF-8">
+    <title>Forma e Aplikimit</title>
+</head>
+<body>
 <div class="form-section">
-    <h3>Aplikoni për këtë Pozitë</h3>
-    <form id="application-form" action="" method="POST" enctype="multipart/form-data">
-        <label for="first-name">Emri</label>
-        <input type="text" class="input" id="first-name" name="first-name" required>
-        <span id="first-name-error" class="error-message"></span>
+    <h3>Aplikoni për këtë pozitë</h3>
 
-        <label for="last-name">Mbiemri</label>
-        <input type="text"  class="input" id="last-name" name="last-name" required>
-        <span id="last-name-error" class="error-message"></span>
+    <?php if (!empty($errors)) : ?>
+        <div style="color: red;">
+            <ul>
+                <?php foreach ($errors as $err) echo "<li>$err</li>"; ?>
+            </ul>
+        </div>
+    <?php endif; ?>
 
-        <label for="phone-or-email">Numri i Telefonit ose Email</label>
-        <input type="text" class="input" id="phone-or-email" name="phone-or-email" required placeholder=" ">
-        <span id="phone-or-email-error" class="error-message"></span>
-        <label for="age">Mosha:</label>
-            <input type="number" id="age" name="age" min="18" max="65" required><br>
-            <small id="age-warning" style="color: red; display: none;">Ju lutemi zgjidhni një moshë mes 18 dhe 65.</small>
-        <br>
+    <?php if (!empty($result)) : ?>
+        <p style="color: green; font-weight: bold;"> <?php echo $result; ?> </p>
+    <?php endif; ?>
 
-        <label for="qyteti">Zgjedh qytetin:</label>
-        <input list="qyteti"  class="input" id="qytetet" name="qyteti" />
-        
+    <form method="POST">
+        <label>Emri</label>
+        <input type="text" name="first-name" value="<?php echo htmlspecialchars($firstName ?? '') ?>" required><br><br>
+
+        <label>Mbiemri</label>
+        <input type="text" name="last-name" value="<?php echo htmlspecialchars($lastName ?? '') ?>" required><br><br>
+
+        <label>Email ose Nr. Telefonit</label>
+        <input type="text" name="phone-or-email" value="<?php echo htmlspecialchars($contact ?? '') ?>" required><br><br>
+
+        <label>Mosha</label>
+        <input type="number" name="age" min="18" max="65" value="<?php echo htmlspecialchars($age ?? '') ?>" required><br><br>
+
+        <label>Qyteti</label>
+        <input list="qyteti" name="qyteti" value="<?php echo htmlspecialchars($city ?? '') ?>">
         <datalist id="qyteti">
-          <option value="Prishtinë"></option>
-          <option value="Pejë"></option>
-          <option value="Podujevë"></option>
-          <option value="Mitrovicë"></option>
-          <option value="Fushë Kosovë"></option>
-          <option value="Klinë"></option>
-          <option value="Viti"></option>
-          <option value="Deçan"></option>
-          <option value="Gjilan"></option>
-          <option value="Prizren"></option>
-          <option value="Vushtrri"></option>
-          <option value="Malishevë"></option>
-          <option value="Drenas"></option>
-        </datalist>
-        
-        <br>
-        <form>
-            <label for="experience">Keni përvojë të mëparshme në këtë fushë?</label><br>
-          
-            <div class="radio-container" >
-              <input type="radio" id="yes" name="experience" value="yes">
-              <label for="yes">Po</label> <br>
-            
-              <input type="radio" id="no" name="experience" value="no">
-              <label for="no">Jo</label>
-            </div>
-          </form>
-        <label for="cv">Ngarkoni CV-në tuaj</label>
-        <input type="file"  class="input" id="cv" name="cv" accept=".pdf, .docx" required>
-        <span id="cv-error" class="error-message"></span>
+            <option value="Prishtinë">
+            <option value="Pejë">
+            <option value="Mitrovicë">
+            <option value="Gjilan">
+            <option value="Prizren">
+        </datalist><br><br>
 
-        <label for="cover-letter">Letër Motivimi </label>
+        <label>Eksperiencë</label><br>
+        <input type="radio" name="experience" value="po" <?php if (($experience ?? '') === 'po') echo 'checked'; ?>> Po
+        <input type="radio" name="experience" value="jo" <?php if (($experience ?? '') === 'jo') echo 'checked'; ?>> Jo<br><br>
 
-        <textarea id="cover-letter" name="cover-letter" rows="5" placeholder="Shkruani një letër motivimi për aplikimin tuaj "></textarea>
-
-        <h1>Vlerësimi i Përshtatshmërisë për Pozicionin</h1>
-        <form oninput="calculateMatch()">
-            <p>Zgjidhni aftësitë që zotëroni:</p>
-            <label><input type="checkbox" name="skill" value="1"> Edukimi dhe Kualifikimet Profesionale</label><br>
-            <label><input type="checkbox" name="skill" value="2"> Eksperiencë në Fusha të Dallueshme të Ligjit</label><br>
-            <label><input type="checkbox" name="skill" value="3"> Aftësi për Të Përdorur Strategji të Efektshme Ligjore</label><br>
-            <label><input type="checkbox" name="skill" value="4"> Aftësi për Komunikim dhe Ndërveprim me Klientët dhe Autoritetet</label><br>
-            <label><input type="checkbox" name="skill" value="5"> Përshtatshmëri dhe Aftësi për Të Punuar nën Presion</label><br><br>
-    
-            <label for="matchOutput">Përputhshmëria juaj me pozicionin:</label>
-            <output id="matchOutput">0%</output>
-        </form>
-    </form>
-    <button type="button"  form="application-form"   onclick="validateForm()">Apliko</button>
-</div>
-<script>
-    const ageInput = document.getElementById('age');
-    const ageWarning = document.getElementById('age-warning');
-
-    ageInput.addEventListener('input', function() {
-        if (ageInput.value < 18 || ageInput.value > 65) {
-            ageWarning.style.display = 'inline'; // Shfaq paralajmërimin
-        } else {
-            ageWarning.style.display = 'none'; // Fshih paralajmërimin
+        <label>Aftësitë</label><br>
+        <?php
+        $aftesite = [
+            1 => "Edukimi dhe Kualifikimet Profesionale",
+            2 => "Eksperiencë në Fusha të Dallueshme",
+            3 => "Aftësi Ligjore",
+            4 => "Komunikim me Klientë",
+            5 => "Punë në Presion"
+        ];
+        foreach ($aftesite as $key => $label) {
+            $checked = (isset($skills) && in_array($key, $skills)) ? 'checked' : '';
+            echo "<label><input type='checkbox' name='skill[]' value='$key' $checked> $label</label><br>";
         }
-    });</script>
-<script>
-    function validateForm() {
-        // Fshij mesazhet e mëparshme të gabimit
-        document.querySelectorAll('.error-message').forEach(function(message) {
-            message.textContent = '';
-        });
-
-        // Merr të gjitha inputet e formularit
-        var firstName = document.getElementById('first-name').value;
-        var lastName = document.getElementById('last-name').value;
-        var phoneOrEmail = document.getElementById('phone-or-email').value;
-        var cv = document.getElementById('cv').value;
-
-        var isValid = true;
-
-        // Kontrollo nëse të gjitha fushat janë mbushur dhe shfaq mesazhin përkatës pranë fushës
-        if (!firstName) {
-            document.getElementById('first-name-error').textContent = 'Kjo fushë nuk mund të jetë e zbrazët.';
-            isValid = false;
-        }
-
-        if (!lastName) {
-            document.getElementById('last-name-error').textContent = 'Kjo fushë nuk mund të jetë e zbrazët.';
-            isValid = false;
-        }
-
-        if (!phoneOrEmail) {
-            document.getElementById('phone-or-email-error').textContent = 'Kjo fushë nuk mund të jetë e zbrazët.';
-            isValid = false;
-        }
-
-        if (!cv) {
-            document.getElementById('cv-error').textContent = 'Kjo fushë nuk mund të jetë e zbrazët.';
-            isValid = false;
-        }
+        ?>
 // Alert për përdoruesin që t'i plotësojë të gjitha fushat nëse ndodhin gabime
 if (!isValid) {
             alert('Ju lutem plotësoni të gjitha fushat!');
@@ -458,7 +462,7 @@ if (!isValid) {
         if (isValid) {
             window.location.href = 'aplikimi.html'; // Faqja ku do të drejtohet përdoruesi
         }
-    }
+    
 </script>
 <style>
     .error-message {
