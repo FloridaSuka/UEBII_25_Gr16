@@ -1,3 +1,10 @@
+<?php
+session_start();
+$emri = $_SESSION['first_name'] ?? '';
+$mbiemri = $_SESSION['last_name'] ?? '';
+ob_start();
+?>
+
 <!DOCTYPE html>
 <html lang="sq">
 <head>
@@ -231,17 +238,16 @@
     <!-- importo file te html per nav ne div -->
 
     <div id="header-container"></div>
+    <script src="navHandler.js"></script>
     <script>
-        // JavaScript për të ngarkuar header-in nga file-i i jashtëm
         fetch('nav.html')
-        .then(response => response.text())
-        .then(data => {
-            // Vendos përmbajtjen e header-it në div-in me id="header-container"
-            document.getElementById('header-container').innerHTML = data;
-            // Lidh eventet pasi përmbajtja të jetë ngarkuar
-            const loginIcon = document.getElementById('loginIcon');
-            const loginModal = document.getElementById('loginModal');
-            const closeBtn = document.getElementById('closeBtn');
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('header-container').innerHTML = data;
+                setupNavigation(); // Funksioni nga navHandler.js
+                const loginIcon = document.getElementById('loginIcon');
+                const loginModal = document.getElementById('loginModal');
+                const closeBtn = document.getElementById('closeBtn');
             const initialPosition = { top: 50, left: 50 }; // Pozita fillestare e modalit
   
             //hap modalin
@@ -288,9 +294,9 @@
                 const y = e.clientY - offsetY;
                 loginModal.style.top = `${y}px`;
                 loginModal.style.left = `${x}px`;
-            });        
-        })
-        .catch(err => console.error('Gabim gjat&#235 ngarkimit t&#235 header-it:', err));
+            }); 
+            })
+            .catch(err => console.error('Gabim gjatë ngarkimit të header-it:', err));
     </script>
 <main>
     <div class="profession-title">
@@ -328,178 +334,231 @@
         <li class="li">Paga konkurruese dhe respekt në shoqëri.</li>
         <li class="li">Mundësi për specializim në fusha të ndryshme ligjore.</li>
     </ul>
-
-    
     <?php
+
 // ------------------- BACKEND LOGJIKA -------------------
 define("MIN_AGE", 18);
 define("MAX_AGE", 65);
 
-function isValidEmailOrPhone($input) {
-    \$emailRegex = "/^[\w\-\.]+@[\w\-]+\.\w{2,4}$/";
-    \$phoneRegex = "/^\+?[0-9]{8,15}$/";
-    return preg_match(\$emailRegex, \$input) || preg_match(\$phoneRegex, \$input);
+if (!function_exists('isValidEmailOrPhone')) {
+    function isValidEmailOrPhone($input) {
+        $emailRegex = "/^[\w\-.]+@[\w\-]+\.\w{2,4}$/";
+        $phoneRegex = "/^\+?[0-9]{8,15}$/";
+        return preg_match($emailRegex, $input) || preg_match($phoneRegex, $input);
+    }
 }
 
-function isCapitalized(\$str) {
-    return preg_match("/^[A-ZÇË]/", \$str);
+if (!function_exists('isCapitalized')) {
+    function isCapitalized($str) {
+        return preg_match("/^[A-ZÇË]/", $str);
+    }
 }
 
 class Applicant {
-    private \$firstName;
-    private \$lastName;
-    private \$emailOrPhone;
-    private \$age;
-    private \$city;
-    private \$experience;
-    private \$skills = [];
+    private $firstName;
+    private $lastName;
+    private $emailOrPhone;
+    private $age;
+    private $city;
+    private $experience;
+    private $skills = [];
 
-    public function __construct(\$f, \$l, \$e, \$a, \$c, \$ex, \$sk) {
-        \$this->firstName = \$f;
-        \$this->lastName = \$l;
-        \$this->emailOrPhone = \$e;
-        \$this->age = \$a;
-        \$this->city = \$c;
-        \$this->experience = \$ex;
-        \$this->skills = \$sk;
+    public function __construct($f, $l, $e, $a, $c, $ex, $sk) {
+        $this->firstName = $f;
+        $this->lastName = $l;
+        $this->emailOrPhone = $e;
+        $this->age = $a;
+        $this->city = $c;
+        $this->experience = $ex;
+        $this->skills = $sk;
     }
 
     public function summary() {
-        return "Aplikuesi <b>{\$this->firstName} {\$this->lastName}</b>, nga <b>{\$this->city}</b>, me moshë <b>{\$this->age}</b>, ka përvojë: <b>{\$this->experience}</b>, dhe ka zgjedhur " . count(\$this->skills) . " aftësi.";
+        return "Aplikuesi <b>{$this->firstName} {$this->lastName}</b>, nga <b>{$this->city}</b>, me moshë <b>{$this->age}</b>, ka përvojë: <b>{$this->experience}</b>, dhe ka zgjedhur " . count($this->skills) . " aftësi.";
     }
 }
 
-\$errors = [];
-\$result = "";
+$errors = [];
+$result = "";
 
-if (\$_SERVER["REQUEST_METHOD"] === "POST") {
-    \$firstName = \$_POST['first-name'] ?? '';
-    \$lastName = \$_POST['last-name'] ?? '';
-    \$contact = \$_POST['phone-or-email'] ?? '';
-    \$age = \$_POST['age'] ?? 0;
-    \$city = \$_POST['qyteti'] ?? '';
-    \$experience = \$_POST['experience'] ?? 'jo';
-    \$skills = \$_POST['skill'] ?? [];
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    $firstName = $_POST['first-name'] ?? '';
+    $lastName = $_POST['last-name'] ?? '';
+    $contact = $_POST['phone-or-email'] ?? '';
+    $age = $_POST['age'] ?? 0;
+    $city = $_POST['qyteti'] ?? '';
+    $experience = $_POST['experience'] ?? 'jo';
+    $skills = $_POST['skill'] ?? [];
 
-    if (strlen(\$firstName) < 2 || !isCapitalized(\$firstName) || strtolower(\$firstName) === \$firstName) \$errors[] = "Emri duhet të fillojë me shkronjë të madhe.";
-    if (strlen(\$lastName) < 2 || !isCapitalized(\$lastName) || strtolower(\$lastName) === \$lastName) \$errors[] = "Mbiemri duhet të fillojë me shkronjë të madhe.";
-    if (!isValidEmailOrPhone(\$contact)) \$errors[] = "Email ose numër telefoni i pavlefshëm.";
-    if (\$age < MIN_AGE || \$age > MAX_AGE) \$errors[] = "Mosha duhet të jetë mes " . MIN_AGE . " dhe " . MAX_AGE . ".";
+    if (strlen($firstName) < 2 || !isCapitalized($firstName)) $errors[] = "Emri duhet të fillojë me shkronjë të madhe.";
+    if (strlen($lastName) < 2 || !isCapitalized($lastName)) $errors[] = "Mbiemri duhet të fillojë me shkronjë të madhe.";
+    if (!isValidEmailOrPhone($contact)) $errors[] = "Email ose numër telefoni i pavlefshëm.";
+    if ($age < MIN_AGE || $age > MAX_AGE) $errors[] = "Mosha duhet të jetë mes " . MIN_AGE . " dhe " . MAX_AGE . ".";
 
-    if (empty(\$errors)) {
-        \$applicant = new Applicant(\$firstName, \$lastName, \$contact, \$age, \$city, \$experience, \$skills);
-        \$result = \$applicant->summary();
+    if (empty($errors)) {
+        $applicant = new Applicant($firstName, $lastName, $contact, $age, $city, $experience, $skills);
+    
+$_SESSION['first_name'] = $firstName;
+$_SESSION['last_name'] = $lastName;
+header("Location: aplikimi.php");
+exit();
+
+        header("Location: aplikimi.php");
+        exit();
     }
 }
+ob_end_flush();
 ?>
 
-<!-- ------------------- HTML + PHP FORMA ------------------- -->
 <!DOCTYPE html>
 <html lang="sq">
 <head>
     <meta charset="UTF-8">
     <title>Forma e Aplikimit</title>
+    <style>
+   .form-section {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 30px;
+    background-color: #f6fbff; /* ngjyrë e lehtë si në imazh */
+    border: 1px solid #ccc;
+    border-radius: 10px;
+}
+
+/* Stilizimi i inputeve të zakonshme me distancë më të vogël */
+.form-section input[type="text"],
+.form-section input[type="number"],
+.form-section input[list],
+.form-section select,
+.form-section input[type="email"],
+.form-section input[type="file"] {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0; /* zvogëluar nga 10px në 5px */
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: white;
+}
+
+/* Inputi për moshën me madhësi më të vogël */
+.form-section input[name="age"] {
+    width: 100px;
+    display: inline-block;
+    margin-left: 10px;
+}
+
+/* Etiketa për moshën për të qenë në vijë me inputin */
+.form-section label[for="age"] {
+    font-weight: bold;
+    display: inline-block;
+    margin-bottom: 3px;
+}
+
+/* Butoni */
+.form-section input[type="submit"] {
+    background-color: #264653;
+    color: white;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+/* Hover efekti për buton */
+.form-section input[type="submit"]:hover {
+    background-color: #21867a;
+}
+
+/* Etiketat me pak hapësirë */
+.form-section label {
+    font-weight: bold;
+    display: block;
+    margin-top: 8px; /* më pak se 15px */
+    margin-bottom: 3px;
+}
+
+
+    </style>
 </head>
 <body>
 <div class="form-section">
     <h3>Aplikoni për këtë pozitë</h3>
 
-    <?php if (!empty(\$errors)) : ?>
+    <?php if (!empty($errors)) : ?>
         <div style="color: red;">
             <ul>
-                <?php foreach (\$errors as \$err) echo "<li>\$err</li>"; ?>
+                <?php foreach ($errors as $err) echo "<li>$err</li>"; ?>
             </ul>
         </div>
     <?php endif; ?>
 
-    <?php if (!empty(\$result)) : ?>
-        <p style="color: green; font-weight: bold;"> <?php echo \$result; ?> </p>
-    <?php endif; ?>
-
     <form method="POST">
         <label>Emri</label>
-        <input type="text" name="first-name" pattern="[A-ZÇË][a-zçë\s]*" title="Filloni me shkronjë të madhe" value="<?php echo htmlspecialchars(\$firstName ?? '') ?>" required><br><br>
+        <input type="text" name="first-name" pattern="[A-ZÇË][a-zçë\s]*" title="Filloni me shkronjë të madhe" value="<?php echo htmlspecialchars($firstName ?? '') ?>" required>
 
         <label>Mbiemri</label>
-        <input type="text" name="last-name" pattern="[A-ZÇË][a-zçë\s]*" title="Filloni me shkronjë të madhe" value="<?php echo htmlspecialchars(\$lastName ?? '') ?>" required><br><br>
+        <input type="text" name="last-name" pattern="[A-ZÇË][a-zçë\s]*" title="Filloni me shkronjë të madhe" value="<?php echo htmlspecialchars($lastName ?? '') ?>" required>
 
         <label>Email ose Nr. Telefonit</label>
-        <input type="text" name="phone-or-email" pattern="(\+?[0-9]{8,15}|[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})" title="Shkruani vetëm një email ose një numër telefoni valid" value="<?php echo htmlspecialchars(\$contact ?? '') ?>" required><br><br>
+        <input type="text" name="phone-or-email" pattern="(\+?[0-9]{8,15}|[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})" title="Shkruani vetëm një email ose një numër telefoni valid" value="<?php echo htmlspecialchars($contact ?? '') ?>" required>
 
         <label>Mosha</label>
-        <input type="number" name="age" min="18" max="65" value="<?php echo htmlspecialchars(\$age ?? '') ?>" required><br><br>
+        <input type="number" name="age" min="18" max="65" value="<?php echo htmlspecialchars($age ?? '') ?>" required>
 
         <label>Qyteti</label>
-        <input list="qyteti" name="qyteti" value="<?php echo htmlspecialchars(\$city ?? '') ?>">
+        <input list="qyteti" name="qyteti" value="<?php echo htmlspecialchars($city ?? '') ?>">
         <datalist id="qyteti">
             <option value="Prishtinë">
             <option value="Pejë">
             <option value="Mitrovicë">
             <option value="Gjilan">
             <option value="Prizren">
-        </datalist><br><br>
+        </datalist>
 
         <label>Eksperiencë</label><br>
-        <input type="radio" name="experience" value="po" <?php if ((\$experience ?? '') === 'po') echo 'checked'; ?>> Po
-        <input type="radio" name="experience" value="jo" <?php if ((\$experience ?? '') === 'jo') echo 'checked'; ?>> Jo<br><br>
+        <input type="radio" name="experience" value="po" <?php if (($experience ?? '') === 'po') echo 'checked'; ?>> Po
+        <input type="radio" name="experience" value="jo" <?php if (($experience ?? '') === 'jo') echo 'checked'; ?>> Jo<br><br>
 
         <label>Aftësitë</label><br>
         <?php
-        \$aftesite = [
+        $aftesite = [
             1 => "Edukimi dhe Kualifikimet Profesionale",
             2 => "Eksperiencë në Fusha të Dallueshme",
             3 => "Aftësi Ligjore",
             4 => "Komunikim me Klientë",
             5 => "Punë në Presion"
         ];
-        foreach (\$aftesite as \$key => \$label) {
-            \$checked = (isset(\$skills) && in_array(\$key, \$skills)) ? 'checked' : '';
-            echo "<label><input type='checkbox' name='skill[]' value='\$key' \$checked> \$label</label><br>";
+        foreach ($aftesite as $key => $label) {
+            $checked = (isset($skills) && in_array($key, $skills)) ? 'checked' : '';
+            echo "<label><input type='checkbox' name='skill[]' value='$key' $checked> $label</label><br>";
         }
         ?>
 
         <br><input type="submit" value="Apliko">
     </form>
 </div>
-</body>
-</html>
-
-// Alert për përdoruesin që t'i plotësojë të gjitha fushat nëse ndodhin gabime
-if (!isValid) {
-            alert('Ju lutem plotësoni të gjitha fushat!');
-        }
-        // Nëse të gjitha fushat janë të mbushura, drejto te faqja tjetër
-        if (isValid) {
-            window.location.href = 'aplikimi.html'; // Faqja ku do të drejtohet përdoruesi
-        }
-    
-</script>
-<style>
-    .error-message {
-        color: red;
-        font-size: 12px;
-        margin-top: 5px;
-        display: block;
-    }
-</style>
-</main>
+    </main>
 <!-- Shigjeta flotuese për kthim -->
 <a href="#" class="back-btn-floating" onclick="shkoTeFaqja();"></a>
 
 <div id="footer-container"></div>
 <script>
-    // JavaScript për ngarkimin e footer-it nga file-i i jashtëm
-    fetch('footer.html')
-        .then(response => response.text())
-        .then(data => {
-            document.getElementById('footer-container').innerHTML = data;
-        })
-        .catch(err => console.error('Gabim gjatë ngarkimit të footer-it:', err));
+   // JavaScript për ngarkimin e footer-it nga file-i i jashtëm
+   fetch('footer.html')
+       .then(response => response.text())
+       .then(data => {
+           document.getElementById('footer-container').innerHTML = data;
+       })
+       .catch(err => console.error('Gabim gjatë ngarkimit të footer-it:', err));
 
-    // Funksioni për navigim te faqja e re
-    function shkoTeFaqja() {
-        window.location.href = "shpalljet.html"; // Këtu vendos destinacionin tënd
-    }
+   // Funksioni për navigim te faqja e re
+   function shkoTeFaqja() {
+       window.location.href = "shpalljet.html"; // Këtu vendos destinacionin tënd
+   }
 </script>
 <script src="loginPopup.js"></script>
+</body>
 </html>
+
+
