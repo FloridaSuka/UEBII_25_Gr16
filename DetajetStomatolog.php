@@ -1,3 +1,9 @@
+<?php
+session_start();
+$emri = $_SESSION['first_name'] ?? '';
+$mbiemri = $_SESSION['last_name'] ?? '';
+ob_start();
+?>
 <!DOCTYPE html>
 <html lang="sq">
 <head>
@@ -327,146 +333,211 @@
     </ul>
 
    <!-- Seksioni i Aplikimit për Stomatolog -->
+   <?php
+
+// ------------------- BACKEND LOGJIKA -------------------
+define("MIN_AGE", 18);
+define("MAX_AGE", 65);
+
+if (!function_exists('isValidEmailOrPhone')) {
+    function isValidEmailOrPhone($input) {
+        $emailRegex = "/^[\w\-.]+@[\w\-]+\.\w{2,4}$/";
+        $phoneRegex = "/^\+?[0-9]{8,15}$/";
+        return preg_match($emailRegex, $input) || preg_match($phoneRegex, $input);
+    }
+}
+
+if (!function_exists('isCapitalized')) {
+    function isCapitalized($str) {
+        return preg_match("/^[A-ZÇË]/", $str);
+    }
+}
+
+class Applicant {
+    private $firstName;
+    private $lastName;
+    private $emailOrPhone;
+    private $age;
+    private $city;
+    private $experience;
+    private $skills = [];
+
+    public function __construct($f, $l, $e, $a, $c, $ex, $sk) {
+        $this->firstName = $f;
+        $this->lastName = $l;
+        $this->emailOrPhone = $e;
+        $this->age = $a;
+        $this->city = $c;
+        $this->experience = $ex;
+        $this->skills = $sk;
+    }
+
+    public function summary() {
+        return "Aplikuesi <b>{$this->firstName} {$this->lastName}</b>, nga <b>{$this->city}</b>, me moshë <b>{$this->age}</b>, ka përvojë: <b>{$this->experience}</b>, dhe ka zgjedhur " . count($this->skills) . " aftësi.";
+    }
+}
+
+$errors = [];
+$result = "";
+
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    $firstName = $_POST['first-name'] ?? '';
+    $lastName = $_POST['last-name'] ?? '';
+    $contact = $_POST['phone-or-email'] ?? '';
+    $age = $_POST['age'] ?? 0;
+    $city = $_POST['qyteti'] ?? '';
+    $experience = $_POST['experience'] ?? 'jo';
+    $skills = $_POST['skill'] ?? [];
+
+    if (strlen($firstName) < 2 || !isCapitalized($firstName)) $errors[] = "Emri duhet të fillojë me shkronjë të madhe.";
+    if (strlen($lastName) < 2 || !isCapitalized($lastName)) $errors[] = "Mbiemri duhet të fillojë me shkronjë të madhe.";
+    if (!isValidEmailOrPhone($contact)) $errors[] = "Email ose numër telefoni i pavlefshëm.";
+    if ($age < MIN_AGE || $age > MAX_AGE) $errors[] = "Mosha duhet të jetë mes " . MIN_AGE . " dhe " . MAX_AGE . ".";
+    if (empty($errors)) {
+        $applicant = new Applicant($firstName, $lastName, $contact, $age, $city, $experience, $skills);
+    
+$_SESSION['first_name'] = $firstName;
+$_SESSION['last_name'] = $lastName;
+header("Location: aplikimi.php");
+exit();
+
+        header("Location: aplikimi.php");
+        exit();
+    }
+}
+ob_end_flush();
+?>
+
+<!DOCTYPE html>
+<html lang="sq">
+<head>
+    <meta charset="UTF-8">
+    <title>Forma e Aplikimit</title>
+    <style>
+   .form-section {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 30px;
+    background-color: #f6fbff; /* ngjyrë e lehtë si në imazh */
+    border: 1px solid #ccc;
+    border-radius: 10px;
+}
+
+/* Stilizimi i inputeve të zakonshme me distancë më të vogël */
+.form-section input[type="text"],
+.form-section input[type="number"],
+.form-section input[list],
+.form-section select,
+.form-section input[type="email"],
+.form-section input[type="file"] {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0; /* zvogëluar nga 10px në 5px */
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: white;
+}
+
+/* Inputi për moshën me madhësi më të vogël */
+.form-section input[name="age"] {
+    width: 100px;
+    display: inline-block;
+    margin-left: 10px;
+}
+
+/* Etiketa për moshën për të qenë në vijë me inputin */
+.form-section label[for="age"] {
+    font-weight: bold;
+    display: inline-block;
+    margin-bottom: 3px;
+}
+
+/* Butoni */
+.form-section input[type="submit"] {
+    background-color: #264653;
+    color: white;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+/* Hover efekti për buton */
+.form-section input[type="submit"]:hover {
+    background-color: #21867a;
+}
+
+/* Etiketat me pak hapësirë */
+.form-section label {
+    font-weight: bold;
+    display: block;
+    margin-top: 8px; /* më pak se 15px */
+    margin-bottom: 3px;
+}
+
+
+    </style>
+</head>
+<body>
 <div class="form-section">
-    <h3>Aplikoni për Pozitën e Stomatologut</h3>
-    <form id="application-form" action="" method="POST" enctype="multipart/form-data">
-        <label for="first-name">Emri</label>
-        <input type="text" class="input" id="first-name" name="first-name" required>
-        <span id="first-name-error" class="error-message"></span>
+    <h3>Aplikoni për këtë pozitë</h3>
 
-        <label for="last-name">Mbiemri</label>
-        <input type="text" class="input" id="last-name" name="last-name" required>
-        <span id="last-name-error" class="error-message"></span>
-
-        <label for="phone-or-email">Numri i Telefonit ose Email</label>
-        <input type="text" class="input" id="phone-or-email" name="phone-or-email" required placeholder=" ">
-        <span id="phone-or-email-error" class="error-message"></span>
-
-        <label for="age">Mosha:</label>
-        <input type="number" id="age" name="age" min="18" max="65" required><br>
-        <small id="age-warning" style="color: red; display: none;">Ju lutemi zgjidhni një moshë mes 18 dhe 65.</small>
-        <br>
-
-        <label for="qyteti">Zgjedh qytetin:</label>
-        <input list="qyteti" class="input" id="qytetet" name="qyteti" />
-        <datalist id="qyteti">
-          <option value="Prishtinë"></option>
-          <option value="Pejë"></option>
-          <option value="Podujevë"></option>
-          <option value="Mitrovicë"></option>
-          <option value="Fushë Kosovë"></option>
-          <option value="Klinë"></option>
-          <option value="Viti"></option>
-          <option value="Deçan"></option>
-          <option value="Gjilan"></option>
-          <option value="Prizren"></option>
-          <option value="Vushtrri"></option>
-          <option value="Malishevë"></option>
-          <option value="Drenas"></option>
-        </datalist>
-        <br>
-
-        <label for="experience">Keni përvojë të mëparshme si stomatolog?</label><br>
-        <div class="radio-container">
-          <input type="radio" id="yes" name="experience" value="yes">
-          <label for="yes">Po</label><br>
-          <input type="radio" id="no" name="experience" value="no">
-          <label for="no">Jo</label>
+    <?php if (!empty($errors)) : ?>
+        <div style="color: red;">
+            <ul>
+                <?php foreach ($errors as $err) echo "<li>$err</li>"; ?>
+            </ul>
         </div>
+    <?php endif; ?>
 
-        <label for="cv">Ngarkoni CV-në tuaj</label>
-        <input type="file" class="input" id="cv" name="cv" accept=".pdf, .docx" required>
-        <span id="cv-error" class="error-message"></span>
+    <form method="POST">
+        <label>Emri</label>
+        <input type="text" name="first-name" pattern="[A-ZÇË][a-zçë\s]*" title="Filloni me shkronjë të madhe" value="<?php echo htmlspecialchars($firstName ?? '') ?>" required>
 
-        <label for="cover-letter">Letër Motivimi </label>
+        <label>Mbiemri</label>
+        <input type="text" name="last-name" pattern="[A-ZÇË][a-zçë\s]*" title="Filloni me shkronjë të madhe" value="<?php echo htmlspecialchars($lastName ?? '') ?>" required>
 
-        <textarea id="cover-letter" name="cover-letter" rows="5" placeholder="Shkruani një letër motivimi për aplikimin tuaj "></textarea>
+        <label>Email ose Nr. Telefonit</label>
+        <input type="text" name="phone-or-email" pattern="(\+?[0-9]{8,15}|[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})" title="Shkruani vetëm një email ose një numër telefoni valid" value="<?php echo htmlspecialchars($contact ?? '') ?>" required>
 
-        <h1>Vlerësimi i Përshtatshmërisë për Pozicionin e Stomatologut</h1>
-        <form oninput="calculateMatch()">
-            <p>Zgjidhni aftësitë që zotëroni:</p>
-            <label><input type="checkbox" name="skill" value="1"> Diplomë në Stomatologji</label><br>
-            <label><input type="checkbox" name="skill" value="2"> Përvoja Klinike në Stomatologji</label><br>
-            <label><input type="checkbox" name="skill" value="3"> Njohuri të Aparateve dhe Teknikave të Avancuara të Stomatologjisë</label><br>
-            <label><input type="checkbox" name="skill" value="4"> Aftësi për Kujdesin ndaj Pacientëve dhe Komunikimin Efektiv</label><br>
-            <label><input type="checkbox" name="skill" value="5"> Disponueshmëria për Orë Fleksibile</label><br><br>
+        <label>Mosha</label>
+        <input type="number" name="age" min="18" max="65" value="<?php echo htmlspecialchars($age ?? '') ?>" required>
 
-            <label for="matchOutput">Përputhshmëria juaj me pozicionin e stomatologut:</label>
-            <output id="matchOutput">0%</output>
-        </form>
+        <label>Qyteti</label>
+        <input list="qyteti" name="qyteti" value="<?php echo htmlspecialchars($city ?? '') ?>">
+        <datalist id="qyteti">
+            <option value="Prishtinë">
+            <option value="Pejë">
+            <option value="Mitrovicë">
+            <option value="Gjilan">
+            <option value="Prizren">
+        </datalist>
 
-        <button type="button" form="application-form" onclick="validateForm()">Apliko</button>
+        <label>Eksperiencë</label><br>
+        <input type="radio" name="experience" value="po" <?php if (($experience ?? '') === 'po') echo 'checked'; ?>> Po
+        <input type="radio" name="experience" value="jo" <?php if (($experience ?? '') === 'jo') echo 'checked'; ?>> Jo<br><br>
+
+        <label>Aftësitë</label><br>
+        <?php
+        $aftesite = [
+            1 => "Njohuri të thella në stomatologji dhe higjienë orale",
+            2 => "Eksperiencë në diagnostikim dhe trajtime dentare",
+            3 => "Aftësi në përdorimin e pajisjeve dentare moderne",
+            4 => "Komunikim i mirë me pacientët dhe aftësi për t’i qetësuar ata",
+            5 => "Përpikëri dhe kujdes në detaje gjatë procedurave"
+        ];
+        
+        foreach ($aftesite as $key => $label) {
+            $checked = (isset($skills) && in_array($key, $skills)) ? 'checked' : '';
+            echo "<label><input type='checkbox' name='skill[]' value='$key' $checked> $label</label><br>";
+        }
+        ?>
+
+        <br><input type="submit" value="Apliko">
     </form>
 </div>
-
-<script>
-    const ageInput = document.getElementById('age');
-    const ageWarning = document.getElementById('age-warning');
-
-    ageInput.addEventListener('input', function() {
-        if (ageInput.value < 18 || ageInput.value > 65) {
-            ageWarning.style.display = 'inline'; // Shfaq paralajmërimin
-        } else {
-            ageWarning.style.display = 'none'; // Fshih paralajmërimin
-        }
-    });
-
-    function validateForm() {
-        // Fshij mesazhet e mëparshme të gabimit
-        document.querySelectorAll('.error-message').forEach(function(message) {
-            message.textContent = '';
-        });
-
-        // Merr të gjitha inputet e formularit
-        var firstName = document.getElementById('first-name').value;
-        var lastName = document.getElementById('last-name').value;
-        var phoneOrEmail = document.getElementById('phone-or-email').value;
-        var cv = document.getElementById('cv').value;
-
-        var isValid = true;
-
-        // Kontrollo nëse të gjitha fushat janë mbushur dhe shfaq mesazhin përkatës pranë fushës
-        if (!firstName) {
-            document.getElementById('first-name-error').textContent = 'Kjo fushë nuk mund të jetë e zbrazët.';
-            isValid = false;
-        }
-
-        if (!lastName) {
-            document.getElementById('last-name-error').textContent = 'Kjo fushë nuk mund të jetë e zbrazët.';
-            isValid = false;
-        }
-
-        if (!phoneOrEmail) {
-            document.getElementById('phone-or-email-error').textContent = 'Kjo fushë nuk mund të jetë e zbrazët.';
-            isValid = false;
-        }
-
-        if (!cv) {
-            document.getElementById('cv-error').textContent = 'Kjo fushë nuk mund të jetë e zbrazët.';
-            isValid = false;
-        }
-
-        // Alert për përdoruesin që t'i plotësojë të gjitha fushat nëse ndodhin gabime
-        if (!isValid) {
-            alert('Ju lutem plotësoni të gjitha fushat!');
-        }
-
-        // Nëse të gjitha fushat janë të mbushura, drejto te faqja tjetër
-        if (isValid) {
-            window.location.href = 'aplikimi.html'; // Faqja ku do të drejtohet përdoruesi
-        }
-    }
-</script>
-
-<style>
-    .error-message {
-        color: red;
-        font-size: 12px;
-        margin-top: 5px;
-        display: block;
-    }
-</style>
-</main>
+    </main>
 <!-- Shigjeta flotuese për kthim -->
 <a href="#" class="back-btn-floating" onclick="shkoTeFaqja();"></a>
 
