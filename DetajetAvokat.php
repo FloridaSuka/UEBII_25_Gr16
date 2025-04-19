@@ -330,62 +330,65 @@
     </ul>
 
     
-   
     <?php
 // ------------------- BACKEND LOGJIKA -------------------
 define("MIN_AGE", 18);
 define("MAX_AGE", 65);
 
 function isValidEmailOrPhone($input) {
-    $emailRegex = "/^[\w\-\.]+@[\w\-]+\.\w{2,4}$/";
-    $phoneRegex = "/^\+?[0-9]{8,15}$/";
-    return preg_match($emailRegex, $input) || preg_match($phoneRegex, $input);
+    \$emailRegex = "/^[\w\-\.]+@[\w\-]+\.\w{2,4}$/";
+    \$phoneRegex = "/^\+?[0-9]{8,15}$/";
+    return preg_match(\$emailRegex, \$input) || preg_match(\$phoneRegex, \$input);
+}
+
+function isCapitalized(\$str) {
+    return preg_match("/^[A-ZÇË]/", \$str);
 }
 
 class Applicant {
-    private $firstName;
-    private $lastName;
-    private $emailOrPhone;
-    private $age;
-    private $city;
-    private $experience;
-    private $skills = [];
+    private \$firstName;
+    private \$lastName;
+    private \$emailOrPhone;
+    private \$age;
+    private \$city;
+    private \$experience;
+    private \$skills = [];
 
-    public function __construct($f, $l, $e, $a, $c, $ex, $sk) {
-        $this->firstName = $f;
-        $this->lastName = $l;
-        $this->emailOrPhone = $e;
-        $this->age = $a;
-        $this->city = $c;
-        $this->experience = $ex;
-        $this->skills = $sk;
+    public function __construct(\$f, \$l, \$e, \$a, \$c, \$ex, \$sk) {
+        \$this->firstName = \$f;
+        \$this->lastName = \$l;
+        \$this->emailOrPhone = \$e;
+        \$this->age = \$a;
+        \$this->city = \$c;
+        \$this->experience = \$ex;
+        \$this->skills = \$sk;
     }
 
     public function summary() {
-        return "Aplikuesi <b>{$this->firstName} {$this->lastName}</b>, nga <b>{$this->city}</b>, me moshë <b>{$this->age}</b>, ka përvojë: <b>{$this->experience}</b>, dhe ka zgjedhur " . count($this->skills) . " aftësi.";
+        return "Aplikuesi <b>{\$this->firstName} {\$this->lastName}</b>, nga <b>{\$this->city}</b>, me moshë <b>{\$this->age}</b>, ka përvojë: <b>{\$this->experience}</b>, dhe ka zgjedhur " . count(\$this->skills) . " aftësi.";
     }
 }
 
-$errors = [];
-$result = "";
+\$errors = [];
+\$result = "";
 
-if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    $firstName = $_POST['first-name'] ?? '';
-    $lastName = $_POST['last-name'] ?? '';
-    $contact = $_POST['phone-or-email'] ?? '';
-    $age = $_POST['age'] ?? 0;
-    $city = $_POST['qyteti'] ?? '';
-    $experience = $_POST['experience'] ?? 'jo';
-    $skills = $_POST['skill'] ?? [];
+if (\$_SERVER["REQUEST_METHOD"] === "POST") {
+    \$firstName = \$_POST['first-name'] ?? '';
+    \$lastName = \$_POST['last-name'] ?? '';
+    \$contact = \$_POST['phone-or-email'] ?? '';
+    \$age = \$_POST['age'] ?? 0;
+    \$city = \$_POST['qyteti'] ?? '';
+    \$experience = \$_POST['experience'] ?? 'jo';
+    \$skills = \$_POST['skill'] ?? [];
 
-    if (strlen($firstName) < 2) $errors[] = "Emri është shumë i shkurtër.";
-    if (strlen($lastName) < 2) $errors[] = "Mbiemri është shumë i shkurtër.";
-    if (!isValidEmailOrPhone($contact)) $errors[] = "Email ose numër telefoni i pavlefshëm.";
-    if ($age < MIN_AGE || $age > MAX_AGE) $errors[] = "Mosha duhet të jetë mes " . MIN_AGE . " dhe " . MAX_AGE . ".";
+    if (strlen(\$firstName) < 2 || !isCapitalized(\$firstName) || strtolower(\$firstName) === \$firstName) \$errors[] = "Emri duhet të fillojë me shkronjë të madhe.";
+    if (strlen(\$lastName) < 2 || !isCapitalized(\$lastName) || strtolower(\$lastName) === \$lastName) \$errors[] = "Mbiemri duhet të fillojë me shkronjë të madhe.";
+    if (!isValidEmailOrPhone(\$contact)) \$errors[] = "Email ose numër telefoni i pavlefshëm.";
+    if (\$age < MIN_AGE || \$age > MAX_AGE) \$errors[] = "Mosha duhet të jetë mes " . MIN_AGE . " dhe " . MAX_AGE . ".";
 
-    if (empty($errors)) {
-        $applicant = new Applicant($firstName, $lastName, $contact, $age, $city, $experience, $skills);
-        $result = $applicant->summary();
+    if (empty(\$errors)) {
+        \$applicant = new Applicant(\$firstName, \$lastName, \$contact, \$age, \$city, \$experience, \$skills);
+        \$result = \$applicant->summary();
     }
 }
 ?>
@@ -401,33 +404,33 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 <div class="form-section">
     <h3>Aplikoni për këtë pozitë</h3>
 
-    <?php if (!empty($errors)) : ?>
+    <?php if (!empty(\$errors)) : ?>
         <div style="color: red;">
             <ul>
-                <?php foreach ($errors as $err) echo "<li>$err</li>"; ?>
+                <?php foreach (\$errors as \$err) echo "<li>\$err</li>"; ?>
             </ul>
         </div>
     <?php endif; ?>
 
-    <?php if (!empty($result)) : ?>
-        <p style="color: green; font-weight: bold;"> <?php echo $result; ?> </p>
+    <?php if (!empty(\$result)) : ?>
+        <p style="color: green; font-weight: bold;"> <?php echo \$result; ?> </p>
     <?php endif; ?>
 
     <form method="POST">
         <label>Emri</label>
-        <input type="text" name="first-name" value="<?php echo htmlspecialchars($firstName ?? '') ?>" required><br><br>
+        <input type="text" name="first-name" pattern="[A-ZÇË][a-zçë\s]*" title="Filloni me shkronjë të madhe" value="<?php echo htmlspecialchars(\$firstName ?? '') ?>" required><br><br>
 
         <label>Mbiemri</label>
-        <input type="text" name="last-name" value="<?php echo htmlspecialchars($lastName ?? '') ?>" required><br><br>
+        <input type="text" name="last-name" pattern="[A-ZÇË][a-zçë\s]*" title="Filloni me shkronjë të madhe" value="<?php echo htmlspecialchars(\$lastName ?? '') ?>" required><br><br>
 
         <label>Email ose Nr. Telefonit</label>
-        <input type="text" name="phone-or-email" value="<?php echo htmlspecialchars($contact ?? '') ?>" required><br><br>
+        <input type="text" name="phone-or-email" pattern="(\+?[0-9]{8,15}|[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})" title="Shkruani vetëm një email ose një numër telefoni valid" value="<?php echo htmlspecialchars(\$contact ?? '') ?>" required><br><br>
 
         <label>Mosha</label>
-        <input type="number" name="age" min="18" max="65" value="<?php echo htmlspecialchars($age ?? '') ?>" required><br><br>
+        <input type="number" name="age" min="18" max="65" value="<?php echo htmlspecialchars(\$age ?? '') ?>" required><br><br>
 
         <label>Qyteti</label>
-        <input list="qyteti" name="qyteti" value="<?php echo htmlspecialchars($city ?? '') ?>">
+        <input list="qyteti" name="qyteti" value="<?php echo htmlspecialchars(\$city ?? '') ?>">
         <datalist id="qyteti">
             <option value="Prishtinë">
             <option value="Pejë">
@@ -437,23 +440,30 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         </datalist><br><br>
 
         <label>Eksperiencë</label><br>
-        <input type="radio" name="experience" value="po" <?php if (($experience ?? '') === 'po') echo 'checked'; ?>> Po
-        <input type="radio" name="experience" value="jo" <?php if (($experience ?? '') === 'jo') echo 'checked'; ?>> Jo<br><br>
+        <input type="radio" name="experience" value="po" <?php if ((\$experience ?? '') === 'po') echo 'checked'; ?>> Po
+        <input type="radio" name="experience" value="jo" <?php if ((\$experience ?? '') === 'jo') echo 'checked'; ?>> Jo<br><br>
 
         <label>Aftësitë</label><br>
         <?php
-        $aftesite = [
+        \$aftesite = [
             1 => "Edukimi dhe Kualifikimet Profesionale",
             2 => "Eksperiencë në Fusha të Dallueshme",
             3 => "Aftësi Ligjore",
             4 => "Komunikim me Klientë",
             5 => "Punë në Presion"
         ];
-        foreach ($aftesite as $key => $label) {
-            $checked = (isset($skills) && in_array($key, $skills)) ? 'checked' : '';
-            echo "<label><input type='checkbox' name='skill[]' value='$key' $checked> $label</label><br>";
+        foreach (\$aftesite as \$key => \$label) {
+            \$checked = (isset(\$skills) && in_array(\$key, \$skills)) ? 'checked' : '';
+            echo "<label><input type='checkbox' name='skill[]' value='\$key' \$checked> \$label</label><br>";
         }
         ?>
+
+        <br><input type="submit" value="Apliko">
+    </form>
+</div>
+</body>
+</html>
+
 // Alert për përdoruesin që t'i plotësojë të gjitha fushat nëse ndodhin gabime
 if (!isValid) {
             alert('Ju lutem plotësoni të gjitha fushat!');
