@@ -49,5 +49,32 @@
             </div>
         </div>
         <script src="login.js"></script>
+        <script>
+            document.querySelector("#register").addEventListener("submit", function(e) {
+            e.preventDefault(); // Parandalon rifreskimin
+
+            const formData = new FormData(this);
+
+            fetch("validimiIndex.php", 
+                {
+                method: "POST",
+                body: formData
+                }
+            )
+                .then(response => response.json())
+                .then(data => {
+                    if (data.sukses) {
+                        alert("✅ " + data.mesazh + "\nMirë se erdhe, " + data.emri + " " + data.mbiemri + "!");
+                        // Opsionale: window.location.href = "home.html";
+                    } else {
+                        alert("⚠️ Gabime gjatë regjistrimit:\n\n" + data.gabime.join("\n"));
+                    }
+                })
+                .catch(error => {
+                    alert("❌ Ka ndodhur një gabim në komunikim.");
+                    console.error("Gabim:", error);
+                });
+            });
+        </script>
     </body>
 </html>
