@@ -1,3 +1,9 @@
+<?php
+session_start();
+$emri = $_SESSION['first_name'] ?? '';
+$mbiemri = $_SESSION['last_name'] ?? '';
+ob_start();
+?>
 <!DOCTYPE html>
 <html lang="sq">
 <head>
@@ -351,183 +357,209 @@
     </ul>
     
     <?php
-ob_start(); // Aktivizo buffering per te shmangur gabimin me header()
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
 
-$output = '';
+// ------------------- BACKEND LOGJIKA -------------------
+define("MIN_AGE", 18);
+define("MAX_AGE", 65);
+
+if (!function_exists('isValidEmailOrPhone')) {
+    function isValidEmailOrPhone($input) {
+        $emailRegex = "/^[\w\-.]+@[\w\-]+\.\w{2,4}$/";
+        $phoneRegex = "/^\+?[0-9]{8,15}$/";
+        return preg_match($emailRegex, $input) || preg_match($phoneRegex, $input);
+    }
+}
+
+if (!function_exists('isCapitalized')) {
+    function isCapitalized($str) {
+        return preg_match("/^[A-ZÇË]/", $str);
+    }
+}
+
+class Applicant {
+    private $firstName;
+    private $lastName;
+    private $emailOrPhone;
+    private $age;
+    private $city;
+    private $experience;
+    private $skills = [];
+
+    public function __construct($f, $l, $e, $a, $c, $ex, $sk) {
+        $this->firstName = $f;
+        $this->lastName = $l;
+        $this->emailOrPhone = $e;
+        $this->age = $a;
+        $this->city = $c;
+        $this->experience = $ex;
+        $this->skills = $sk;
+    }
+
+    public function summary() {
+        return "Aplikuesi <b>{$this->firstName} {$this->lastName}</b>, nga <b>{$this->city}</b>, me moshë <b>{$this->age}</b>, ka përvojë: <b>{$this->experience}</b>, dhe ka zgjedhur " . count($this->skills) . " aftësi.";
+    }
+}
+
 $errors = [];
+$result = "";
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $emri = $_POST['first-name'];
-    $mbiemri = $_POST['last-name'];
-    $emailOseTel = $_POST['phone-or-email'];
-    $mosha = $_POST['age'];
-    $qyteti = $_POST['qyteti'];
-    $eksperienca = $_POST['experience'] ?? 'Jo';
-    $motivimi = $_POST['cover-letter'];
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    $firstName = $_POST['first-name'] ?? '';
+    $lastName = $_POST['last-name'] ?? '';
+    $contact = $_POST['phone-or-email'] ?? '';
+    $age = $_POST['age'] ?? 0;
+    $city = $_POST['qyteti'] ?? '';
+    $experience = $_POST['experience'] ?? 'jo';
+    $skills = $_POST['skill'] ?? [];
 
-    $profesioni = "Mësuese";
-    $moshaMin = 18;
-    $moshaMax = 65;
-
-    if (empty($emri) || empty($mbiemri) || empty($emailOseTel) || empty($mosha) || empty($qyteti)) {
-        $errors[] = "Ju lutemi plotësoni të gjitha fushat e detyrueshme.";
-    }
-
-    if (!filter_var($emailOseTel, FILTER_VALIDATE_EMAIL) && !preg_match("/^\\+383-\\d{2}-\\d{3}-\\d{3}$/", $emailOseTel)) {
-        $errors[] = "Email ose numër telefoni jo valid. (Shkruani email me '@' ose numër si +383-44-123-123)";
-    }
-
-    if ($mosha < $moshaMin || $mosha > $moshaMax) {
-        $errors[] = "Mosha duhet të jetë ndërmjet $moshaMin dhe $moshaMax vjeç.";
-    }
-
+    if (strlen($firstName) < 2 || !isCapitalized($firstName)) $errors[] = "Emri duhet të fillojë me shkronjë të madhe.";
+    if (strlen($lastName) < 2 || !isCapitalized($lastName)) $errors[] = "Mbiemri duhet të fillojë me shkronjë të madhe.";
+    if (!isValidEmailOrPhone($contact)) $errors[] = "Email ose numër telefoni i pavlefshëm.";
+    if ($age < MIN_AGE || $age > MAX_AGE) $errors[] = "Mosha duhet të jetë mes " . MIN_AGE . " dhe " . MAX_AGE . ".";
     if (empty($errors)) {
-        header("Location: aplikimi.html");
+        $applicant = new Applicant($firstName, $lastName, $contact, $age, $city, $experience, $skills);
+    
+$_SESSION['first_name'] = $firstName;
+$_SESSION['last_name'] = $lastName;
+header("Location: aplikimi.php");
+exit();
+
+        header("Location: aplikimi.php");
         exit();
     }
-
-    function pershendetje($emri) {
-        return "Mirë se vjen, " . ucfirst($emri) . "!";
-    }
-
-    class Kandidat {
-        private $emri;
-        private $mbiemri;
-        private $mosha;
-        protected $qyteti;
-
-        public function __construct($emri, $mbiemri, $mosha, $qyteti) {
-            $this->emri = $emri;
-            $this->mbiemri = $mbiemri;
-            $this->mosha = $mosha;
-            $this->qyteti = $qyteti;
-        }
-
-        public function getEmri() {
-            return ucfirst($this->emri) . ' ' . ucfirst($this->mbiemri);
-        }
-
-        public function prezanto() {
-            return "Unë jam " . $this->getEmri() . ", " . $this->mosha . " vjeç, nga " . $this->qyteti . ".";
-        }
-    }
-
-    class KandidatMeEksperience extends Kandidat {
-        public $viteEksperience;
-
-        public function __construct($emri, $mbiemri, $mosha, $qyteti, $viteEksperience) {
-            parent::__construct($emri, $mbiemri, $mosha, $qyteti);
-            $this->viteEksperience = $viteEksperience;
-        }
-
-        public function prezanto() {
-            return parent::prezanto() . " Kam " . $this->viteEksperience . " vite përvojë.";
-        }
-    }
-
-    $vite = $eksperienca == "yes" ? 3 : 0;
-    $aplikues = new KandidatMeEksperience($emri, $mbiemri, $mosha, $qyteti, $vite);
-
-    ob_start();
-    ?>
-    <div class="container mt-4">
-        <div class="alert alert-danger">
-            <h5>Gabime gjatë aplikimit:</h5>
-            <ul>
-                <?php foreach ($errors as $err): ?>
-                    <li><?php echo $err; ?></li>
-                <?php endforeach; ?>
-            </ul>
-        </div>
-        <div class="card shadow">
-            <div class="card-body">
-                <h4 class="card-title text-success"><?php echo pershendetje($emri); ?></h4>
-                <p class="card-text">Informacioni i dhënë:</p>
-                <p><?php echo $aplikues->prezanto(); ?></p>
-                <p>Email ose Tel: <strong><?php echo htmlspecialchars($emailOseTel); ?></strong></p>
-                <?php if (!empty($motivimi)): ?>
-                    <p><strong>Letra motivuese:</strong><br><?php echo nl2br(htmlspecialchars($motivimi)); ?></p>
-                <?php endif; ?>
-            </div>
-        </div>
-    </div>
-    <?php
-    $output = ob_get_clean();
 }
+ob_end_flush();
 ?>
-
 <!DOCTYPE html>
 <html lang="sq">
 <head>
     <meta charset="UTF-8">
-    <title>Aplikimi për Mësuese</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>Forma e Aplikimit</title>
+    <style>
+   .form-section {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 30px;
+    background-color: #f6fbff; /* ngjyrë e lehtë si në imazh */
+    border: 1px solid #ccc;
+    border-radius: 10px;
+}
+
+/* Stilizimi i inputeve të zakonshme me distancë më të vogël */
+.form-section input[type="text"],
+.form-section input[type="number"],
+.form-section input[list],
+.form-section select,
+.form-section input[type="email"],
+.form-section input[type="file"] {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0; /* zvogëluar nga 10px në 5px */
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: white;
+}
+
+/* Inputi për moshën me madhësi më të vogël */
+.form-section input[name="age"] {
+    width: 100px;
+    display: inline-block;
+    margin-left: 10px;
+}
+
+/* Etiketa për moshën për të qenë në vijë me inputin */
+.form-section label[for="age"] {
+    font-weight: bold;
+    display: inline-block;
+    margin-bottom: 3px;
+}
+
+/* Butoni */
+.form-section input[type="submit"] {
+    background-color: #264653;
+    color: white;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+/* Hover efekti për buton */
+.form-section input[type="submit"]:hover {
+    background-color: #21867a;
+}
+
+/* Etiketat me pak hapësirë */
+.form-section label {
+    font-weight: bold;
+    display: block;
+    margin-top: 8px; /* më pak se 15px */
+    margin-bottom: 3px;
+}
+
+
+    </style>
 </head>
-<body class="bg-light">
-    <div class="container mt-5">
-        <h2 class="mb-4">Aplikoni për Pozitën e Mësueses</h2>
-        <form method="post" action="">
-            <div class="mb-3">
-                <label>Emri:</label>
-                <input type="text" name="first-name" class="form-control" required>
-            </div>
-            <div class="mb-3">
-                <label>Mbiemri:</label>
-                <input type="text" name="last-name" class="form-control" required>
-            </div>
-            <div class="mb-3">
-                <label>Email ose Telefon (+383-44-123-123):</label>
-                <input type="text" name="phone-or-email" class="form-control" required>
-            </div>
-            <div class="mb-3">
-                <label>Mosha:</label>
-                <input type="number" name="age" class="form-control" required>
-            </div>
-            <div class="mb-3">
-                <label>Qyteti:</label>
-                <input type="text" name="qyteti" class="form-control" required>
-            </div>
-            <div class="mb-3">
-                <label>Eksperiencë në këtë fushë?</label><br>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="experience" value="yes">
-                    <label class="form-check-label">Po</label>
-                </div>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="experience" value="no">
-                    <label class="form-check-label">Jo</label>
-                </div>
-            </div>
-            <div class="mb-3">
-                <label>Letër motivuese:</label>
-                <textarea name="cover-letter" class="form-control" rows="4"></textarea>
-            </div>
-            <button type="submit" class="btn btn-primary">Dërgo</button>
-        </form>
+<body>
+<div class="form-section">
+    <h3>Aplikoni për këtë pozitë</h3>
 
-        <!-- Outputi nëse ka gabime -->
-        <?php if (!empty($output)) echo $output; ?>
-    </div>
-</body>
-</html>
+    <?php if (!empty($errors)) : ?>
+        <div style="color: red;">
+            <ul>
+                <?php foreach ($errors as $err) echo "<li>$err</li>"; ?>
+            </ul>
+        </div>
+    <?php endif; ?>
 
-<?php ob_end_flush(); ?>
+    <form method="POST">
+        <label>Emri</label>
+        <input type="text" name="first-name" pattern="[A-ZÇË][a-zçë\s]*" title="Filloni me shkronjë të madhe" value="<?php echo htmlspecialchars($firstName ?? '') ?>" required>
 
+        <label>Mbiemri</label>
+        <input type="text" name="last-name" pattern="[A-ZÇË][a-zçë\s]*" title="Filloni me shkronjë të madhe" value="<?php echo htmlspecialchars($lastName ?? '') ?>" required>
 
-<style>
-    .error-message {
-        color: red;
-        font-size: 12px;
-        margin-top: 5px;
-        display: block;
-    }
-</style>
+        <label>Email ose Nr. Telefonit</label>
+        <input type="text" name="phone-or-email" pattern="(\+?[0-9]{8,15}|[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})" title="Shkruani vetëm një email ose një numër telefoni valid" value="<?php echo htmlspecialchars($contact ?? '') ?>" required>
 
+        <label>Mosha</label>
+        <input type="number" name="age" min="18" max="65" value="<?php echo htmlspecialchars($age ?? '') ?>" required>
 
-   
-</main>
+        <label>Qyteti</label>
+        <input list="qyteti" name="qyteti" value="<?php echo htmlspecialchars($city ?? '') ?>">
+        <datalist id="qyteti">
+            <option value="Prishtinë">
+            <option value="Pejë">
+            <option value="Mitrovicë">
+            <option value="Gjilan">
+            <option value="Prizren">
+        </datalist>
+
+        <label>Eksperiencë</label><br>
+        <input type="radio" name="experience" value="po" <?php if (($experience ?? '') === 'po') echo 'checked'; ?>> Po
+        <input type="radio" name="experience" value="jo" <?php if (($experience ?? '') === 'jo') echo 'checked'; ?>> Jo<br><br>
+
+        <label>Aftësitë</label><br>
+        <?php
+       $aftesite = [
+        1 => "Komunikim efektiv dhe ndërveprim me nxënësit",
+        2 => "Planifikimi dhe përgatitja e orëve mësimore",
+        3 => "Përdorimi i teknologjisë në mësimdhënie (Smartboard, platforma online)",
+        4 => "Menaxhimi i klasës dhe motivimi i nxënësve",
+        5 => "Vlerësimi dhe zhvillimi i përparimit të nxënësve"
+    ];
+    
+        foreach ($aftesite as $key => $label) {
+            $checked = (isset($skills) && in_array($key, $skills)) ? 'checked' : '';
+            echo "<label><input type='checkbox' name='skill[]' value='$key' $checked> $label</label><br>";
+        }
+        ?>
+
+        <br><input type="submit" value="Apliko">
+    </form>
+</div>
+    </main>
 <!-- Shigjeta flotuese për kthim -->
 <a href="#" class="back-btn-floating" onclick="shkoTeFaqja();"></a>
 

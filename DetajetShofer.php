@@ -1,3 +1,9 @@
+<?php
+session_start();
+$emri = $_SESSION['first_name'] ?? '';
+$mbiemri = $_SESSION['last_name'] ?? '';
+ob_start();
+?>
 <!DOCTYPE html>
 <html lang="sq">
 <head>
@@ -317,207 +323,211 @@
 
  <!-- Seksioni i Aplikimit -->
  <?php
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    if (!validateName($_POST['first-name']) ||
-        !validateName($_POST['last-name']) ||
-        !validateContact($_POST['phone-or-email']) ||
-        ($_POST['age'] < MIN_AGE || $_POST['age'] > MAX_AGE)) {
-        // Nuk vazhdon
-    } else {
-        require_once __DIR__ . '/Aplikimi.php';
-        $aplikimi = new Aplikimi($_POST);
-        header("Location: aplikimi.html");
-        exit();
-    }
-}
 
-// Konstanta globale
+// ------------------- BACKEND LOGJIKA -------------------
 define("MIN_AGE", 18);
 define("MAX_AGE", 65);
 
-function validateName($name) {
-    return preg_match("/^[A-ZÇË][a-zçë]{1,}$/u", $name);
+if (!function_exists('isValidEmailOrPhone')) {
+    function isValidEmailOrPhone($input) {
+        $emailRegex = "/^[\w\-.]+@[\w\-]+\.\w{2,4}$/";
+        $phoneRegex = "/^\+?[0-9]{8,15}$/";
+        return preg_match($emailRegex, $input) || preg_match($phoneRegex, $input);
+    }
 }
 
-function validateContact($contact) {
-    $isEmail = preg_match("/^[\w\.-]+@[\w\.-]+\.\w{2,4}$/", $contact);
-    $isPhone = preg_match("/^[0-9]{8,15}$/", $contact);
-    return $isEmail || $isPhone;
+if (!function_exists('isCapitalized')) {
+    function isCapitalized($str) {
+        return preg_match("/^[A-ZÇË]/", $str);
+    }
 }
 
-function getSortedQytetet() {
-    $qytetet = ["Prishtinë", "Pejë", "Podujevë", "Mitrovicë", "Fushë Kosovë", "Klinë", "Viti", "Deçan", "Gjilan", "Prizren", "Vushtrri", "Malishevë", "Drenas"];
-    sort($qytetet);
-    return $qytetet;
-}
-
-class Aplikimi {
-    private $emri;
-    private $mbiemri;
-    private $kontakti;
-    private $mosha;
-    private $qyteti;
-    private $pervoja;
+class Applicant {
+    private $firstName;
+    private $lastName;
+    private $emailOrPhone;
+    private $age;
+    private $city;
+    private $experience;
     private $skills = [];
 
-    public function __construct($data) {
-        $this->emri = $data['first-name'];
-        $this->mbiemri = $data['last-name'];
-        $this->kontakti = $data['phone-or-email'];
-        $this->mosha = (int) $data['age'];
-        $this->qyteti = $data['qyteti'];
-        $this->pervoja = $data['experience'] ?? 'jo';
-        $this->skills = $data['skill'] ?? [];
+    public function __construct($f, $l, $e, $a, $c, $ex, $sk) {
+        $this->firstName = $f;
+        $this->lastName = $l;
+        $this->emailOrPhone = $e;
+        $this->age = $a;
+        $this->city = $c;
+        $this->experience = $ex;
+        $this->skills = $sk;
     }
 
-    public function getPiket() {
-        return count($this->skills) * 20;
-    }
-
-    public function printTeDhenat() {
-        echo "<div class='alert alert-success mt-4'>";
-        echo "<h3>Të dhënat e aplikuesit:</h3>";
-        echo "<ul>";
-        echo "<li><strong>Emri:</strong> $this->emri</li>";
-        echo "<li><strong>Mbiemri:</strong> $this->mbiemri</li>";
-        echo "<li><strong>Kontakti:</strong> $this->kontakti</li>";
-        echo "<li><strong>Mosha:</strong> $this->mosha</li>";
-        echo "<li><strong>Qyteti:</strong> $this->qyteti</li>";
-        echo "<li><strong>Përvojë:</strong> $this->pervoja</li>";
-        echo "<li><strong>Pikët e përshtatshmërisë:</strong> " . $this->getPiket() . "%</li>";
-        echo "</ul></div>";
+    public function summary() {
+        return "Aplikuesi <b>{$this->firstName} {$this->lastName}</b>, nga <b>{$this->city}</b>, me moshë <b>{$this->age}</b>, ka përvojë: <b>{$this->experience}</b>, dhe ka zgjedhur " . count($this->skills) . " aftësi.";
     }
 }
 
 $errors = [];
-$aplikimi = null;
+$result = "";
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    if (!validateName($_POST['first-name'])) {
-        $errors[] = "Emri duhet të fillojë me shkronjë të madhe dhe të përmbajë vetëm shkronja.";
-    }
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    $firstName = $_POST['first-name'] ?? '';
+    $lastName = $_POST['last-name'] ?? '';
+    $contact = $_POST['phone-or-email'] ?? '';
+    $age = $_POST['age'] ?? 0;
+    $city = $_POST['qyteti'] ?? '';
+    $experience = $_POST['experience'] ?? 'jo';
+    $skills = $_POST['skill'] ?? [];
 
-    if (!validateName($_POST['last-name'])) {
-        $errors[] = "Mbiemri duhet të fillojë me shkronjë të madhe dhe të përmbajë vetëm shkronja.";
-    }
+    if (strlen($firstName) < 2 || !isCapitalized($firstName)) $errors[] = "Emri duhet të fillojë me shkronjë të madhe.";
+    if (strlen($lastName) < 2 || !isCapitalized($lastName)) $errors[] = "Mbiemri duhet të fillojë me shkronjë të madhe.";
+    if (!isValidEmailOrPhone($contact)) $errors[] = "Email ose numër telefoni i pavlefshëm.";
+    if ($age < MIN_AGE || $age > MAX_AGE) $errors[] = "Mosha duhet të jetë mes " . MIN_AGE . " dhe " . MAX_AGE . ".";
 
-    if (!validateContact($_POST['phone-or-email'])) {
-        $errors[] = "Shkruani një email ose numër valid.";
-    }
-
-    if ($_POST['age'] < MIN_AGE || $_POST['age'] > MAX_AGE) {
-        $errors[] = "Mosha duhet të jetë ndërmjet 18 dhe 65 vjeç.";
-    }
-
+    if (empty($errors)) {
+        $applicant = new Applicant($firstName, $lastName, $contact, $age, $city, $experience, $skills);
     
+$_SESSION['first_name'] = $firstName;
+$_SESSION['last_name'] = $lastName;
+header("Location: aplikimi.php");
+exit();
+
+        header("Location: aplikimi.php");
+        exit();
+    }
 }
+ob_end_flush();
 ?>
 
 <!DOCTYPE html>
 <html lang="sq">
 <head>
     <meta charset="UTF-8">
-    <title>Aplikimi</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-</head>
-<body class="container py-4 bg-light">
-<?php
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    if (!empty($errors)) {
-        echo "<div class='alert alert-danger'><ul>";
-        foreach ($errors as $err) {
-            echo "<li>$err</li>";
-        }
-        echo "</ul></div>";
-    } elseif ($aplikimi) {
-        $aplikimi->printTeDhenat();
-    }
+    <title>Forma e Aplikimit</title>
+    <style>
+   .form-section {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 30px;
+    background-color: #f6fbff; /* ngjyrë e lehtë si në imazh */
+    border: 1px solid #ccc;
+    border-radius: 10px;
 }
-?>
 
-<form id="application-form" action="" method="POST" enctype="multipart/form-data" class="bg-white p-4 rounded shadow-sm">
-    <div class="mb-3">
-        <label for="first-name" class="form-label">Emri</label>
-        <input type="text" name="first-name" class="form-control" required>
-    </div>
+/* Stilizimi i inputeve të zakonshme me distancë më të vogël */
+.form-section input[type="text"],
+.form-section input[type="number"],
+.form-section input[list],
+.form-section select,
+.form-section input[type="email"],
+.form-section input[type="file"] {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0; /* zvogëluar nga 10px në 5px */
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: white;
+}
 
-    <div class="mb-3">
-        <label for="last-name" class="form-label">Mbiemri</label>
-        <input type="text" name="last-name" class="form-control" required>
-    </div>
+/* Inputi për moshën me madhësi më të vogël */
+.form-section input[name="age"] {
+    width: 100px;
+    display: inline-block;
+    margin-left: 10px;
+}
 
-    <div class="mb-3">
-        <label for="phone-or-email" class="form-label">Numri i Telefonit ose Email</label>
-        <input type="text" name="phone-or-email" class="form-control" required>
-    </div>
+/* Etiketa për moshën për të qenë në vijë me inputin */
+.form-section label[for="age"] {
+    font-weight: bold;
+    display: inline-block;
+    margin-bottom: 3px;
+}
 
-    <div class="mb-3">
-        <label for="age" class="form-label">Mosha</label>
-        <input type="number" name="age" min="18" max="65" class="form-control" required>
-    </div>
+/* Butoni */
+.form-section input[type="submit"] {
+    background-color: #264653;
+    color: white;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+}
 
-    <div class="mb-3">
-        <label for="qyteti" class="form-label">Zgjidh qytetin:</label>
-        <input list="qyteti" name="qyteti" class="form-control">
+/* Hover efekti për buton */
+.form-section input[type="submit"]:hover {
+    background-color: #21867a;
+}
+
+/* Etiketat me pak hapësirë */
+.form-section label {
+    font-weight: bold;
+    display: block;
+    margin-top: 8px; /* më pak se 15px */
+    margin-bottom: 3px;
+}
+
+
+    </style>
+</head>
+<body>
+<div class="form-section">
+    <h3>Aplikoni për këtë pozitë</h3>
+
+    <?php if (!empty($errors)) : ?>
+        <div style="color: red;">
+            <ul>
+                <?php foreach ($errors as $err) echo "<li>$err</li>"; ?>
+            </ul>
+        </div>
+    <?php endif; ?>
+
+    <form method="POST">
+        <label>Emri</label>
+        <input type="text" name="first-name" pattern="[A-ZÇË][a-zçë\s]*" title="Filloni me shkronjë të madhe" value="<?php echo htmlspecialchars($firstName ?? '') ?>" required>
+
+        <label>Mbiemri</label>
+        <input type="text" name="last-name" pattern="[A-ZÇË][a-zçë\s]*" title="Filloni me shkronjë të madhe" value="<?php echo htmlspecialchars($lastName ?? '') ?>" required>
+
+        <label>Email ose Nr. Telefonit</label>
+        <input type="text" name="phone-or-email" pattern="(\+?[0-9]{8,15}|[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})" title="Shkruani vetëm një email ose një numër telefoni valid" value="<?php echo htmlspecialchars($contact ?? '') ?>" required>
+
+        <label>Mosha</label>
+        <input type="number" name="age" min="18" max="65" value="<?php echo htmlspecialchars($age ?? '') ?>" required>
+
+        <label>Qyteti</label>
+        <input list="qyteti" name="qyteti" value="<?php echo htmlspecialchars($city ?? '') ?>">
         <datalist id="qyteti">
-            <?php foreach (getSortedQytetet() as $qyteti) {
-                echo "<option value='$qyteti'></option>";
-            } ?>
+            <option value="Prishtinë">
+            <option value="Pejë">
+            <option value="Mitrovicë">
+            <option value="Gjilan">
+            <option value="Prizren">
         </datalist>
-    </div>
 
-    <div class="mb-3">
-        <label class="form-label">Keni përvojë të mëparshme në këtë fushë?</label><br>
-        <div class="form-check form-check-inline">
-            <input type="radio" class="form-check-input" name="experience" value="yes">
-            <label class="form-check-label">Po</label>
-        </div>
-        <div class="form-check form-check-inline">
-            <input type="radio" class="form-check-input" name="experience" value="no">
-            <label class="form-check-label">Jo</label>
-        </div>
-    </div>
+        <label>Eksperiencë</label><br>
+        <input type="radio" name="experience" value="po" <?php if (($experience ?? '') === 'po') echo 'checked'; ?>> Po
+        <input type="radio" name="experience" value="jo" <?php if (($experience ?? '') === 'jo') echo 'checked'; ?>> Jo<br><br>
 
-    <div class="mb-3">
-        <label for="cv" class="form-label">Ngarkoni CV-në tuaj</label>
-        <input type="file" name="cv" class="form-control" accept=".pdf,.docx" required>
-    </div>
+        <label>Aftësitë</label><br>
+        <?php
+        $aftesite = [
+            1 => "Njohuri të mira të rrugëve dhe përdorimi i navigacionit (GPS)",
+            2 => "Përvojë në vozitje të sigurt dhe të kujdesshme",
+            3 => "Aftësi për të menaxhuar orarin dhe rrethanat në trafik",
+            4 => "Ndjekja e rregullave të qarkullimit rrugor",
+            5 => "Komunikim i mirë me pasagjerët dhe respekt për klientët"
+        ];
+        
+        foreach ($aftesite as $key => $label) {
+            $checked = (isset($skills) && in_array($key, $skills)) ? 'checked' : '';
+            echo "<label><input type='checkbox' name='skill[]' value='$key' $checked> $label</label><br>";
+        }
+        ?>
 
-    <div class="mb-3">
-        <label for="cover-letter" class="form-label">Letër Motivimi</label>
-        <textarea name="cover-letter" rows="5" class="form-control" placeholder="Shkruani një letër motivimi për aplikimin tuaj"></textarea>
-    </div>
-
-    <div class="mb-3">
-        <label class="form-label">Aftësitë</label><br>
-        <div class="form-check">
-            <input type="checkbox" class="form-check-input" name="skill[]" value="1">
-            <label class="form-check-label">Patenta</label>
-        </div>
-        <div class="form-check">
-            <input type="checkbox" class="form-check-input" name="skill[]" value="2">
-            <label class="form-check-label">Përvoja</label>
-        </div>
-        <div class="form-check">
-            <input type="checkbox" class="form-check-input" name="skill[]" value="3">
-            <label class="form-check-label">Njohuri mbi Sigurinë</label>
-        </div>
-        <div class="form-check">
-            <input type="checkbox" class="form-check-input" name="skill[]" value="4">
-            <label class="form-check-label">Komunikimi</label>
-        </div>
-        <div class="form-check">
-            <input type="checkbox" class="form-check-input" name="skill[]" value="5">
-            <label class="form-check-label">Puna në stres</label>
-        </div>
-    </div>
-
-    <button type="submit" class="btn btn-primary">Apliko</button>
-</form>
-</body>
-</html>
-
-</main>
+        <br><input type="submit" value="Apliko">
+    </form>
+</div>
+    </main>
 
 <!-- Shigjeta flotuese për kthim -->
 <a href="#" class="back-btn-floating" onclick="shkoTeFaqja();"></a>
