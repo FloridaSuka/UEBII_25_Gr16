@@ -137,11 +137,11 @@
        <form method="GET" class="mb-4" style="margin-top: 35px; margin-left: 920px; size: 30px;margin-bottom: -70px;">
     <label for="rendit">Rendit sipas:</label>
     <select name="rendit" id="rendit" onchange="this.form.submit()">
-        <option value="" >    Zgjedh renditjen </option>
-        <option value="paga_desc" <?php if ($_GET['rendit'] == 'paga_desc') echo 'selected'; ?>>Paga (nga më e larta)</option>
-        <option value="paga_asc" <?php if ($_GET['rendit'] == 'paga_asc') echo 'selected'; ?>>Paga (nga më e ulëta)</option>
-        <option value="data_asc" <?php if ($_GET['rendit'] == 'data_asc') echo 'selected'; ?>>Data (më e hershmja)</option>
-        <option value="data_desc" <?php if ($_GET['rendit'] == 'data_desc') echo 'selected'; ?>>Data (më e vonshmja)</option>
+    <option value="" disabled <?= !isset($_GET['rendit']) || $_GET['rendit'] == '' ? 'selected' : '' ?>>Zgjidh renditjen</option>
+        <option value="paga_desc" <?= (isset($_GET['rendit']) && $_GET['rendit'] == 'paga_desc') ? 'selected' : '' ?>>Paga (nga më e larta)</option>
+        <option value="paga_asc" <?= (isset($_GET['rendit']) && $_GET['rendit'] == 'paga_asc') ? 'selected' : '' ?>>Paga (nga më e ulëta)</option>
+        <option value="data_asc" <?= (isset($_GET['rendit']) && $_GET['rendit'] == 'data_asc') ? 'selected' : '' ?>>Data (më e hershmja)</option>
+        <option value="data_desc" <?= (isset($_GET['rendit']) && $_GET['rendit'] == 'data_desc') ? 'selected' : '' ?>>Data (më e vonshmja)</option>
     </select>
 </form>
     <div class="container" id="card-container">
