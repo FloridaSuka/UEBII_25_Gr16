@@ -67,14 +67,7 @@ fetch('nav.html')
 }
 </style>
 
-<div id="footer-container"></div>
-<script>
-fetch('footer.html')
-.then(response => response.text())
-.then(data => {
-    document.getElementById('footer-container').innerHTML = data;
-});
-</script>
+<?php include 'footer.php';?>
 </body>
 </html>
 
@@ -112,4 +105,4 @@ fetch('footer.html')
         transform: scale(1.1); /* Zgjerimi i butonit */
     }
 </style>
-<?php include 'footer.php';?>
+
