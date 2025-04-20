@@ -108,7 +108,8 @@ $koment = (count($mundesite) >= 20) ? "🧠 Ke shumë mundësi për të ndërtua
     </main>
 
     <a href="#" class="back-btn-floating" onclick="kthehu();"></a>
-    <div id="footer-container"></div>
+    <!-- Include footer -->
+    <?php include 'footer.php';?>
 
     <script src="navHandler.js"></script>
     <script src="loginPopup.js"></script>
@@ -118,12 +119,6 @@ $koment = (count($mundesite) >= 20) ? "🧠 Ke shumë mundësi për të ndërtua
             .then(data => {
                 document.getElementById('header-container').innerHTML = data;
                 if (typeof setupNavigation === "function") setupNavigation();
-            });
-
-        fetch('footer.html')
-            .then(response => response.text())
-            .then(data => {
-                document.getElementById('footer-container').innerHTML = data;
             });
 
         function kthehu() {

@@ -158,7 +158,8 @@ $GLOBALS['numri_faktoreve'] = count($faktoretTituj);
     <!-- Shigjeta flotuese për kthim -->
     <a href="#" class="back-btn-floating" onclick="kthehu();"></a>
 
-    <div id="footer-container"></div>
+    <!-- Include footer -->
+    <?php include 'footer.php';?>
 
     <script>
         fetch('nav.html')
@@ -167,10 +168,6 @@ $GLOBALS['numri_faktoreve'] = count($faktoretTituj);
                 document.getElementById('header-container').innerHTML = d;
                 if (typeof setupNavigation === 'function') setupNavigation();
             });
-        fetch('footer.html')
-            .then(r => r.text())
-            .then(d => document.getElementById('footer-container').innerHTML = d);
-
         function kthehu() {
             window.location.href = "keshilla.php";
         }
