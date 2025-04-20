@@ -1,9 +1,12 @@
 <?php
+// Kthe përgjigje si JSON
+header('Content-Type: application/json');
+
 // Marrja e të dhënave nga forma
-$emri = $_POST['emri'] ?? '';
-$mbiemri = $_POST['mbiemri'] ?? '';
-$emri_perdoruesit = $_POST['emri_perdoruesit'] ?? '';
-$email = $_POST['email'] ?? '';
+$emri = trim($_POST['emri'] ?? '');
+$mbiemri = trim($_POST['mbiemri'] ?? '');
+$emri_perdoruesit = trim($_POST['emri_perdoruesit'] ?? '');
+$email = trim($_POST['email'] ?? '');
 $fjalekalimi = $_POST['fjalekalimi'] ?? '';
 
 // RegEx për validim
@@ -12,9 +15,10 @@ $regex_perdorues = "/^[a-zA-Z0-9_]{4,15}$/";
 $regex_email = "/^[\w\.-]+@[\w\.-]+\.\w{2,4}$/";
 $regex_fjalekalim = "/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d).{6,}$/";
 
-// Validime
+// Lista e gabimeve
 $gabime = [];
 
+// Validime
 if (!preg_match($regex_emri, $emri)) {
     $gabime[] = "Emri duhet të fillojë me shkronjë të madhe dhe të ketë së paku 3 shkronja.";
 }
@@ -35,15 +39,17 @@ if (!preg_match($regex_fjalekalim, $fjalekalimi)) {
     $gabime[] = "Fjalëkalimi duhet të ketë së paku 6 karaktere, një shkronjë të madhe, një të vogël dhe një numër.";
 }
 
-// Output
+// Kthe përgjigje si JSON
 if (empty($gabime)) {
-    echo "<h2>Regjistrimi u krye me sukses!</h2>";
-    echo "<p>Mirë se erdhe, <strong>$emri $mbiemri</strong>!</p>";
+    echo json_encode([
+        "sukses" => true,
+        "mesazh" => "Regjistrimi u krye me sukses!",
+        "emri" => $emri,
+        "mbiemri" => $mbiemri
+    ]);
 } else {
-    echo "<h2>Gabime gjatë regjistrimit:</h2><ul>";
-    foreach ($gabime as $g) {
-        echo "<li>$g</li>";
-    }
-    echo "</ul><a href='javascript:history.back()'>Kthehu</a>";
+    echo json_encode([
+        "sukses" => false,
+        "gabime" => $gabime
+    ]);
 }
-?>
