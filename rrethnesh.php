@@ -335,20 +335,10 @@
         document.getElementById("details").innerText = historyText;
       }
     </script>
-    <!-- footer imported -->
-    <div id="footer-container"></div>
-    <script>
-      // JavaScript per ngarkim te footer-it nga file-i i jashtem
-      fetch("footer.html")
-        .then((response) => response.text())
-        .then((data) => {
-          // Vendos pjese e footer-it ne div-in me id="footer-container"
-          document.getElementById("footer-container").innerHTML = data;
-        })
-        .catch((err) =>
-          console.error("Gabim gjat&#235 ngarkimit te footer-it:", err)
-        );
-    </script>
+    
+<!-- footer imported -->
+<?php include 'footer.php';?>
+
 
     <script>
       $(document).ready(function () {

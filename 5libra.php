@@ -242,16 +242,9 @@ $GLOBALS['numri_librave'] = count($librat);
     <!-- Shigjeta flotuese për kthim -->
     <a href="#" class="back-btn-floating" onclick="kthehu();"></a>
 
-    <!-- FOOTER -->
-    <div id="footer-container"></div>
-    <script>
-        fetch('footer.html')
-            .then(response => response.text())
-            .then(data => {
-                document.getElementById('footer-container').innerHTML = data;
-            })
-            .catch(err => console.error('Gabim gjatë ngarkimit të footer-it:', err));
-
+    <!-- Include footer -->
+    <?php include 'footer.php';?>
+<script>
         function kthehu() {
             window.location.href = "keshilla.html";
         }
