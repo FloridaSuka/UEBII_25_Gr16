@@ -172,7 +172,7 @@ $GLOBALS['numri_faktoreve'] = count($faktoretTituj);
             .then(d => document.getElementById('footer-container').innerHTML = d);
 
         function kthehu() {
-            window.location.href = "keshilla.html";
+            window.location.href = "keshilla.php";
         }
     </script>
 </body>

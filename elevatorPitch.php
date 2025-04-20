@@ -263,7 +263,7 @@
     <script>    
     // Funksioni për navigim te faqja e re
      function kthehu() {
-        window.location.href = "keshilla.html"; // Këtu vendos destinacionin tënd
+        window.location.href = "keshilla.php"; // Këtu vendos destinacionin tënd
     }
     </script>
     <script src="loginPopup.js"></script>

@@ -1,10 +1,8 @@
 <?php
-// Konstanta dhe variabla
 define("NGJYRA_TITULLIT", "#264653");
 $titulliFaqes = "5 Libra për të Frymëzuar Suksesin";
 $mesazh = "Lista e librave më të rekomanduar për sukses";
 
-// Varg multidimensional me të dhëna të librave
 $librat = [
     ["titulli" => "The Power of Habit", "autori" => "Charles Duhigg"],
     ["titulli" => "Atomic Habits", "autori" => "James Clear"],
@@ -13,12 +11,10 @@ $librat = [
     ["titulli" => "Start with Why", "autori" => "Simon Sinek"]
 ];
 
-// Funksion për të formatuar librin
 function formatoLibrin($titull, $autor) {
     return "<strong>\"" . strtoupper($titull) . "\"</strong> - $autor";
 }
 
-// Klasa bazë
 class Libri {
     protected $titull;
     protected $autor;
@@ -246,7 +242,7 @@ $GLOBALS['numri_librave'] = count($librat);
     <?php include 'footer.php';?>
 <script>
         function kthehu() {
-            window.location.href = "keshilla.html";
+            window.location.href = "keshilla.php";
         }
     </script>
     <script src="loginPopup.js"></script>

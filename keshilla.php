@@ -87,7 +87,7 @@
             <h4>Cilat jan&#235 disa nga mund&#235sit&#235 e zhvillimit profesional</h4>
           </div>
         <div class="card "data-title="Elevator Pitch"  >
-          <a id="link-keshillat" href="elevatorPitch.html" target="_blank">
+          <a id="link-keshillat" href="elevatorPitch.php" target="_blank">
             <img src="https://media.istockphoto.com/id/1337672378/vector/office-staff-wait-elevator-in-business-center-hall.jpg?s=612x612&w=0&k=20&c=2PX8DUGkDbCHXaF-mcPtbMKpb_ivrds_Aw9uZn67KnA="><br>
           </a>
           <h4>Elevator Pitch</h4>
@@ -99,7 +99,7 @@
           <h4>Faktor&#235t ndikues n&#235 p&#235rzgjedhjen e karrier&#235s</h4>
         </div>
         <div class="card " data-title="&Ccedilka nevojitet p&#235rve&#231 motivimet p&#235r ti arritur q&#235llimet?" >
-          <a id="link-keshillat" href="arritjaQellimit.html" target="_blank">
+          <a id="link-keshillat" href="arritjaQellimit.php" target="_blank">
             <img src="https://media.istockphoto.com/id/1195893403/vector/girl-marks-done-the-to-do-list-make-a-choice.jpg?s=612x612&w=0&k=20&c=sMlF2un78idsmGooAVpssfLRrgNNCvMCKZWo_KkO7Z4=">
           </a>
           <h4>&Ccedilka nevojitet p&#235rve&#231 motivimit
