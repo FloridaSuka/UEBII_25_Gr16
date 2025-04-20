@@ -24,15 +24,15 @@ body {
     min-height: 100%;
     display: flex;
     flex-direction: column;
-    background-color: rgba(128, 128, 128, 0.059) ; 
     height:70%;
     /* font-family: "Nunito Sans", sans-serif; */
     -webkit-font-smoothing: antialiased;
+    background: linear-gradient(to right, #9ea5a5, #ffffff);
 } 
 .wrapper {
     padding: 0 70px;
     max-width: 450px;
-    height: 120vh;
+    height: 70vh;
     width: 100%;
 }
 .head {
@@ -137,16 +137,18 @@ body {
     transition: transform 0.3s ease, box-shadow 0.3s ease;
   }
   .mid-message {
-    margin: 20px 20px;
-    bottom: 300px;
-    color: #264653;
-    position: relative; 
-    font-size: 20px;
-    font-weight: bold;
-    text-transform: uppercase;
-    letter-spacing: 2px;
+    margin: 30px auto; 
+    width: 70%; 
+    color: #1f3237;
+    font-size: 26px;
+    font-style: italic; 
+    text-transform: none; 
+    letter-spacing: 1px;
     text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.2);
+    text-align: center; 
+    position: relative;
   }
+  
 table{
     align-items: center;
     justify-content: center;
