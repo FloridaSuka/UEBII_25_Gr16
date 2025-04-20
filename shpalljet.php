@@ -300,18 +300,10 @@ function shkoTeFaqja12() { window.location.href = "DetajetAvokat.php"; }
  
   </main>
   <script src="shpalljet.js"></script>
-  <div id="footer-container"></div>
 </div>
-    <script>
-      // JavaScript per ngarkim i footer-it nga file-i i jashtëm
-      fetch('footer.html')
-          .then(response => response.text())
-          .then(data => {
-              // Vendos pjese e footer-it ne div-in me id="footer-container"
-              document.getElementById('footer-container').innerHTML = data;
-          })
-          .catch(err => console.error('Gabim gjatë ngarkimit të footer-it:', err));
-    </script>
+    <!-- Include footer -->
+<?php include 'footer.php';?>
+
     <script scr="loginPopup.js"></script>
 </body>
 </html>

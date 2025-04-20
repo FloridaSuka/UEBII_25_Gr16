@@ -4,20 +4,6 @@
        <link rel="stylesheet" href="faqjakryesore.css">
     </head>
     <body>
-         <?php if (!empty($gabime)): ?>
-            <div class="errors">
-                <h3>Gabime gjatë regjistrimit:</h3>
-                <ul>
-                    <?php foreach ($gabime as $g): ?>
-                        <li><?= $g ?></li>
-                    <?php endforeach; ?>
-                </ul>
-            </div>
-        <?php elseif ($_SERVER["REQUEST_METHOD"] == "POST"): ?>
-            <h3>Regjistrimi u krye me sukses!</h3>
-            <p>Mirë se erdhe, <strong><?= htmlspecialchars($emri . " " . $mbiemri) ?></strong></p>
-        <?php endif; ?>
-
         <img src="foto/logo.svg" alt="Logo" class="logo">
        <p class="show">Mirë se erdhe, <br>
         shpresojmë të gjeni atë që po kërkoni.</p>
@@ -65,7 +51,7 @@
                 .then(data => {
                     if (data.sukses) {
                         alert("✅ " + data.mesazh + "\nMirë se erdhe, " + data.emri + " " + data.mbiemri + "!");
-                        // Opsionale: window.location.href = "home.html";
+                        // Opsionale: window.location.href = "home.php";
                     } else {
                         alert("⚠️ Gabime gjatë regjistrimit:\n\n" + data.gabime.join("\n"));
                     }

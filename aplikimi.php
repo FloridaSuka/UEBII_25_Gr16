@@ -112,14 +112,4 @@ fetch('footer.html')
         transform: scale(1.1); /* Zgjerimi i butonit */
     }
 </style>
-<div id="footer-container"></div>
-    <script>
-      // JavaScript per ngarkim i footer-it nga file-i i jashtëm
-      fetch('footer.html')
-          .then(response => response.text())
-          .then(data => {
-              // Vendos pjese e footer-it ne div-in me id="footer-container"
-              document.getElementById('footer-container').innerHTML = data;
-          })
-          .catch(err => console.error('Gabim gjatë ngarkimit të footer-it:', err));
-    </script>
+<?php include 'footer.php';?>

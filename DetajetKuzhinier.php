@@ -632,16 +632,9 @@ ob_end_flush();
 <!-- Shigjeta flotuese për kthim -->
 <a href="#" class="back-btn-floating" onclick="shkoTeFaqja();"></a>
 
-<div id="footer-container"></div>
+<!-- Include footer -->
+<?php include 'footer.php';?>
 <script>
-    // JavaScript për ngarkimin e footer-it nga file-i i jashtëm
-    fetch('footer.html')
-        .then(response => response.text())
-        .then(data => {
-            document.getElementById('footer-container').innerHTML = data;
-        })
-        .catch(err => console.error('Gabim gjatë ngarkimit të footer-it:', err));
-
     // Funksioni për navigim te faqja e re
     function shkoTeFaqja() {
         window.location.href = "shpalljet.html"; // Këtu vendos destinacionin tënd
