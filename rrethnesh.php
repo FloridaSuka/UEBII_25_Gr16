@@ -207,7 +207,7 @@
     <div class="reviews-container">
     <?php
     class Reviewer {
-        public $foto;
+        private $foto;
         public $name;
         public $review_text;
         public $rating;
