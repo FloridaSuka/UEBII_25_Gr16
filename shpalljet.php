@@ -134,35 +134,7 @@
     
 
     <div class="container" id="card-container">
-      <script>
-      $(document).ready(function() {  try {
-  let dataSot = new Date();  // Data e sotme
-  let dataMbyllje = Date.parse('2025-03-15');  // Përdorimi i Date.parse() për të siguruar që data është e vlefshme
-
-  // Verifikim nëse data është e vlefshme
-  if (isNaN(dataMbyllje)) {
-    throw new Error("Njëra ose të dyja datat janë të pasakta!");
-  }
-
-  // Shndërro dataMbyllje në objekt Date
-  dataMbyllje = new Date(dataMbyllje);
-
-
-  // Llogarit diferencën në milisekonda
-  let diferencaNeMilisekonda = dataMbyllje - dataSot;
-
-  // Llogarit diferencën në ditë
-  let diferencaNeDite = Math.floor(diferencaNeMilisekonda / (1000 * 60 * 60 * 24));
-
-  $('#afati').text(`Aplikimi mbyllet pas ${diferencaNeDite} ditësh.`).show();
-}catch{
-  console.log("Gabim: " + error.message);
-}
       
-}
-      );
-      
-      </script>
       <div class="row" >
       <?php
     class Card {
@@ -247,11 +219,7 @@
             <p style="margin-left: 10px;"><strong>Afati i aplikimit:</strong> ' . $this->afatiAplikimit . '</p>
             <p id="afati" style="margin-left: 10px;"></p>
             <a href="#" class="btn btn-primary" style="margin-left: 215px; margin-bottom: 10px;" onclick="' . $this->onclick . '">Apliko Këtu</a>
-            <script>
-                function shkoTeFaqja1() {
-                    window.location.href = "DetajetMesuese.php";
-                }
-            </script>
+           
         </div>
     </div>
 </div>';
@@ -288,18 +256,18 @@
         $card->shfaq();
     }
 ?><script>
-function shkoTeFaqja1() { window.location.href = "DetajetMesuese.html"; }
-function shkoTeFaqja2() { window.location.href = "DetajetArkitekt.html"; }
-function shkoTeFaqja3() { window.location.href = "DetajetInxhinier.html"; }
-function shkoTeFaqja4() { window.location.href = "DetajetIT.html"; }
-function shkoTeFaqja5() { window.location.href = "DetajetKuzhinier.html"; }
-function shkoTeFaqja6() { window.location.href = "DetajetShofer.html"; }
-function shkoTeFaqja7() { window.location.href = "DetajetFinanca.html"; }
-function shkoTeFaqja8() { window.location.href = "DetajetMarketing.html"; }
-function shkoTeFaqja9() { window.location.href = "DetajetJurist.html"; }
-function shkoTeFaqja10() { window.location.href = "DetajetInfermiere.html"; }
-function shkoTeFaqja11() { window.location.href = "DetajetMenaxher.html"; }
-function shkoTeFaqja12() { window.location.href = "DetajetProfesor.html"; }
+function shkoTeFaqja1() { window.location.href = "DetajetMesuese.php"; }
+function shkoTeFaqja2() { window.location.href = "DetajetArkitekt.php"; }
+function shkoTeFaqja3() { window.location.href = "DetajetInxhinier.php"; }
+function shkoTeFaqja4() { window.location.href = "DetajetIT.php"; }
+function shkoTeFaqja5() { window.location.href = "DetajetKuzhinier.php"; }
+function shkoTeFaqja6() { window.location.href = "DetajetShofer.php"; }
+function shkoTeFaqja7() { window.location.href = "DetajetStomatolog.php"; }
+function shkoTeFaqja8() { window.location.href = "DetajetFotograf.php"; }
+function shkoTeFaqja9() { window.location.href = "DetajetKontabilist.php"; }
+function shkoTeFaqja10() { window.location.href = "DetajetSoftware.php"; }
+function shkoTeFaqja11() { window.location.href = "DetajetMarketing.php"; }
+function shkoTeFaqja12() { window.location.href = "DetajetAvokat.php"; }
 </script>
      
   </div>
