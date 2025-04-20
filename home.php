@@ -11,7 +11,7 @@
 <body style="scroll-behavior: smooth;">
     <div id="header-container"></div>
 
-    <script src="js/navHandler.js"></script>
+    <script src="navHandler.js"></script>
     <script>
         // JavaScript për të ngarkuar header-in nga file-i i jashtëm
         fetch('nav.html')
@@ -19,6 +19,7 @@
         .then(data => {
             // Vendos përmbajtjen e header-it në div-in me id="header-container"
             document.getElementById('header-container').innerHTML = data;
+            setupNavigation();
             // Lidh eventet pasi përmbajtja të jetë ngarkuar
             const loginIcon = document.getElementById('loginIcon');
             const loginModal = document.getElementById('loginModal');
