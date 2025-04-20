@@ -169,7 +169,7 @@ $GLOBALS['numri_faktoreve'] = count($faktoretTituj);
                 if (typeof setupNavigation === 'function') setupNavigation();
             });
         function kthehu() {
-            window.location.href = "keshilla.html";
+            window.location.href = "keshilla.php";
         }
     </script>
 </body>

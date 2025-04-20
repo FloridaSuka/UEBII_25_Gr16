@@ -72,6 +72,8 @@ $koment = (count($mundesite) >= 20) ? "🧠 Ke shumë mundësi për të ndërtua
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css">
     <style>
+         ::-webkit-scrollbar { width: 10px; }
+         ::-webkit-scrollbar-thumb { background:#264653; border-radius: 10px; }
         body { background: #f4f6f9; font-family: Arial, sans-serif; }
         h1 { color: #264653; text-align: center; margin: 30px 0; }
         .search-bar { max-width: 400px; margin: 0 auto 30px auto; }
