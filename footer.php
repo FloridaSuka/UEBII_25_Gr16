@@ -180,11 +180,14 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     "github" => "https://github.com/florjete/UEB24_GR15/",
                     "linkedin" => "https://www.linkedin.com/school/university-of-prishtina-up/posts/?feedView=all"
                 ];
+                krsort($rrjetet);
                 foreach ($rrjetet as $emri => $linku) {
                     echo "<a href='$linku' class='icon' target='_blank'><img src='foto/{$emri}.svg' alt='{$emri}'></a>";
                 }
                 ?>
             </div>
+
+
         </div>
 
         <address class="footer-contact">
