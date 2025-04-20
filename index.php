@@ -21,7 +21,7 @@
         <img src="foto/logo.svg" alt="Logo" class="logo">
        <p class="show">Mirë se erdhe, <br>
         shpresojmë të gjeni atë që po kërkoni.</p>
-        <a href="home.html" class="return-link">Vazhdo pa u kyçur</a>
+        <a href="home.php" class="return-link">Vazhdo pa u kyçur</a>
         <div class="login">
             <div class="form-box">
                 <div class="button-box">
