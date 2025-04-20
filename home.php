@@ -100,14 +100,9 @@
     </section>
 
     <div id="footer-container"></div>
-    <script>
-        fetch('footer.html')
-            .then(response => response.text())
-            .then(data => {
-                document.getElementById('footer-container').innerHTML = data;
-            })
-            .catch(err => console.error('Gabim gjat&#235; ngarkimit t&#235; footer-it:', err));
-    </script>
+    <?php
+        include 'footer.php';
+    ?>
 
 </body>
 </html>
