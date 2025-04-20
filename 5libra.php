@@ -45,7 +45,6 @@ class Libri {
     }
 }
 
-// Klasa që trashëgon
 class LibriMotivues extends Libri {
     private $fokus;
 
@@ -73,6 +72,7 @@ for ($i = 0; $i < $gjatesia - 1; $i++) {
     }
 }
 $GLOBALS['numri_librave'] = count($librat);
+//var_dump($librat);  eshte perdor per debug
 ?>
 
 
@@ -230,6 +230,7 @@ $GLOBALS['numri_librave'] = count($librat);
             if (isset($info['titulli']) && isset($info['autori'])) {
                 $libri = new LibriMotivues($info['titulli'], $info['autori'], "Zhvillim Personal");
                 echo "<div class='libri'>" . $libri->info() . "</div>";
+               // var_dump($libri); eshte perdor per debug
             }
         }
         ?>
