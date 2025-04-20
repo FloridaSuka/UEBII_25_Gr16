@@ -144,6 +144,7 @@ $GLOBALS['numri_faktoreve'] = count($faktoretTituj);
         foreach ($faktoretTituj as $titull) {
             $kat = $faktoretKategoria[$titull] ?? KATEGORIA_DEFAULT;
             $faktor = new FaktorZgjeruar($titull, $kat, rand(0, 1));
+           // var_dump($faktor); eshte perdor per debug
             echo "<div class='faktor'>" . $faktor->info() . "</div>";
         }
 
