@@ -120,7 +120,7 @@ $koment = (count($mundesite) >= 20) ? "🧠 Ke shumë mundësi për të ndërtua
             });
 
         function kthehu() {
-            window.location.href = "keshilla.html";
+            window.location.href = "keshilla.php";
         }
 
         document.getElementById("searchInput").addEventListener("input", function() {

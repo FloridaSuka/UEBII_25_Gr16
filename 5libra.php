@@ -246,7 +246,7 @@ $GLOBALS['numri_librave'] = count($librat);
     <?php include 'footer.php';?>
 <script>
         function kthehu() {
-            window.location.href = "keshilla.html";
+            window.location.href = "keshilla.php";
         }
     </script>
     <script src="loginPopup.js"></script>
