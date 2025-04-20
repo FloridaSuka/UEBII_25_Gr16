@@ -19,15 +19,16 @@
                     <input type="text" class="input-field" placeholder="Emri i perdoruesit" required>
                     <input type="password" class="input-field" placeholder="Fjalekalimi" required>
                     <input type="checkbox" class="check-box"><span>Kujto Fjalekalimin</span> 
-                    <label class="button"><a href="#####">Keni harruar fjalkalimin?</a></label>
-                    <button type="submit" class="submit-btn">Hyr</button>
+                    <label class="button1"><a href="#####">Keni harruar fjalkalimin?</a></label>
+                    <button type="submit" class="submit-btn1">Hyr</button>
                 </form>
                 <form id="register" class="input-group" action="validimiIndex.php" method="POST">
-                    <input type="text" name="emri" class="input-field" placeholder="Emri" required>
-                    <input type="text" name="mbiemri" class="input-field" placeholder="Mbiemri" required>
-                    <input type="text" name="emri_perdoruesit" class="input-field" placeholder="Emri Perdoruesit" required>
-                    <input type="email" name="email" class="input-field" placeholder="Email" required>
-                    <input type="password" name="fjalekalimi" class="input-field" placeholder="Fjalekalimi" required>
+                    <input type="text" name="emri" class="input-field1" placeholder="Emri" required>
+                    <input type="text" name="mbiemri" class="input-field1" placeholder="Mbiemri" required>
+                    <input type="text" name="emri_perdoruesit" class="input-field1" placeholder="Emri Perdoruesit" required>
+                    <input type="email" name="email" class="input-field1" placeholder="Email" required>
+                    <input type="text" name="datelindja" class="input-field1" placeholder="Datelindja" required>
+                    <input type="password" name="fjalekalimi" class="input-field1" placeholder="Fjalekalimi" required>
                     <input type="checkbox" class="check-box"><span>Jam dakord me termat dhe kushtet</span>
                     <button type="submit" class="submit-btn">Regjistrohu</button>
                 </form>

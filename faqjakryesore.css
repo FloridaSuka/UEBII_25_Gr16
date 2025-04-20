@@ -120,15 +120,32 @@ a{
     font-size: 12px;
     top: 65%;
     left:27%
-
-
+}
+.button1 a{
+    text-decoration: underline;
+    color: white;
+    font-size: 12px;
+    top: 75%;
+    left:27%
 }
 .button a:hover{
     color: #F4A261;
 }
+.input-field1{
+    width:100%;
+    padding: 5px 0 ;
+    margin:5px 0;
+    border-left: 0;
+    border-top: 0;
+    border-right: 0;
+    border-bottom: 1px solid #fff;
+    outline:none;
+    background: transparent;
+    color: #fff;
+}
 .input-field{
     width:100%;
-    padding: 10px 0 ;
+    padding: 15px 0 ;
     margin:5px 0;
     border-left: 0;
     border-top: 0;
@@ -152,10 +169,23 @@ a{
     border:0;
     outline: none;
     border-radius: 30px;
-    color: #fff;
-
-    
+    color: #fff; 
 }
+.submit-btn1 {
+    position: relative;
+    top: 30px; /* E shtyn butonin më poshtë */
+    width: 85%;
+    padding: 10px 70px;
+    cursor: pointer;
+    display: block;
+    margin: auto;
+    background: linear-gradient(to right, #45cfbf 50%, #2A9D8F 80%);
+    border: 0;
+    outline: none;
+    border-radius: 30px;
+    color: #fff;
+}
+
 @keyframes zoomLogo {
     0% {
         opacity: 0; /* Fillon i padukshëm */

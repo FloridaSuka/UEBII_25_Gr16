@@ -7,12 +7,14 @@ $emri = trim($_POST['emri'] ?? '');
 $mbiemri = trim($_POST['mbiemri'] ?? '');
 $emri_perdoruesit = trim($_POST['emri_perdoruesit'] ?? '');
 $email = trim($_POST['email'] ?? '');
+$datelindja = $_POST['datelindja'] ?? '';
 $fjalekalimi = $_POST['fjalekalimi'] ?? '';
 
 // RegEx për validim
 $regex_emri = "/^[A-ZÇË][a-zçë]{2,}$/u";
 $regex_perdorues = "/^[a-zA-Z0-9_]{4,15}$/";
 $regex_email = "/^[\w\.-]+@[\w\.-]+\.\w{2,4}$/";
+$regex_datelindja = "/^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/";
 $regex_fjalekalim = "/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d).{6,}$/";
 
 // Lista e gabimeve
@@ -33,6 +35,10 @@ if (!preg_match($regex_perdorues, $emri_perdoruesit)) {
 
 if (!preg_match($regex_email, $email)) {
     $gabime[] = "Email-i nuk është në format të saktë.";
+}
+
+if (!preg_match($regex_datelindja, $datelindja)) {
+    $gabime[] = "Datëlindja duhet të jetë në formatin YYYY-MM-DD (p.sh. 2000-05-21).";
 }
 
 if (!preg_match($regex_fjalekalim, $fjalekalimi)) {
