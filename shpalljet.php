@@ -80,6 +80,8 @@
   </div>
     <section>
       <input type="text" id="kerko" onkeyup="kerko()" placeholder="Kerko..">
+     
+
       <br>
       <div class="dropdown"  >
         <button onclick="toggleDropdown(event, 'myDropdown')" class="dropbtn">Qytetet <span class="glyphicon glyphicon-chevron-down" style="font-size: 10px;" ></span></button>
@@ -132,7 +134,16 @@
       </div>
     </section>
     
-
+       <form method="GET" class="mb-4" style="margin-top: 35px; margin-left: 920px; size: 30px;margin-bottom: -70px;">
+    <label for="rendit">Rendit sipas:</label>
+    <select name="rendit" id="rendit" onchange="this.form.submit()">
+        <option value="" >    Zgjedh renditjen </option>
+        <option value="paga_desc" <?php if ($_GET['rendit'] == 'paga_desc') echo 'selected'; ?>>Paga (nga më e larta)</option>
+        <option value="paga_asc" <?php if ($_GET['rendit'] == 'paga_asc') echo 'selected'; ?>>Paga (nga më e ulëta)</option>
+        <option value="data_asc" <?php if ($_GET['rendit'] == 'data_asc') echo 'selected'; ?>>Data (më e hershmja)</option>
+        <option value="data_desc" <?php if ($_GET['rendit'] == 'data_desc') echo 'selected'; ?>>Data (më e vonshmja)</option>
+    </select>
+</form>
     <div class="container" id="card-container">
       
       <div class="row" >
@@ -244,17 +255,32 @@
   
  // Rendit pozitat në mënyrë zbritëse sipas pagës
 
-  usort($cards, function($a, $b) {
-      $pagaA = (int) filter_var($a->paga, FILTER_SANITIZE_NUMBER_INT);
-      $pagaB = (int) filter_var($b->paga, FILTER_SANITIZE_NUMBER_INT);
-      return $pagaB - $pagaA;
-  });
 
 
  
+   
+    if (isset($_GET['rendit'])) {
+        $rendit = $_GET['rendit'];
+    
+        usort($cards, function($a, $b) use ($rendit) {
+            switch ($rendit) {
+                case 'paga_desc':
+                    return (int)filter_var($b->paga, FILTER_SANITIZE_NUMBER_INT) - (int)filter_var($a->paga, FILTER_SANITIZE_NUMBER_INT);
+                case 'paga_asc':
+                    return (int)filter_var($a->paga, FILTER_SANITIZE_NUMBER_INT) - (int)filter_var($b->paga, FILTER_SANITIZE_NUMBER_INT);
+                    case 'data_asc':
+                        return strtotime($a->dataShpalljes) - strtotime($b->dataShpalljes);
+                    case 'data_desc':
+                        return strtotime($b->dataShpalljes) - strtotime($a->dataShpalljes);
+
+            }
+            return 0;
+        });
+    }
     foreach ($cards as $card) {
         $card->shfaq();
     }
+    
 ?><script>
 function shkoTeFaqja1() { window.location.href = "DetajetMesuese.php"; }
 function shkoTeFaqja2() { window.location.href = "DetajetArkitekt.php"; }
