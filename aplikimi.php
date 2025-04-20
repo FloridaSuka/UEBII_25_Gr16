@@ -32,7 +32,7 @@ fetch('nav.html')
     <p style="font-size: 16px; color: #555; margin-bottom: 20px;">
         Ju urojmë suksese në hapat e ardhshëm të karrierës suaj!
     </p>
-    <a href="shpalljet.html" class="btn">Kthehu</a>
+    <a href="shpalljet.php" class="btn">Kthehu</a>
 </div>
 
 <style>
