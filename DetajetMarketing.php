@@ -344,7 +344,7 @@ define("MAX_AGE", 65);
 if (!function_exists('isValidEmailOrPhone')) {
     function isValidEmailOrPhone($input) {
         $emailRegex = "/^[\w\-.]+@[\w\-]+\.\w{2,4}$/";
-        $phoneRegex = "/^\+?[0-9]{8,15}$/";
+        $phoneRegex = "/^\+383\-\d{2}\-\d{3}\-\d{3}$/";
         return preg_match($emailRegex, $input) || preg_match($phoneRegex, $input);
     }
 }
