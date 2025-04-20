@@ -26,6 +26,7 @@ function formatFaktor($titull) {
 
 asort($faktoretTituj);
 
+
 class Faktor {
     protected $titull;
     protected $kategori;
@@ -70,6 +71,7 @@ class FaktorZgjeruar extends Faktor {
     }
 }
 
+// Funksion për numërim të faktorëve aktiv
 function numroAktivet($lista) {
     $count = 0;
     foreach ($lista as $f) {
@@ -82,6 +84,7 @@ function numroAktivet($lista) {
 
 $GLOBALS['numri_faktoreve'] = count($faktoretTituj);
 ?>
+
 <!DOCTYPE html>
 <html lang="sq">
 <head>
@@ -152,138 +155,25 @@ $GLOBALS['numri_faktoreve'] = count($faktoretTituj);
         ?>
     </main>
 
+    <!-- Shigjeta flotuese për kthim -->
     <a href="#" class="back-btn-floating" onclick="kthehu();"></a>
+
     <div id="footer-container"></div>
 
-    <script src="navHandler.js"></script>
-    <script src="loginPopup.js"></script>
     <script>
         fetch('nav.html')
-            .then(response => response.text())
-            .then(data => {
-                document.getElementById('header-container').innerHTML = data;
-                if (typeof setupNavigation === "function") setupNavigation();
-
-                const loginIcon = document.getElementById('loginIcon');
-                const loginModal = document.getElementById('loginModal');
-                const closeBtn = document.getElementById('closeBtn');
-                const initialPosition = { top: 50, left: 50 };
-
-                if (loginIcon) {
-                    loginIcon.addEventListener('click', () => {
-                        loginModal.style.display = 'block';
-                        loginModal.style.top = `${initialPosition.top}px`;
-                        loginModal.style.left = `${initialPosition.left}px`;
-                    });
-                }
-                if (closeBtn) {
-                    closeBtn.addEventListener('click', () => {
-                        loginModal.style.display = 'none';
-                    });
-                }
-
-                loginModal?.addEventListener('dblclick', () => {
-                    loginModal.style.top = `${initialPosition.top}px`;
-                    loginModal.style.left = `${initialPosition.left}px`;
-                });
-
-                window.addEventListener('click', (e) => {
-                    if (e.target === loginModal) {
-                        loginModal.style.display = 'none';
-                    }
-                });
-
-                let offsetX = 0, offsetY = 0;
-                loginModal?.addEventListener('dragstart', (e) => {
-                    const rect = loginModal.getBoundingClientRect();
-                    offsetX = e.clientX - rect.left;
-                    offsetY = e.clientY - rect.top;
-                });
-
-                document.addEventListener('dragover', (e) => e.preventDefault());
-                document.addEventListener('drop', (e) => {
-                    e.preventDefault();
-                    const x = e.clientX - offsetX;
-                    const y = e.clientY - offsetY;
-                    loginModal.style.top = `${y}px`;
-                    loginModal.style.left = `${x}px`;
-                });
+            .then(r => r.text())
+            .then(d => {
+                document.getElementById('header-container').innerHTML = d;
+                if (typeof setupNavigation === 'function') setupNavigation();
             });
-
         fetch('footer.html')
-            .then(response => response.text())
-            .then(data => {
-                document.getElementById('footer-container').innerHTML = data;
-            });
+            .then(r => r.text())
+            .then(d => document.getElementById('footer-container').innerHTML = d);
 
-<<<<<<< Updated upstream
-    <!-- Main content -->
-    <main class="faktoret-main">
-        <h1 class="faktoret-h1">Faktorët Ndikues në Përzgjedhjen e Karrierës</h1>
-
-        <section id="section1" class="faktoret-section">
-            <h2 class="faktoret-h2">Interesat Personale</h2>
-            <p class="faktoret-p">
-                <strong>Interesat personale</strong> janë një faktor shumë i rëndësishëm në përzgjedhjen e karrierës. Çdo individ ka interesa të ndryshme, dhe është e rëndësishme që ky interes të përputhet me zgjedhjen e profesionit. Për shembull, një person që ka interes në teknologji mund të preferojë një karrierë në fushën e IT-së, ndërsa dikush që do të punojë me njerëz mund të jetë i orientuar drejt fushave si psikologjia ose edukimi.
-            </p>
-            <img class="faktoret-img" src="foto/faktoretNdikues.jpg" alt="Interesat Personale" style="max-width: 85%; height: 455px; margin: 20px auto 20px auto; display: block; border-radius: 8px;">
-        </section>
-
-        <section id="section2" class="faktoret-section">
-            <h2 class="faktoret-h2">Aftësitë dhe Shkathtësitë</h2>
-            <p class="faktoret-p">
-                <strong>Aftësitë dhe shkathtësitë</strong> e individëve janë një faktor tjetër që ndikojnë në përzgjedhjen e karrierës. Aftësitë profesionale dhe teknike mund të jenë vendimtare për suksesin në një fushë të caktuar. Disa mund të kenë aftësi të shkëlqyera në komunikim, ndërsa të tjerë mund të jenë të aftë për të analizuar të dhëna dhe të punojnë me teknologji. Zgjedhja e një karriere duhet të bazohet në ato aftësi që individi i ka zhvilluar gjatë jetës.
-            </p>
-            <img class="faktoret-img" src="foto/faktoretNdikues1.jpeg" alt="Aftësitë dhe Shkathtësitë" style="max-width: 88%; height: 455px; margin: 20px auto 20px auto; display: block; border-radius: 8px;">
-        </section>
-
-        <section id="section3" class="faktoret-section">
-            <h2 class="faktoret-h2">Vlerat dhe Besimet</h2>
-            <p class="faktoret-p">
-                <strong>Vlerat dhe besimet</strong> janë gjithashtu faktore kyç në zgjedhjen e karrierës. Disa individë mund të jenë të angazhuar për çështje mjedisore dhe mund të kërkojnë një karrierë që kontribuon në mbrojtjen e natyrës. Të tjerë mund të kërkojnë mundësi që i lejojnë të ndihmojnë komunitetin dhe të krijojnë impakt pozitiv në jetën e njerëzve. Zgjedhja e karrierës duhet të pasqyrojë vlerat personale dhe misionin jetësor të individit.
-            </p>
-            <img class="faktoret-img"src="foto/faktoretNdikues5.jpeg" alt="Vlerat dhe Besimet" style="max-width: 88%; height: 455px; margin: 20px auto 20px auto;; display: block; border-radius: 8px;">
-        </section>
-
-        <section id="section4" class="faktoret-section">
-            <h2 class="faktoret-h2">Shanset Ekonomike dhe Tregu i Punës</h2>
-            <p class="faktoret-p">
-                <strong>Shanset ekonomike dhe tregu i punës</strong> janë gjithashtu një faktor shumë i rëndësishëm në përzgjedhjen e karrierës. Shumë individë mund të zgjedhin një profesion që ofron mundësi të mira për punësim dhe rritje ekonomike. Në disa raste, individët mund të orientohen drejt fushave që janë në kërkesë, siç janë teknologjia, mjekësia, dhe inxhinieria, duke pasur parasysh edhe mundësitë për përparim dhe fitim.
-            </p>
-            <img class="faktoret-img" src="foto/faktoretNdikues2.jpg" alt="Shanset Ekonomike" style="max-width: 88%; height: 455px; margin: 20px auto 20px auto;display: block; border-radius: 8px;">
-        </section>
-
-        <section id="section5" class="faktoret-section">
-            <h2 class="faktoret-h2">Ndikimi i Familjes dhe Rrethinës Sociale</h2>
-            <p class="faktoret-p">
-                <strong>Familja dhe rrethi social</strong> kanë gjithashtu ndikim të madh në zgjedhjen e karrierës. Mbështetja dhe sugjerimet nga anëtarët e familjes, si dhe ndikimi i shoqërisë dhe miqve, mund të formojnë zgjedhjen profesionale të individëve. Kjo është veçanërisht e vërtetë për ata që janë të rinj dhe mund të kenë nevojë për orientim në këtë proces të rëndësishëm.
-            </p>
-            <img class="faktoret-img" src="foto/faktoretNdikues3.jpg" alt="Familja dhe Rrethina Sociale" style="max-width: 88%; height: 455px; margin: 20px auto 20px auto; display: block; border-radius: 8px;">
-        </section>
-
-        <section id="section6" class="faktoret-section">
-            <h2 class="faktoret-h2">Eksperiencat dhe Praktika</h2>
-            <p class="faktoret-p">
-                <strong>Eksperiencat dhe praktika</strong> e individëve luajnë një rol të rëndësishëm në zgjedhjen e karrierës. Pjesëmarrja në aktivitete të ndryshme dhe praktikat profesionale ndihmojnë individët të kuptojnë më mirë atë që duan të bëjnë dhe në cilën fushë janë më të fortë. Eksperiencat e para në punë janë një mundësi e shkëlqyer për të mësuar dhe për të zgjeruar horizontet profesionale.
-            </p>
-            <img class="faktoret-img" src="foto/faktoretNdikues4.jpeg" alt="Eksperiencat dhe Praktika" style="max-width: 88%; height: 455px; margin: 20px auto 20px auto; display: block; border-radius: 8px;">
-        </section>
-    </main>
-     <!-- Shigjeta flotuese për kthim -->
-     <a href="#" class="back-btn-floating" onclick="kthehu();"></a>
-
-    <!-- Include footer -->
-<?php include 'footer.php';?>
-<script>
-  // Funksioni për navigim te faqja e re
-      function kthehu() {
-        window.location.href = "keshilla.html"; // Këtu vendos destinacionin tënd
-    }
-=======
         function kthehu() {
             window.location.href = "keshilla.html";
         }
->>>>>>> Stashed changes
     </script>
 </body>
 </html>
