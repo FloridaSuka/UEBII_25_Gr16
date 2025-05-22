@@ -1,3 +1,30 @@
+<?php
+$quoteText = "Choosing the right career is not just a decision – it's an investment in yourself. Research, learn, discover what inspires you, and move toward your goals with courage.";
+$quoteAuthor = "FindYourWay";
+
+try {
+    $curl = curl_init();
+    curl_setopt_array($curl, [
+        CURLOPT_URL => "https://zenquotes.io/api/random",
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_TIMEOUT => 5
+    ]);
+    $response = curl_exec($curl);
+    curl_close($curl);
+
+    if ($response !== false) {
+        $data = json_decode($response, true);
+        if (isset($data[0]['q']) && isset($data[0]['a'])) {
+            $quoteText = $data[0]['q'];
+            $quoteAuthor = $data[0]['a'];
+        }
+    }
+} catch (Exception $e) {
+    // Në rast të gabimit, përdoret citati rezervë
+    $quoteText = "Success is not an accident – ​​it is the result of preparation, hard work, and continuous learning. Discover your potential and build a future you deserve.";
+    $quoteAuthor = "FindYourWay";
+}
+?>
 <!DOCTYPE html>
 <html>
   <head lang="en">
@@ -117,14 +144,10 @@
     <script  rel="javascript"2
      src="script2.js">
     </script>
-     <div class="mid-message" style="font-style: italic;">
-      Zgjedhja e drejtë e karrierës nuk është thjesht një vendim – është një investim në veten tënde. Hulumto, mëso, zbulo çka të frymëzon, dhe ec drejt qëllimeve me guxim.
-     </div>
-    <div class="mid-message" style="font-style: italic;">
-      Suksesi nuk është rastësi – është rezultat i përgatitjes, punës së palodhur dhe mësimit të vazhdueshëm. Zbulo potencialin tënd dhe ndërto një të ardhme që e meriton.
-    </div>
-    <div class="mid-message" style="font-style: italic;">
-      Zgjedhja e drejtë e karrierës nuk është thjesht një vendim – është një investim në veten tënde. Hulumto, mëso, zbulo çka të frymëzon, dhe ec drejt qëllimeve me guxim.
+    <div class="mid-message" style="font-style: italic; margin-top = 200px margin-bottom = 50px">
+      <h2><?php echo htmlspecialchars($quoteText); ?></h2>
+      <p style="font-style: italic;">- <?php echo htmlspecialchars($quoteAuthor); ?></p>
+      <p style="font-size: 10px; color: #gray; margin-bottom: 20px;">Citatet janë ofruar nga <a href="https://zenquotes.io/" target="_blank" style="color: gray;">ZenQuotes API</a></p>
     </div>
     <section class="V1"> 
       <section class="video">
