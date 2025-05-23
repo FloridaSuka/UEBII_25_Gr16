@@ -141,23 +141,11 @@ function validoEmail($email) {
     return preg_match("/^[\w\.-]+@[\w\.-]+\.\w{2,4}$/", $email);
 }
 
-if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    $emri = $_POST['emri'] ?? '';
-    $emaili = $_POST['email'] ?? '';
-    $teksti = $_POST['mesazhi'] ?? '';
-
-    if (validoEmail($emaili) && strlen($teksti) >= 5) {
-        $kontakt = new Kontakt($emri,$emaili, $teksti);
-        $mesazh = "Faleminderit, " . htmlspecialchars($kontakt->getEmri()) . " për mesazhin tuaj!";
-    } else {
-        $mesazh = "&#9432 Ju lutemi plotësoni emailin dhe mesazhin në mënyrë të saktë.";
-    }
-}
 ?>
 
 <footer id="footer">
     <div class="footer-container">
-        <form method="POST" action="dergoEmailFooter.php" class="contact-form" style="padding-left: 10px;" id="kontaktForm">
+        <form method="POST"  id = "contactForm" class="contact-form" style="padding-left: 10px;" id="kontaktForm">
             <fieldset class="form-group">
                 <h3 style="color: #FFFFFF;">Na kontaktoni</h3>
             </fieldset>
@@ -168,15 +156,42 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 <input type="email" name="email" class="form-control" placeholder="Shëno emailin" required>
             </fieldset>
             <fieldset class="form-group">
-                <textarea name="mesazhi" class="form-control" placeholder="Mesazhi juaj.." required></textarea>
+                <textarea name="mesazhi" id="formMessage" class="form-control" placeholder="Mesazhi juaj.." required></textarea>
             </fieldset>
             <fieldset class="form-group text-xs-right">
                 <button type="submit" class="btn-dergo">Dërgo</button>
             </fieldset>
-            <?php if (!empty($mesazh)) : ?>
-                <p id = "pergjigje" style="color:rgb(159, 159, 159); font-size: 10px;"><?php echo $mesazh; ?></p>
-            <?php endif; ?>
+                <p id = "pergjigje" style="color:rgb(159, 159, 159); font-size: 10px;"></p>
         </form>
+        <script>
+            document.getElementById("contactForm").addEventListener("submit", function(e) {
+                e.preventDefault(); // Prevent default form submission
+
+                const formData = new FormData(this);
+                const mesazhi = formData.get("mesazhi").trim();
+
+                // Validate message length
+                if (mesazhi.length < 5) {
+                    document.getElementById("pergjigje").innerHTML = "<span style='color: red;'>Mesazhi duhet të ketë të paktën 5 shkronja.</span>";
+                    return;
+                }
+
+                fetch("dergoEmailFooter.php", {
+                    method: "POST",
+                    body: formData
+                })
+                .then(response => response.text()) // or .json() if you're returning JSON
+                .then(data => {
+                    document.getElementById("pergjigje").innerHTML = "<span style='color: green;'>Mesazhi u dërgua me sukses!</span>";
+                    this.reset(); // Optional: clears the form
+                })
+                .catch(error => {
+                    console.error("Gabim gjatë dërgimit:", error);
+                    document.getElementById("[pergjigje]").innerHTML = "<span style='color: red;'>Dështoi dërgimi i mesazhit.</span>";
+                });
+            });
+        </script>
+
 
         <div class="footer-social">
             <h3 style="color: #FFFFFF;">Na ndiqni në rrjete sociale</h3>
