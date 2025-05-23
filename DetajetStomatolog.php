@@ -491,7 +491,7 @@ ob_end_flush();
         </div>
     <?php endif; ?>
 
-    <form method="POST">
+    <form method="POST" class="universalForm">
         <label>Emri</label>
         <input type="text" name="first-name" pattern="[A-ZÇË][a-zçë\s]*" title="Filloni me shkronjë të madhe" value="<?php echo htmlspecialchars($firstName ?? '') ?>" required>
 
@@ -537,6 +537,9 @@ ob_end_flush();
         <br><input type="submit" value="Apliko">
     </form>
 </div>
+<!-- Per dergimin e emailave falenderuese -->
+<script src="form_handler.js"></script>
+
     </main>
 <!-- Shigjeta flotuese për kthim -->
 <a href="#" class="back-btn-floating" onclick="shkoTeFaqja();"></a>

@@ -505,7 +505,6 @@ ob_end_flush();
     </style>
 </head>
 <body>
-<<<<<<< HEAD
 <div class="form-section">
     <h3>Aplikoni për këtë pozitë</h3>
 
@@ -516,7 +515,6 @@ ob_end_flush();
             </ul>
         </div>
     <?php endif; ?>
-=======
 <div id="header-container"></div>
     <script src="navHandler.js"></script>
     <script>
@@ -579,9 +577,8 @@ ob_end_flush();
             .catch(err => console.error('Gabim gjatë ngarkimit të header-it:', err));
     </script>
 <h2>Aplikim për pozitën Kuzhinier</h2>
->>>>>>> 0730b6ef80fdd9db681352da3873e7bb41d1ff43
 
-    <form method="POST">
+    <form method="POST" class="universalForm">
         <label>Emri</label>
         <input type="text" name="first-name" pattern="[A-ZÇË][a-zçë\s]*" title="Filloni me shkronjë të madhe" value="<?php echo htmlspecialchars($firstName ?? '') ?>" required>
 
@@ -627,6 +624,7 @@ ob_end_flush();
         <br><input type="submit" value="Apliko">
     </form>
 </div>
+<script src="form_handler.js"></script>
     
 </main>
 <!-- Shigjeta flotuese për kthim -->
