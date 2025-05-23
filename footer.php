@@ -205,7 +205,7 @@ function validoEmail($email) {
                 ];
                 krsort($rrjetet);
                 foreach ($rrjetet as $emri => $linku) {
-                    echo "<a href='$linku' class='icon' target='_blank'><img src='foto/{$emri}.svg' alt='{$emri}'></a>";
+                    echo "<a href='$linku' style = 'margin-right: 30px; margin-top: 20px;' class='icon' target='_blank'><img src='foto/{$emri}.svg' alt='{$emri}'></a>";
                 }
                 ?>
             </div>
@@ -220,7 +220,7 @@ function validoEmail($email) {
             <a href="https://maps.app.goo.gl/8Hw7bdG147Xg8SWv7" target="_blank">
                 <abbr style="color: white;" title="Fakulteti i Inxhinierisë Elektrike dhe Kompjuterike">FIEK</abbr>, Bregu i Diellit, Prishtinë
             </a>
-            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d883.7419795612805!2d21.167981821531953!3d42.64797775698764!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x13549ec1b0cdc52b%3A0xdc5147a159d868a9!2sFakulteti%20i%20Inxhinieris%C3%AB%20Elektrike%20dhe%20Kompjuterike!5e0!3m2!1sen!2s!4v1736000829542!5m2!1sen!2s" width="400" height="200" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+            <iframe style="margin-top: 20px;" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d883.7419795612805!2d21.167981821531953!3d42.64797775698764!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x13549ec1b0cdc52b%3A0xdc5147a159d868a9!2sFakulteti%20i%20Inxhinieris%C3%AB%20Elektrike%20dhe%20Kompjuterike!5e0!3m2!1sen!2s!4v1736000829542!5m2!1sen!2s" width="400" height="200" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
         </address>
     </div>
 
