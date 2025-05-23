@@ -145,10 +145,10 @@ try {
     <script  rel="javascript"2
      src="script2.js">
     </script>
-    <div class="mid-message" style="font-style: italic; margin-top = 200px margin-bottom = 50px">
+    <div class="mid-message" style="font-style: italic; margin-top: 200px; margin-bottom: 50px;">
       <h2><?php echo htmlspecialchars($quoteText); ?></h2>
       <p style="font-style: italic;">- <?php echo htmlspecialchars($quoteAuthor); ?></p>
-      <p style="font-size: 10px; color: #gray; margin-bottom: 20px;">Citatet janë ofruar nga <a href="https://zenquotes.io/" target="_blank" style="color: gray;">ZenQuotes API</a></p>
+      <p style="font-size: 10px; color: gray; margin-bottom: 20px;">Citatet janë ofruar nga <a href="https://zenquotes.io/" target="_blank" style="color: gray;">ZenQuotes API</a></p>
     </div>
     <section class="V1"> 
       <section class="video">
