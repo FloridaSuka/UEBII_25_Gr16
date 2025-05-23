@@ -9,9 +9,10 @@ require 'php_mailer/src/Exception.php';
 header('Content-Type: application/json');
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $emri    = $_POST['emri'] ?? '';
-    $email   = $_POST['email'] ?? '';
-    $mesazhi = $_POST['mesazhi'] ?? '';
+    $emri    = filter_var($_POST['emri'] ?? '', FILTER_SANITIZE_STRING);
+    $email   = filter_var($_POST['email'] ?? '', FILTER_SANITIZE_EMAIL);    
+    $mesazhi = filter_var($_POST['mesazhi'] ?? '', FILTER_SANITIZE_STRING);
+
 
     if (empty($emri) || empty($email) || empty($mesazhi)) {
         echo json_encode(["status" => "error", "message" => "Të gjitha fushat janë të detyrueshme."]);
@@ -38,7 +39,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $mail->CharSet = 'UTF-8';
 
 
-            // opsional, për localhost:
             $mail->SMTPOptions = [
                 'ssl' => [
                     'verify_peer' => false,
