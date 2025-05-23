@@ -25,6 +25,7 @@ try {
     $quoteAuthor = "FindYourWay";
 }
 ?>
+<?php include 'cookie-box.php';?>
 <!DOCTYPE html>
 <html>
   <head lang="en">

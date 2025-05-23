@@ -1,3 +1,4 @@
+<?php include 'cookie-box.php';?>
 <!DOCTYPE html>
 <html lang="sq">
 <head>

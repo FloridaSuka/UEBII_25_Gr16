@@ -76,13 +76,28 @@
         .catch(err => console.error('Gabim gjat&#235 ngarkimit t&#235 header-it:', err));
     </script>
 
-    <section class="hero">
+    <section class="hero" id = "heroSection">
         <div class="container">
             <h2>Nd&#235;rto t&#235; Ardhmen T&#235;nde Profesionale!</h2>
             <p>Gjeni mund&#235;sit&#235; p&#235;r nj&#235; karrier&#235; t&#235; suksesshme me orientimin e duhur.</p>
             <a href="#jobs" class="btn-primary">Shiko Mund&#235;sit&#235;</a>
         </div>
     </section>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const pranuar = document.cookie.split('; ').find(row => row.startsWith('cookiePranuar='));
+            const value = pranuar ? pranuar.split('=')[1] : null;
+
+            if (value === "po") {
+                const hero = document.getElementById("heroSection");
+                if (hero) {
+                    hero.style.backgroundImage = "radial-gradient(circle, rgba(47, 38, 38, 0.4), rgba(255, 255, 255, 0.4)), url('foto/background2.jpg')";
+                }
+            }
+        });
+</script>
+
+
 
     <script>
         $(document).ready(function () {

@@ -5,6 +5,7 @@ $mbiemri = $_SESSION['last_name'] ?? '';
 ob_start();
 ?>
 
+<?php include 'cookie-box.php';?>
 <!DOCTYPE html>
 <html lang="sq">
 <head>

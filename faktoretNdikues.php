@@ -85,6 +85,7 @@ function numroAktivet($lista) {
 $GLOBALS['numri_faktoreve'] = count($faktoretTituj);
 ?>
 
+<?php include 'cookie-box.php';?>
 <!DOCTYPE html>
 <html lang="sq">
 <head>

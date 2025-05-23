@@ -64,6 +64,7 @@ class Mundesi {
 $koment = (count($mundesite) >= 20) ? "🧠 Ke shumë mundësi për të ndërtuar karrierën tënde!" : "Zgjedhjet janë të pakta – eksploro më shumë!";
 ?>
 
+<?php include 'cookie-box.php';?>
 <!DOCTYPE html>
 <html lang="sq">
 <head>

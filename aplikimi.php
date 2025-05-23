@@ -3,6 +3,7 @@ session_start();
 $emri = $_SESSION['first_name'] ?? '';
 $mbiemri = $_SESSION['last_name'] ?? '';
 ?>
+<?php include 'cookie-box.php';?>
 <!DOCTYPE html>
 <html lang="sq">
 <head>
