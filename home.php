@@ -1,12 +1,13 @@
+<?php include 'cookie-box.php';?>
 <!DOCTYPE html>
 <html lang="sq">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Orientimi n&#235; Karrier&#235;</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="homestyle.css">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body style="scroll-behavior: smooth;">
     <div id="header-container"></div>
@@ -151,8 +152,8 @@
             </div>
         </div>
     </section>
-
     <?php include 'footer.php';?>
-
 </body>
 </html>
+
+

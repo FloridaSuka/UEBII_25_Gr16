@@ -112,18 +112,22 @@
 </head>
 
 <?php
-define("KONTAKT_EMAIL", "findyourway@gmail.com");
+define("KONTAKT_EMAIL", "findyourway.2024.25@gmail.com");
 $mesazh = "";
 
 class Kontakt {
+    private $emri;
     private $email;
     private $mesazhi;
 
-    public function __construct($email, $mesazhi) {
+    public function __construct($emri, $email, $mesazhi) {
+        $this->emri = $emri;
         $this->email = $email;
         $this->mesazhi = $mesazhi;
     }
-
+    public function getEmri() {
+        return $this->emri;
+    }
     public function getEmail() {
         return $this->email;
     }
@@ -138,12 +142,13 @@ function validoEmail($email) {
 }
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    $emri = $_POST['emri'] ?? '';
     $emaili = $_POST['email'] ?? '';
     $teksti = $_POST['mesazhi'] ?? '';
 
     if (validoEmail($emaili) && strlen($teksti) >= 5) {
-        $kontakt = new Kontakt($emaili, $teksti);
-        $mesazh = "Faleminderit, " . htmlspecialchars($kontakt->getEmail()) . " për mesazhin tuaj!";
+        $kontakt = new Kontakt($emri,$emaili, $teksti);
+        $mesazh = "Faleminderit, " . htmlspecialchars($kontakt->getEmri()) . " për mesazhin tuaj!";
     } else {
         $mesazh = "&#9432 Ju lutemi plotësoni emailin dhe mesazhin në mënyrë të saktë.";
     }
@@ -152,9 +157,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 <footer id="footer">
     <div class="footer-container">
-        <form method="POST" action="#footer" class="contact-form" style="padding-left: 10px;">
+        <form method="POST" action="dergoEmailFooter.php" class="contact-form" style="padding-left: 10px;" id="kontaktForm">
             <fieldset class="form-group">
                 <h3 style="color: #FFFFFF;">Na kontaktoni</h3>
+            </fieldset>
+            <fieldset class="form-group">
+                <input name="emri" class="form-control" placeholder="Shëno emrin" required>
             </fieldset>
             <fieldset class="form-group">
                 <input type="email" name="email" class="form-control" placeholder="Shëno emailin" required>
@@ -166,7 +174,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 <button type="submit" class="btn-dergo">Dërgo</button>
             </fieldset>
             <?php if (!empty($mesazh)) : ?>
-                <p style="color:rgb(159, 159, 159); font-size: 10px;"><?php echo $mesazh; ?></p>
+                <p id = "pergjigje" style="color:rgb(159, 159, 159); font-size: 10px;"><?php echo $mesazh; ?></p>
             <?php endif; ?>
         </form>
 
@@ -186,7 +194,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 }
                 ?>
             </div>
-
 
         </div>
 
