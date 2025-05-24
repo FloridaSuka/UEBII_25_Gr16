@@ -142,10 +142,8 @@ try {
           </div>
       </div>
     </div>
-    <script  rel="javascript"2
-     src="script2.js">
-    </script>
-    <div class="mid-message" style="font-style: italic; margin-top: 200px; margin-bottom: 50px;">
+    <script  rel="javascript" src="script2.js"></script>
+    <div class="mid-message" style="font-style: italic; margin-top: 150px; margin-bottom: 150px;">
       <h2><?php echo htmlspecialchars($quoteText); ?></h2>
       <p style="font-style: italic;">- <?php echo htmlspecialchars($quoteAuthor); ?></p>
       <p style="font-size: 10px; color: gray; margin-bottom: 20px;">Citatet janë ofruar nga <a href="https://zenquotes.io/" target="_blank" style="color: gray;">ZenQuotes API</a></p>
@@ -203,7 +201,10 @@ try {
       });
   </script>
 
-    <ul class="movies"><li class="mov">10 Filmat m&euml Inspirues</li>
+    
+     <div class="we">
+      <ul class="movies">
+        <li class="mov" style = "padding-top: 50px;">10 Filmat m&euml Inspirues</li>
       <ul class="mo">
         <li class="movie"><a id="link-movie" href="https://youtu.be/EajIlG_OCvw">A Beautiful Mind (2001)</a></li>
         <li class="movie"><a id="link-movie" href="https://youtu.be/ajePV_jTTqY">Brittany Runs a Marathon (2019)</a></li>
@@ -217,8 +218,6 @@ try {
         <li class="movie"><a id="link-movie" href="https://youtu.be/NmzuHjWmXOc">The Shawshank Redemption (1994)</a></li>
       </ul>
      </ul>
-     <div class="we">
-      
      </div>
      <div class="contai">
       <div class="gallery">
