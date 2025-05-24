@@ -37,8 +37,8 @@
                 <input type="password" name="password" class="input-field1" placeholder="Fjalëkalimi" required>
                 <select name="roli" class="input-field1" required>
                     <option value="" disabled selected>Zgjedh rolin</option>
-                    <option value="user">Përdorues</option>
-                    <option value="admin">Administrator</option>
+                    <option value="user" style="color: black;">Punëtor</option>
+                    <option value="admin" style="color: black;">Pundhënës</option>
                 </select>
                 <input type="checkbox" class="check-box"><span>Jam dakord me termat dhe kushtet</span>
                 <button type="submit" class="submit-btn">Regjistrohu</button>

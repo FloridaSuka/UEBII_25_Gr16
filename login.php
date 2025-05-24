@@ -32,6 +32,7 @@ if ($result->num_rows === 1) {
         $_SESSION['emri'] = $user['emri'];
         $_SESSION['mbiemri'] = $user['mbiemri'];
         $_SESSION['roli'] = $user['Roli'];
+         $_SESSION['emri_perdoruesit'] = $user['emri_perdoruesit'];
 
         echo json_encode([
             "sukses" => true,
@@ -44,6 +45,16 @@ if ($result->num_rows === 1) {
     echo json_encode(["sukses" => false, "mesazh" => "Përdoruesi nuk ekziston."]);
 }
 
+
+// Vetëm për DEBUG — hiqe kur përfundojnë testet
+error_log("LOGIN DEBUG:");
+error_log("Përdorues: " . $username);
+error_log("Roli: " . $user['Roli']);
+error_log("SESSION:");
+error_log(print_r($_SESSION, true));
+
 $stmt->close();
 $con->close();
+
+
 ?>
