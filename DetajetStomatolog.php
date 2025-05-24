@@ -11,7 +11,7 @@ ob_start();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <title>Detajet e Profesionit - Inxhinier Ndertimi</title>
+    <title>Detajet e Profesionit - Stomatolog</title>
     <style>
          ::-webkit-scrollbar{
         width: 10px;
@@ -55,7 +55,7 @@ ob_start();
 
         .profession-details {
             position: relative;
-            background-image: url('foto/Ndertimi.webp'); /* Ndryshoni për foton e kuzhinës */
+            background-image: url('foto/ordinanca.webp'); /* Ndryshoni për foton e kuzhinës */
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
@@ -619,7 +619,7 @@ ob_end_flush();
             })
             .catch(err => console.error('Gabim gjatë ngarkimit të header-it:', err));
     </script>
-<h2>Aplikim për pozitën Inxhinier Ndertimi</h2>
+<h2>Aplikim për pozitën Stomatolag</h2>
 
 <form method="POST" class="universalForm" enctype="multipart/form-data">
         <label>Emri</label>

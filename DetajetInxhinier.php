@@ -316,15 +316,9 @@ ob_start();
     .catch(err => console.error('Gabim gjat&#235 ngarkimit t&#235 header-it:', err));
 </script>
 <main>
-    <!-- Titulli Kryesor -->
-    <div class="profession-title">
-      <b> Detajet e Profesionit - Imxhinier Ndertimi</b>  
-    </div>
+    
 
-    <!-- Seksioni i Detajeve -->
-    <div class="profession-details">
-        
-    </div>
+    <
 
     <div class="profession-title">
       <b>  Detajet e Profesionit - Inxhinier Ndërtimi</b>
