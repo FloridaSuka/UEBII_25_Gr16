@@ -551,7 +551,7 @@ ob_end_flush();
 </head>
 <body>
 <div class="form-section">
-    <h3>Aplikoni për këtë pozitë</h3>
+
 
     <?php if (!empty($errors)) : ?>
         <div style="color: red;">
@@ -670,7 +670,7 @@ ob_end_flush();
 <script>
     // Funksioni për navigim te faqja e re
     function shkoTeFaqja() {
-        window.location.href = "shpalljet.html"; // Këtu vendos destinacionin tënd
+        window.location.href = "shpalljet.php"; // Këtu vendos destinacionin tënd
     }
 </script>
 

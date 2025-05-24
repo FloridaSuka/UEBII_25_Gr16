@@ -662,7 +662,7 @@ ob_end_flush();
 <script>
     // Funksioni për navigim te faqja e re
     function shkoTeFaqja() {
-        window.location.href = "shpalljet.html"; // Këtu vendos destinacionin tënd
+        window.location.href = "shpalljet.php"; // Këtu vendos destinacionin tënd
     }
 </script>
 
