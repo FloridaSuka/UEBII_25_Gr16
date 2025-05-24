@@ -35,7 +35,6 @@ try {
     <title>K&#235shilla</title>
     <link rel="stylesheet"  href="keshilla.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
-    <link rel="stylesheet" href="css/swiper-bundle.min.css">
     <script src="https://swiperjs.com/"></script>
     <link rel="stylesheet" href="https://unpkg.com/swiper@8.4.5/swiper-bundle.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fon-awesome/6.0.0-bets3/css/all.min.css">
@@ -84,7 +83,6 @@ try {
           </div>
       </div>
     </div>
-    <script  rel="javascript" src="script2.js"></script>
     <div class="mid-message" style="font-style: italic; margin-top: 150px; margin-bottom: 150px;">
       <h2><?php echo htmlspecialchars($quoteText); ?></h2>
       <p style="font-style: italic;">- <?php echo htmlspecialchars($quoteAuthor); ?></p>
