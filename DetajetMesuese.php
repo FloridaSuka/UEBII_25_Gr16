@@ -411,7 +411,15 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $age = $_POST['age'] ?? 0;
     $city = $_POST['qyteti'] ?? '';
     $experience = $_POST['experience'] ?? 'jo';
-    $skills = $_POST['skill'] ?? [];
+    $cvFile = $_FILES['cv'] ?? null;
+    $uploadDir = 'cv_files/';
+    $cvPath = '';
+
+    if ($cvFile && $cvFile['error'] === UPLOAD_ERR_OK) {
+        // ... pjesa për kontroll dhe ruajtje të CV-së si më lart ...
+    } else {
+        $errors[] = "Ju lutem ngarkoni CV-në tuaj.";
+    }
 
     if (strlen($firstName) < 2 || !isCapitalized($firstName)) $errors[] = "Emri duhet të fillojë me shkronjë të madhe.";
     if (strlen($lastName) < 2 || !isCapitalized($lastName)) $errors[] = "Mbiemri duhet të fillojë me shkronjë të madhe.";
@@ -422,6 +430,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     
 $_SESSION['first_name'] = $firstName;
 $_SESSION['last_name'] = $lastName;
+$_SESSION['cv_path'] = $cvPath;
+
 header("Location: aplikimi.php");
 exit();
 
@@ -513,8 +523,9 @@ ob_end_flush();
             </ul>
         </div>
     <?php endif; ?>
+    <form method="POST" class="universalForm" enctype="multipart/form-data">
 
-    <form method="POST" class="universalForm">
+
         <label>Emri</label>
         <input type="text" name="first-name" pattern="[A-ZÇË][a-zçë\s]*" title="Filloni me shkronjë të madhe" value="<?php echo htmlspecialchars($firstName ?? '') ?>" required>
 
@@ -536,25 +547,15 @@ ob_end_flush();
             <option value="Gjilan">
             <option value="Prizren">
         </datalist>
+        <label>Ngarko CV (.pdf ose .doc/.docx)</label>
+<input type="file" name="cv" accept=".pdf,.doc,.docx" required>
+
 
         <label>Eksperiencë</label><br>
         <input type="radio" name="experience" value="po" <?php if (($experience ?? '') === 'po') echo 'checked'; ?>> Po
         <input type="radio" name="experience" value="jo" <?php if (($experience ?? '') === 'jo') echo 'checked'; ?>> Jo<br><br>
 
-        <label>Aftësitë</label><br>
-        <?php
-       $aftesite = [
-        1 => "Komunikim efektiv dhe ndërveprim me nxënësit",
-        2 => "Planifikimi dhe përgatitja e orëve mësimore",
-        3 => "Përdorimi i teknologjisë në mësimdhënie (Smartboard, platforma online)",
-        4 => "Menaxhimi i klasës dhe motivimi i nxënësve",
-        5 => "Vlerësimi dhe zhvillimi i përparimit të nxënësve"
-    ];
-    
-        foreach ($aftesite as $key => $label) {
-            $checked = (isset($skills) && in_array($key, $skills)) ? 'checked' : '';
-            echo "<label><input type='checkbox' name='skill[]' value='$key' $checked> $label</label><br>";
-        }
+        
         ?>
 
         <br><input type="submit" value="Apliko">

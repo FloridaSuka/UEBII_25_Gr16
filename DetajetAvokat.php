@@ -389,7 +389,17 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $age = $_POST['age'] ?? 0;
     $city = $_POST['qyteti'] ?? '';
     $experience = $_POST['experience'] ?? 'jo';
-    $skills = $_POST['skill'] ?? [];
+    
+    $cvFile = $_FILES['cv'] ?? null;
+    $uploadDir = 'cv_files/';
+    $cvPath = '';
+
+    if ($cvFile && $cvFile['error'] === UPLOAD_ERR_OK) {
+      
+    } else {
+        $errors[] = "Ju lutem ngarkoni CV-në tuaj.";
+    }
+
 
     if (strlen($firstName) < 2 || !isCapitalized($firstName)) $errors[] = "Emri duhet të fillojë me shkronjë të madhe.";
     if (strlen($lastName) < 2 || !isCapitalized($lastName)) $errors[] = "Mbiemri duhet të fillojë me shkronjë të madhe.";
@@ -401,6 +411,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     
 $_SESSION['first_name'] = $firstName;
 $_SESSION['last_name'] = $lastName;
+$_SESSION['cv_path'] = $cvPath;
+
 header("Location: aplikimi.php");
 exit();
 
@@ -494,7 +506,8 @@ ob_end_flush();
         </div>
     <?php endif; ?>
 
-    <form method="POST" class="universalForm">
+    <form method="POST" class="universalForm" enctype="multipart/form-data">
+
         <label>Emri</label>
         <input type="text" name="first-name" pattern="[A-ZÇË][a-zçë\s]*" title="Filloni me shkronjë të madhe" value="<?php echo htmlspecialchars($firstName ?? '') ?>" required>
 
@@ -516,25 +529,15 @@ ob_end_flush();
             <option value="Gjilan">
             <option value="Prizren">
         </datalist>
+        <label>Ngarko CV (.pdf ose .doc/.docx)</label>
+<input type="file" name="cv" accept=".pdf,.doc,.docx" required>
 
         <label>Eksperiencë</label><br>
         <input type="radio" name="experience" value="po" <?php if (($experience ?? '') === 'po') echo 'checked'; ?>> Po
         <input type="radio" name="experience" value="jo" <?php if (($experience ?? '') === 'jo') echo 'checked'; ?>> Jo<br><br>
 
-        <label>Aftësitë</label><br>
-        <?php
-        $aftesite = [
-            1 => "Edukimi dhe Kualifikimet Profesionale",
-            2 => "Eksperiencë në Fusha të Dallueshme",
-            3 => "Aftësi Ligjore",
-            4 => "Komunikim me Klientë",
-            5 => "Punë në Presion"
-        ];
-        foreach ($aftesite as $key => $label) {
-            $checked = (isset($skills) && in_array($key, $skills)) ? 'checked' : '';
-            echo "<label><input type='checkbox' name='skill[]' value='$key' $checked> $label</label><br>";
-        }
-        ?>
+       
+    
 
         <br><input type="submit" value="Apliko">
     </form>

@@ -390,7 +390,16 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $age = $_POST['age'] ?? 0;
     $city = $_POST['qyteti'] ?? '';
     $experience = $_POST['experience'] ?? 'jo';
-    $skills = $_POST['skill'] ?? [];
+    $cvFile = $_FILES['cv'] ?? null;
+    $uploadDir = 'cv_files/';
+    $cvPath = '';
+    $motivation = $_POST['motivation'] ?? '';
+
+    if ($cvFile && $cvFile['error'] === UPLOAD_ERR_OK) {
+        // ... pjesa për kontroll dhe ruajtje të CV-së si më lart ...
+    } else {
+        $errors[] = "Ju lutem ngarkoni CV-në tuaj.";
+    }
 
     if (strlen($firstName) < 2 || !isCapitalized($firstName)) $errors[] = "Emri duhet të fillojë me shkronjë të madhe.";
     if (strlen($lastName) < 2 || !isCapitalized($lastName)) $errors[] = "Mbiemri duhet të fillojë me shkronjë të madhe.";
@@ -398,10 +407,16 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     if ($age < MIN_AGE || $age > MAX_AGE) $errors[] = "Mosha duhet të jetë mes " . MIN_AGE . " dhe " . MAX_AGE . ".";
 
     if (empty($errors)) {
-        $applicant = new Applicant($firstName, $lastName, $contact, $age, $city, $experience, $skills);
+        $applicant = new Applicant($firstName, $lastName, $contact, $age, $city, $experience,$cvPath, $motivation
+    
+    );
     
 $_SESSION['first_name'] = $firstName;
 $_SESSION['last_name'] = $lastName;
+$_SESSION['cv_path'] = $cvPath;
+$_SESSION['motivation'] = $motivation;
+
+
 header("Location: aplikimi.php");
 exit();
 
@@ -416,7 +431,6 @@ ob_end_flush();
 <head>
     <meta charset="UTF-8">
     <title>Forma e Aplikimit</title>
-<<<<<<< HEAD
     <style>
    .form-section {
     max-width: 1000px;
@@ -426,7 +440,6 @@ ob_end_flush();
     border: 1px solid #ccc;
     border-radius: 10px;
 }
-=======
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <div id="header-container"></div>
@@ -526,13 +539,13 @@ ob_end_flush();
                 </div>
             </div>
             <div class="mb-3">
+            
                 <label>Letër motivuese:</label>
                 <textarea name="cover-letter" class="form-control" rows="4"></textarea>
             </div>
             <button type="submit" class="btn btn-primary">Dërgo</button>
         </form>
     </div>
->>>>>>> 0730b6ef80fdd9db681352da3873e7bb41d1ff43
 
 /* Stilizimi i inputeve të zakonshme me distancë më të vogël */
 .form-section input[type="text"],
@@ -602,7 +615,8 @@ ob_end_flush();
         </div>
     <?php endif; ?>
 
-    <form method="POST" class="universalForm">
+    <form method="POST" class="universalForm" enctype="multipart/form-data">
+
         <label>Emri</label>
         <input type="text" name="first-name" pattern="[A-ZÇË][a-zçë\s]*" title="Filloni me shkronjë të madhe" value="<?php echo htmlspecialchars($firstName ?? '') ?>" required>
 
@@ -624,27 +638,20 @@ ob_end_flush();
             <option value="Gjilan">
             <option value="Prizren">
         </datalist>
+        <label>Ngarko CV (.pdf ose .doc/.docx)</label>
+<input type="file" name="cv" accept=".pdf,.doc,.docx" required>
+<label>Letër Motivimi</label>
+<textarea name="motivation" rows="5" placeholder="Shkruani letrën tuaj këtu..." required><?php echo htmlspecialchars($motivation ?? '') ?></textarea>
+
 
         <label>Eksperiencë</label><br>
         <input type="radio" name="experience" value="po" <?php if (($experience ?? '') === 'po') echo 'checked'; ?>> Po
         <input type="radio" name="experience" value="jo" <?php if (($experience ?? '') === 'jo') echo 'checked'; ?>> Jo<br><br>
 
-        <label>Aftësitë</label><br>
-        <?php
-      $aftesite = [
-        1 => "Krijimi dhe menaxhimi i fushatave promocionale",
-        2 => "Aftësi në marketingun digjital (SEO, SEM, email marketing)",
-        3 => "Përdorimi i rrjeteve sociale për promovim",
-        4 => "Analizimi i të dhënave të tregut dhe sjelljes së klientëve",
-        5 => "Shkrimi kreativ dhe përgatitja e përmbajtjeve reklamues"
-    ];
+      
     
-        foreach ($aftesite as $key => $label) {
-            $checked = (isset($skills) && in_array($key, $skills)) ? 'checked' : '';
-            echo "<label><input type='checkbox' name='skill[]' value='$key' $checked> $label</label><br>";
-        }
-        ?>
-
+    
+       
         <br><input type="submit" value="Apliko">
     </form>
 </div>

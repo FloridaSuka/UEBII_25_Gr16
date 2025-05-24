@@ -4,7 +4,6 @@ $emri = $_SESSION['first_name'] ?? '';
 $mbiemri = $_SESSION['last_name'] ?? '';
 ob_start();
 ?>
-
 <?php include 'cookie-box.php';?>
 <!DOCTYPE html>
 <html lang="sq">
@@ -14,7 +13,7 @@ ob_start();
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <title>Detajet e Profesionit - Kontabilist</title>
     <style>
-        ::-webkit-scrollbar{
+         ::-webkit-scrollbar{
         width: 10px;
         }
         ::-webkit-scrollbar-track{
@@ -45,7 +44,7 @@ ob_start();
         }
 
         .profession-title {
-             background-color: #264653;
+            background-color: #264653;
             color: white;
             padding: 15px 20px;
             text-align: center;
@@ -56,7 +55,7 @@ ob_start();
 
         .profession-details {
             position: relative;
-            background-image: url('foto/kontabilist.webp'); 
+            background-image: url('foto/kontabilist.webp'); /* Ndryshoni për foton e kuzhinës */
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
@@ -138,6 +137,22 @@ ob_start();
             border-radius: 20px;
             box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
         }
+        .btn {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 12px 25px;
+            background-color: #264653;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        .btn:hover {
+            background-color: #21867a;
+            transform: scale(1.05);
+        }
 
         .form-section {
             margin-top: 40px;
@@ -177,6 +192,7 @@ ob_start();
             background-color: #21867a;
         }
 
+        /* Shigjetë për butonin Apliko Tani dhe butonin për kthim */
         .back-btn {
             display: inline-block;
             margin-top: 20px;
@@ -196,10 +212,11 @@ ob_start();
         }
 
         .back-btn::before {
-            content: "←"; 
+            content: "←"; /* Shigjeta e kthimit */
             font-size: 18px;
         }
 
+        /* Shigjeta flotuese në cepin e djathtë të faqes */
         .back-btn-floating {
             position: fixed;
             bottom: 20px;
@@ -220,7 +237,7 @@ ob_start();
         }
 
         .back-btn-floating::before {
-            content: "←"; 
+            content: "←"; /* Shigjeta e kthimit */
             font-size: 18px;
         }
     </style>
@@ -237,72 +254,76 @@ ob_start();
    <!-- importo file te html per nav ne div -->
 
    <div id="header-container"></div>
-    <script src="navHandler.js"></script>
-    <script>
-        fetch('nav.html')
-            .then(response => response.text())
-            .then(data => {
-                document.getElementById('header-container').innerHTML = data;
-                setupNavigation(); // Funksioni nga navHandler.js
-                const loginIcon = document.getElementById('loginIcon');
-                const loginModal = document.getElementById('loginModal');
-                const closeBtn = document.getElementById('closeBtn');
-            const initialPosition = { top: 50, left: 50 }; // Pozita fillestare e modalit
-  
-            //hap modalin
-            if (loginIcon) {
-                loginIcon.addEventListener('click', () => {
-                    loginModal.style.display = 'block';
-                    loginModal.style.top = `${initialPosition.top}px`;
-                    loginModal.style.left = `${initialPosition.left}px`;
-                });
-            }
-            //mbyll modalin
-            if (closeBtn) {
-                closeBtn.addEventListener('click', () => {
-                    loginModal.style.display = 'none';
-                });
-            }
-           // Kthimi i modalit në pozitën fillestare
-            loginModal.addEventListener('dblclick', () => {
+   <script>
+    // JavaScript për të ngarkuar header-in nga file-i i jashtëm
+    fetch('nav.html')
+    .then(response => response.text())
+    .then(data => {
+        // Vendos përmbajtjen e header-it në div-in me id="header-container"
+        document.getElementById('header-container').innerHTML = data;
+        // Lidh eventet pasi përmbajtja të jetë ngarkuar
+        const loginIcon = document.getElementById('loginIcon');
+        const loginModal = document.getElementById('loginModal');
+        const closeBtn = document.getElementById('closeBtn');
+        const initialPosition = { top: 50, left: 50 }; // Pozita fillestare e modalit
+
+        //hap modalin
+        if (loginIcon) {
+            loginIcon.addEventListener('click', () => {
+                loginModal.style.display = 'block';
                 loginModal.style.top = `${initialPosition.top}px`;
                 loginModal.style.left = `${initialPosition.left}px`;
             });
-            //mbyllja kur klikohet jasht modalit
-            window.addEventListener('click', (e) => {
-                if (e.target === loginModal) {
-                    loginModal.style.display = 'none';
-                }
+        }
+        //mbyll modalin
+        if (closeBtn) {
+            closeBtn.addEventListener('click', () => {
+                loginModal.style.display = 'none';
             });
-            // Drag and drop
-            let offsetX = 0, offsetY = 0;
-  
-            loginModal.addEventListener('dragstart', (e) => {
-                const rect = loginModal.getBoundingClientRect();
-                offsetX = e.clientX - rect.left;
-                offsetY = e.clientY - rect.top;
-            });
-  
-            document.addEventListener('dragover', (e) => {
-                e.preventDefault();
-            });
-  
-            document.addEventListener('drop', (e) => {
-                e.preventDefault();
-                const x = e.clientX - offsetX;
-                const y = e.clientY - offsetY;
-                loginModal.style.top = `${y}px`;
-                loginModal.style.left = `${x}px`;
-            }); 
-            })
-            .catch(err => console.error('Gabim gjatë ngarkimit të header-it:', err));
-    </script>
+        }
+       // Kthimi i modalit në pozitën fillestare
+        loginModal.addEventListener('dblclick', () => {
+            loginModal.style.top = `${initialPosition.top}px`;
+            loginModal.style.left = `${initialPosition.left}px`;
+        });
+        //mbyllja kur klikohet jasht modalit
+        window.addEventListener('click', (e) => {
+            if (e.target === loginModal) {
+                loginModal.style.display = 'none';
+            }
+        });
+        // Drag and drop
+        let offsetX = 0, offsetY = 0;
+
+        loginModal.addEventListener('dragstart', (e) => {
+            const rect = loginModal.getBoundingClientRect();
+            offsetX = e.clientX - rect.left;
+            offsetY = e.clientY - rect.top;
+        });
+
+        document.addEventListener('dragover', (e) => {
+            e.preventDefault();
+        });
+
+        document.addEventListener('drop', (e) => {
+            e.preventDefault();
+            const x = e.clientX - offsetX;
+            const y = e.clientY - offsetY;
+            loginModal.style.top = `${y}px`;
+            loginModal.style.left = `${x}px`;
+        });        
+    })
+    .catch(err => console.error('Gabim gjat&#235 ngarkimit t&#235 header-it:', err));
+</script>
 <main>
+    <!-- Titulli Kryesor -->
     <div class="profession-title">
-     <b> Detajet e Profesionit - Kontabilist</b>  
+      <b> Detajet e Profesionit - Kontabilist</b>  
     </div>
 
+    <!-- Seksioni i Detajeve -->
     <div class="profession-details">
+        <
     </div>
 
     <div class="profilit">
@@ -334,11 +355,9 @@ ob_start();
         <li>Mundësi për ngritje profesionale në fusha të ndryshme.</li>
     </ul>
 
-    
-     <!-- Seksioni i Aplikimit -->
-     <?php
+<!-- Seksioni i Aplikimit -->
+<?php
 
-// ------------------- BACKEND LOGJIKA -------------------
 define("MIN_AGE", 18);
 define("MAX_AGE", 65);
 
@@ -363,22 +382,33 @@ class Applicant {
     private $age;
     private $city;
     private $experience;
-    private $skills = [];
+    private $motivation;
+    private $cvPath;
 
-    public function __construct($f, $l, $e, $a, $c, $ex, $sk) {
+    public function __construct($f, $l, $e, $a, $c, $ex, $m, $cv) {
         $this->firstName = $f;
         $this->lastName = $l;
         $this->emailOrPhone = $e;
         $this->age = $a;
         $this->city = $c;
         $this->experience = $ex;
-        $this->skills = $sk;
+        $this->motivation = $m;
+        $this->cvPath = $cv;
     }
 
     public function summary() {
-        return "Aplikuesi <b>{$this->firstName} {$this->lastName}</b>, nga <b>{$this->city}</b>, me moshë <b>{$this->age}</b>, ka përvojë: <b>{$this->experience}</b>, dhe ka zgjedhur " . count($this->skills) . " aftësi.";
+        $cvLink = $this->cvPath ? "<a href='{$this->cvPath}' target='_blank'>Shkarko CV</a>" : "CV nuk është dorëzuar.";
+
+        return "
+            Aplikuesi <b>{$this->firstName} {$this->lastName}</b>, nga <b>{$this->city}</b>, me moshë <b>{$this->age}</b>,
+            ka përvojë: <b>{$this->experience}</b>.<br><br>
+            <b>Letra e motivimit:</b><br>
+            <i>{$this->motivation}</i><br><br>
+            <b>{$cvLink}</b>
+        ";
     }
 }
+
 
 $errors = [];
 $result = "";
@@ -390,7 +420,36 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $age = $_POST['age'] ?? 0;
     $city = $_POST['qyteti'] ?? '';
     $experience = $_POST['experience'] ?? 'jo';
-    $skills = $_POST['skill'] ?? [];
+    $cvFile = $_FILES['cv'] ?? null;
+    $uploadDir = 'cv_files/';
+    $cvPath = '';
+    $motivation = $_POST['motivation'] ?? '';
+
+    if ($cvFile && $cvFile['error'] === UPLOAD_ERR_OK) {
+        $fileTmpPath = $cvFile['tmp_name'];
+        $fileName = basename($cvFile['name']);
+        $fileExtension = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
+    
+        $allowedExtensions = ['pdf', 'doc', 'docx'];
+        if (in_array($fileExtension, $allowedExtensions)) {
+            $newFileName = uniqid('cv_', true) . '.' . $fileExtension;
+            $cvPath = $uploadDir . $newFileName;
+    
+            // Krijo folderin nëse nuk ekziston
+            if (!is_dir($uploadDir)) {
+                mkdir($uploadDir, 0777, true);
+            }
+    
+            if (!move_uploaded_file($fileTmpPath, $cvPath)) {
+                $errors[] = "Ngarkimi i CV-së dështoi.";
+            }
+        } else {
+            $errors[] = "Vetëm dokumente PDF, DOC ose DOCX lejohen për CV.";
+        }
+    } else {
+        $errors[] = "Ju lutem ngarkoni CV-në tuaj.";
+    }
+    
 
     if (strlen($firstName) < 2 || !isCapitalized($firstName)) $errors[] = "Emri duhet të fillojë me shkronjë të madhe.";
     if (strlen($lastName) < 2 || !isCapitalized($lastName)) $errors[] = "Mbiemri duhet të fillojë me shkronjë të madhe.";
@@ -398,10 +457,15 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     if ($age < MIN_AGE || $age > MAX_AGE) $errors[] = "Mosha duhet të jetë mes " . MIN_AGE . " dhe " . MAX_AGE . ".";
 
     if (empty($errors)) {
-        $applicant = new Applicant($firstName, $lastName, $contact, $age, $city, $experience, $skills);
+        $applicant = new Applicant($firstName, $lastName, $contact, $age, $city, $experience, $motivation, $cvPath);
+
     
 $_SESSION['first_name'] = $firstName;
 $_SESSION['last_name'] = $lastName;
+$_SESSION['cv_path'] = $cvPath;
+$_SESSION['motivation'] = $motivation;
+
+
 header("Location: aplikimi.php");
 exit();
 
@@ -485,7 +549,7 @@ ob_end_flush();
 </head>
 <body>
 <div class="form-section">
-    <h3>Aplikoni për këtë pozitë</h3>
+    
 
     <?php if (!empty($errors)) : ?>
         <div style="color: red;">
@@ -494,8 +558,70 @@ ob_end_flush();
             </ul>
         </div>
     <?php endif; ?>
+<div id="header-container"></div>
+    <script src="navHandler.js"></script>
+    <script>
+        fetch('nav.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('header-container').innerHTML = data;
+                setupNavigation(); // Funksioni nga navHandler.js
+                const loginIcon = document.getElementById('loginIcon');
+                const loginModal = document.getElementById('loginModal');
+                const closeBtn = document.getElementById('closeBtn');
+            const initialPosition = { top: 50, left: 50 }; // Pozita fillestare e modalit
+  
+            //hap modalin
+            if (loginIcon) {
+                loginIcon.addEventListener('click', () => {
+                    loginModal.style.display = 'block';
+                    loginModal.style.top = `${initialPosition.top}px`;
+                    loginModal.style.left = `${initialPosition.left}px`;
+                });
+            }
+            //mbyll modalin
+            if (closeBtn) {
+                closeBtn.addEventListener('click', () => {
+                    loginModal.style.display = 'none';
+                });
+            }
+           // Kthimi i modalit në pozitën fillestare
+            loginModal.addEventListener('dblclick', () => {
+                loginModal.style.top = `${initialPosition.top}px`;
+                loginModal.style.left = `${initialPosition.left}px`;
+            });
+            //mbyllja kur klikohet jasht modalit
+            window.addEventListener('click', (e) => {
+                if (e.target === loginModal) {
+                    loginModal.style.display = 'none';
+                }
+            });
+            // Drag and drop
+            let offsetX = 0, offsetY = 0;
+  
+            loginModal.addEventListener('dragstart', (e) => {
+                const rect = loginModal.getBoundingClientRect();
+                offsetX = e.clientX - rect.left;
+                offsetY = e.clientY - rect.top;
+            });
+  
+            document.addEventListener('dragover', (e) => {
+                e.preventDefault();
+            });
+  
+            document.addEventListener('drop', (e) => {
+                e.preventDefault();
+                const x = e.clientX - offsetX;
+                const y = e.clientY - offsetY;
+                loginModal.style.top = `${y}px`;
+                loginModal.style.left = `${x}px`;
+            }); 
+            })
+            .catch(err => console.error('Gabim gjatë ngarkimit të header-it:', err));
+    </script>
+<h2>Aplikim për pozitën Kontabilist</h2>
 
-    <form method="POST" class="universalForm">
+<form method="POST" class="universalForm" enctype="multipart/form-data">
         <label>Emri</label>
         <input type="text" name="first-name" pattern="[A-ZÇË][a-zçë\s]*" title="Filloni me shkronjë të madhe" value="<?php echo htmlspecialchars($firstName ?? '') ?>" required>
 
@@ -522,28 +648,18 @@ ob_end_flush();
         <input type="radio" name="experience" value="po" <?php if (($experience ?? '') === 'po') echo 'checked'; ?>> Po
         <input type="radio" name="experience" value="jo" <?php if (($experience ?? '') === 'jo') echo 'checked'; ?>> Jo<br><br>
 
-        <label>Aftësitë</label><br>
-        <?php
-       $aftesite = [
-        1 => "Njohuri të thelluara në kontabilitet dhe financa",
-        2 => "Përvojë në përgatitjen e raporteve financiare",
-        3 => "Saktësi dhe vëmendje ndaj detajeve",
-        4 => "Njohuri në përdorimin e softuerëve financiarë (p.sh. Excel, QuickBooks)",
-        5 => "Aftësi për të menaxhuar afatet dhe dokumentacionin fiskal"
-    ];
-    
-        foreach ($aftesite as $key => $label) {
-            $checked = (isset($skills) && in_array($key, $skills)) ? 'checked' : '';
-            echo "<label><input type='checkbox' name='skill[]' value='$key' $checked> $label</label><br>";
-        }
-        ?>
+        <label>Ngarko CV (.pdf ose .doc/.docx)</label>
+<input type="file" name="cv" accept=".pdf,.doc,.docx" required>
+<label>Letër Motivimi</label>
+<textarea name="motivation" rows="5" placeholder="Shkruani letrën tuaj këtu..." required><?php echo htmlspecialchars($motivation ?? '') ?></textarea>
+
 
         <br><input type="submit" value="Apliko">
     </form>
 </div>
 <script src="form_handler.js"></script>
-
-    </main>
+    
+</main>
 <!-- Shigjeta flotuese për kthim -->
 <a href="#" class="back-btn-floating" onclick="shkoTeFaqja();"></a>
 
@@ -555,5 +671,7 @@ ob_end_flush();
         window.location.href = "shpalljet.html"; // Këtu vendos destinacionin tënd
     }
 </script>
-<script src="loginPopup.js"></script>
+
+
+</body>
 </html>

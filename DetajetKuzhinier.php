@@ -360,7 +360,6 @@ ob_start();
 <!-- Seksioni i Aplikimit -->
 <?php
 
-// ------------------- BACKEND LOGJIKA -------------------
 define("MIN_AGE", 18);
 define("MAX_AGE", 65);
 
@@ -385,22 +384,33 @@ class Applicant {
     private $age;
     private $city;
     private $experience;
-    private $skills = [];
+    private $motivation;
+    private $cvPath;
 
-    public function __construct($f, $l, $e, $a, $c, $ex, $sk) {
+    public function __construct($f, $l, $e, $a, $c, $ex, $m, $cv) {
         $this->firstName = $f;
         $this->lastName = $l;
         $this->emailOrPhone = $e;
         $this->age = $a;
         $this->city = $c;
         $this->experience = $ex;
-        $this->skills = $sk;
+        $this->motivation = $m;
+        $this->cvPath = $cv;
     }
 
     public function summary() {
-        return "Aplikuesi <b>{$this->firstName} {$this->lastName}</b>, nga <b>{$this->city}</b>, me moshë <b>{$this->age}</b>, ka përvojë: <b>{$this->experience}</b>, dhe ka zgjedhur " . count($this->skills) . " aftësi.";
+        $cvLink = $this->cvPath ? "<a href='{$this->cvPath}' target='_blank'>Shkarko CV</a>" : "CV nuk është dorëzuar.";
+
+        return "
+            Aplikuesi <b>{$this->firstName} {$this->lastName}</b>, nga <b>{$this->city}</b>, me moshë <b>{$this->age}</b>,
+            ka përvojë: <b>{$this->experience}</b>.<br><br>
+            <b>Letra e motivimit:</b><br>
+            <i>{$this->motivation}</i><br><br>
+            <b>{$cvLink}</b>
+        ";
     }
 }
+
 
 $errors = [];
 $result = "";
@@ -412,7 +422,36 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $age = $_POST['age'] ?? 0;
     $city = $_POST['qyteti'] ?? '';
     $experience = $_POST['experience'] ?? 'jo';
-    $skills = $_POST['skill'] ?? [];
+    $cvFile = $_FILES['cv'] ?? null;
+    $uploadDir = 'cv_files/';
+    $cvPath = '';
+    $motivation = $_POST['motivation'] ?? '';
+
+    if ($cvFile && $cvFile['error'] === UPLOAD_ERR_OK) {
+        $fileTmpPath = $cvFile['tmp_name'];
+        $fileName = basename($cvFile['name']);
+        $fileExtension = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
+    
+        $allowedExtensions = ['pdf', 'doc', 'docx'];
+        if (in_array($fileExtension, $allowedExtensions)) {
+            $newFileName = uniqid('cv_', true) . '.' . $fileExtension;
+            $cvPath = $uploadDir . $newFileName;
+    
+            // Krijo folderin nëse nuk ekziston
+            if (!is_dir($uploadDir)) {
+                mkdir($uploadDir, 0777, true);
+            }
+    
+            if (!move_uploaded_file($fileTmpPath, $cvPath)) {
+                $errors[] = "Ngarkimi i CV-së dështoi.";
+            }
+        } else {
+            $errors[] = "Vetëm dokumente PDF, DOC ose DOCX lejohen për CV.";
+        }
+    } else {
+        $errors[] = "Ju lutem ngarkoni CV-në tuaj.";
+    }
+    
 
     if (strlen($firstName) < 2 || !isCapitalized($firstName)) $errors[] = "Emri duhet të fillojë me shkronjë të madhe.";
     if (strlen($lastName) < 2 || !isCapitalized($lastName)) $errors[] = "Mbiemri duhet të fillojë me shkronjë të madhe.";
@@ -420,10 +459,15 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     if ($age < MIN_AGE || $age > MAX_AGE) $errors[] = "Mosha duhet të jetë mes " . MIN_AGE . " dhe " . MAX_AGE . ".";
 
     if (empty($errors)) {
-        $applicant = new Applicant($firstName, $lastName, $contact, $age, $city, $experience, $skills);
+        $applicant = new Applicant($firstName, $lastName, $contact, $age, $city, $experience, $motivation, $cvPath);
+
     
 $_SESSION['first_name'] = $firstName;
 $_SESSION['last_name'] = $lastName;
+$_SESSION['cv_path'] = $cvPath;
+$_SESSION['motivation'] = $motivation;
+
+
 header("Location: aplikimi.php");
 exit();
 
@@ -579,7 +623,7 @@ ob_end_flush();
     </script>
 <h2>Aplikim për pozitën Kuzhinier</h2>
 
-    <form method="POST" class="universalForm">
+<form method="POST" class="universalForm" enctype="multipart/form-data">
         <label>Emri</label>
         <input type="text" name="first-name" pattern="[A-ZÇË][a-zçë\s]*" title="Filloni me shkronjë të madhe" value="<?php echo htmlspecialchars($firstName ?? '') ?>" required>
 
@@ -606,21 +650,11 @@ ob_end_flush();
         <input type="radio" name="experience" value="po" <?php if (($experience ?? '') === 'po') echo 'checked'; ?>> Po
         <input type="radio" name="experience" value="jo" <?php if (($experience ?? '') === 'jo') echo 'checked'; ?>> Jo<br><br>
 
-        <label>Aftësitë</label><br>
-        <?php
-      $aftesite = [
-        1 => "Përgatitja profesionale e ushqimeve të ndryshme",
-        2 => "Njohuri mbi sigurinë dhe higjienën ushqimore",
-        3 => "Aftësi për të punuar nën presion dhe në orare fleksibile",
-        4 => "Krijimtari në prezantimin dhe shijimin e pjatave",
-        5 => "Përvojë në bashkëpunim me stafin e kuzhinës"
-    ];
-    
-        foreach ($aftesite as $key => $label) {
-            $checked = (isset($skills) && in_array($key, $skills)) ? 'checked' : '';
-            echo "<label><input type='checkbox' name='skill[]' value='$key' $checked> $label</label><br>";
-        }
-        ?>
+        <label>Ngarko CV (.pdf ose .doc/.docx)</label>
+<input type="file" name="cv" accept=".pdf,.doc,.docx" required>
+<label>Letër Motivimi</label>
+<textarea name="motivation" rows="5" placeholder="Shkruani letrën tuaj këtu..." required><?php echo htmlspecialchars($motivation ?? '') ?></textarea>
+
 
         <br><input type="submit" value="Apliko">
     </form>
