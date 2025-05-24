@@ -33,7 +33,7 @@
                 <input type="text" name="mbiemri" class="input-field1" placeholder="Mbiemri" required>
                 <input type="text" name="emri_perdoruesit" class="input-field1" placeholder="Emri Përdoruesit" required>
                 <input type="email" name="email" class="input-field1" placeholder="Email" required>
-                <input type="text" name="datelindja" class="input-field1" placeholder="Datëlindja (YYYY-MM-DD)" required>
+                <input type="date" name="datelindja" class="input-field1" placeholder="Datëlindja (YYYY-MM-DD)" required>
                 <input type="password" name="password" class="input-field1" placeholder="Fjalëkalimi" required>
                 <select name="roli" class="input-field1" required>
                     <option value="" disabled selected>Zgjedh rolin</option>

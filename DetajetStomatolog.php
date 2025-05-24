@@ -251,10 +251,7 @@ ob_start();
     </script>
 </head>
 <body>
-   <!-- importo file te html per nav ne div -->
 
-   <div id="header-container"></div>
-   <?php include 'nav.php'; ?>
 <main>
 <div class="profession-title">
       <b>  Detajet e Profesionit - Stomatolog</b>
@@ -498,6 +495,9 @@ ob_end_flush();
             </ul>
         </div>
     <?php endif; ?>
+      <div id="header-container"></div>
+    <script src="navHandler.js"></script>
+   <?php include 'nav.php'; ?>
  
 <h2>Aplikim për pozitën Stomatolag</h2>
 

@@ -251,10 +251,6 @@ ob_start();
     </script>
 </head>
 <body>
-   <!-- importo file te html per nav ne div -->
-
-   <div id="header-container"></div>
-   <?php include 'nav.php'; ?>
 <main>
       <!-- Titulli Kryesor -->
       <div class="profession-title">
@@ -492,6 +488,9 @@ ob_end_flush();
             </ul>
         </div>
     <?php endif; ?>
+      <div id="header-container"></div>
+    <script src="navHandler.js"></script>
+   <?php include 'nav.php'; ?>
 <h2>Aplikim për pozitën Shofer</h2>
 
 <form method="POST" class="universalForm" enctype="multipart/form-data">
