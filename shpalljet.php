@@ -149,6 +149,7 @@
       
       <div class="row" >
       <?php
+      require 'db.php';
     class Card {
         public $pozita;
         public $foto;
@@ -281,6 +282,30 @@
     foreach ($cards as $card) {
         $card->shfaq();
     }
+   
+
+    $result = $con->query("SELECT * FROM shpalljet ORDER BY data_publikimit DESC");
+    
+    if ($result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+            $pozita = $row['titulli'];
+            $foto = "foto/default.jpg"; // ose shto kolonë 'foto' në db nëse ke
+            $data = $row['data_publikimit'];
+            $kategoria = $row['kompania'];
+            $paga = $row['paga'];
+            $lokacioni = $row['lokacioni'];
+            $pershkrimi = $row['pershkrimi'];
+            $afati = $row['afati'];
+            $faqja = $row['faqja'] ?? "#";
+    
+            $onclick = "window.location.href='$faqja'";
+            
+            $c = new Card($pozita, $foto, $data, $kategoria, $paga, $lokacioni, $pershkrimi, $afati, $onclick);
+            $c->shfaq();
+        }
+    }
+    
+
     
 ?><script>
 function shkoTeFaqja1() { window.location.href = "DetajetMesuese.php"; }
