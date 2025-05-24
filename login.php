@@ -1,8 +1,7 @@
 <?php
 session_start();
-require 'db.php'; // lidhja me databazën
-
-header('Content-Type: application/json'); // KTHE JSON
+require 'db.php';
+header('Content-Type: application/json');
 
 $username = $_POST['emri_perdoruesit'] ?? '';
 $password = $_POST['password'] ?? '';
@@ -31,4 +30,7 @@ if ($result->num_rows === 1) {
 } else {
     echo json_encode(["sukses" => false, "mesazh" => "Përdoruesi nuk ekziston."]);
 }
+
+$stmt->close();
+$conn->close();
 ?>
