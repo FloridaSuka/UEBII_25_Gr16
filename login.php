@@ -1,0 +1,34 @@
+<?php
+session_start();
+require 'db.php'; // lidhja me databazën
+
+header('Content-Type: application/json'); // KTHE JSON
+
+$username = $_POST['emri_perdoruesit'] ?? '';
+$password = $_POST['password'] ?? '';
+
+$stmt = $conn->prepare("SELECT * FROM users WHERE emri_perdoruesit = ?");
+$stmt->bind_param("s", $username);
+$stmt->execute();
+$result = $stmt->get_result();
+
+if ($result->num_rows === 1) {
+    $user = $result->fetch_assoc();
+
+    if (password_verify($password, $user['password'])) {
+        $_SESSION['user_id'] = $user['id'];
+        $_SESSION['emri'] = $user['emri'];
+        $_SESSION['mbiemri'] = $user['mbiemri'];
+        $_SESSION['roli'] = $user['Roli'];
+
+        echo json_encode([
+            "sukses" => true,
+            "redirect" => ($user['Roli'] === 'admin') ? "adminDashboard.php" : "home.php"
+        ]);
+    } else {
+        echo json_encode(["sukses" => false, "mesazh" => "Fjalëkalimi është gabim."]);
+    }
+} else {
+    echo json_encode(["sukses" => false, "mesazh" => "Përdoruesi nuk ekziston."]);
+}
+?>

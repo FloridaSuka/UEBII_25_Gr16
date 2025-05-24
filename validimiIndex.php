@@ -8,7 +8,8 @@ $mbiemri = trim($_POST['mbiemri'] ?? '');
 $emri_perdoruesit = trim($_POST['emri_perdoruesit'] ?? '');
 $email = trim($_POST['email'] ?? '');
 $datelindja = $_POST['datelindja'] ?? '';
-$fjalekalimi = $_POST['fjalekalimi'] ?? '';
+$fjalekalimi = $_POST['password'] ?? '';
+$roli = $_POST['roli'] ?? 'user'; // default te user nëse mungon
 
 // RegEx për validim
 $regex_emri = "/^[A-ZÇË][a-zçë]{2,}$/u";
@@ -46,16 +47,36 @@ if (!preg_match($regex_fjalekalim, $fjalekalimi)) {
 }
 
 // Kthe përgjigje si JSON
+// Nëse nuk ka gabime, ruaje në databazë
 if (empty($gabime)) {
-    echo json_encode([
-        "sukses" => true,
-        "mesazh" => "Regjistrimi u krye me sukses!",
-        "emri" => $emri,
-        "mbiemri" => $mbiemri
-    ]);
+    require 'db.php'; // lidhja me databazë
+
+    $hashedPassword = password_hash($fjalekalimi, PASSWORD_DEFAULT);
+    $stmt = $conn->prepare("INSERT INTO users (emri, mbiemri, emri_perdoruesit, email, datelindja, password, Roli) VALUES (?, ?, ?, ?, ?, ?, ?)");
+$stmt->bind_param("sssssss", $emri, $mbiemri, $emri_perdoruesit, $email, $datelindja, $hashedPassword, $roli);
+
+
+    if ($stmt->execute()) {
+        echo json_encode([
+            "sukses" => true,
+            "mesazh" => "Regjistrimi u krye me sukses!",
+            "emri" => $emri,
+            "mbiemri" => $mbiemri
+        ]);
+    } else {
+        echo json_encode([
+            "sukses" => false,
+            "gabime" => ["Gabim gjatë ruajtjes në databazë: " . $stmt->error]
+        ]);
+    }
+
+    $stmt->close();
+    $conn->close();
 } else {
+    // Kthe gabimet në format JSON
     echo json_encode([
         "sukses" => false,
         "gabime" => $gabime
     ]);
 }
+?>
