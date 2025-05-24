@@ -239,7 +239,7 @@ $isLoggedIn = isset($_SESSION['user_id']);
                     <?php endif; ?>
                     style="background: none; border: none; cursor: pointer;">
                 <img src="foto/user-icon.svg" alt="user icon" style="width: 30px;"><br>
-                <span style="color: white; font-weight: bold;">
+                <span style="color: white; font-weight: bold; margin-left: 10px">
                 <?php echo ($isLoggedIn && isset($_SESSION['emri_perdoruesit'])) ? $_SESSION['emri_perdoruesit'] : 'Kyçu'; ?>
                 </span>
             </button>
