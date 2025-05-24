@@ -219,14 +219,14 @@ $isLoggedIn = isset($_SESSION['user_id']);
 
 </head>
 <header>
-<nav>
+<nav style = "display: flex">
     <div class="logo-container">
         <a href="home.php">
             <img src="foto/logo.svg" alt="Logo">
         </a>
         <h3 style="font-family: 'myfont1regular' , sans-serif;">Find Your Way</h3>
     </div>
-    <ul class="nav-links">
+    <ul class="nav-links" style = "justify-content: flex-end">
         <li><a href="home.php">Ballina</a></li>
         <li><a href="rrethnesh.php">Rreth nesh</a></li>
         <li><a href="shpalljet.php">Shpallje</a></li>
