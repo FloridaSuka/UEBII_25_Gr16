@@ -114,27 +114,6 @@ $koment = (count($mundesite) >= 20) ? "🧠 Ke shumë mundësi për të ndërtua
 
     <script src="navHandler.js"></script>
     <script src="loginPopup.js"></script>
-    <script>
-        fetch('nav.html')
-            .then(response => response.text())
-            .then(data => {
-                document.getElementById('header-container').innerHTML = data;
-                if (typeof setupNavigation === "function") setupNavigation();
-            });
-
-        function kthehu() {
-            window.location.href = "keshilla.php";
-        }
-
-        document.getElementById("searchInput").addEventListener("input", function() {
-            const query = this.value.toLowerCase();
-            const items = document.querySelectorAll(".item");
-            items.forEach(item => {
-                const title = item.querySelector(".card-title")?.textContent.toLowerCase() || "";
-                const desc = item.querySelector(".card-text")?.textContent.toLowerCase() || "";
-                item.style.display = (title.includes(query) || desc.includes(query)) ? "block" : "none";
-            });
-        });
-    </script>
+   <?php include 'nav.php'; ?>
 </body>
 </html>

@@ -7,9 +7,12 @@ $isLoggedIn = isset($_SESSION['user_id']);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Navigation and Login</title>
-    <style>
+       <style>
     nav {
-        position: relative;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
         z-index: 10;
         background-color: #264653;
         display: flex;
@@ -17,9 +20,14 @@ $isLoggedIn = isset($_SESSION['user_id']);
         justify-content: space-between;
         padding: 10px 20px;
     }
+    body {
+        padding-top: 70px;
+        margin: 0;
+    }
     .dropdown {
         position: relative;
         display: inline-block;
+        text-align: center;
     }
     .dropdown-content {
         display: none;
@@ -62,6 +70,7 @@ $isLoggedIn = isset($_SESSION['user_id']);
         padding: 0;
         list-style: none;
         display: flex;
+        align-items: center;
     }
     .nav-links li {
         margin: 0 15px;
@@ -186,6 +195,18 @@ $isLoggedIn = isset($_SESSION['user_id']);
     }
     .user-icon {
         z-index: 1001;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-left: 15px;
+        text-align: center;
+        min-width: 70px;
+    }
+    .user-icon span {
+        margin-top: 5px;
+        color: white;
+        font-size: 14px;
+        font-weight: bold;
     }
     @font-face {
         font-family: 'myfont1regular';
@@ -195,6 +216,7 @@ $isLoggedIn = isset($_SESSION['user_id']);
         font-style: normal;
     }
     </style>
+
 </head>
 <header>
 <nav>

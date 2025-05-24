@@ -1,3 +1,4 @@
+<?php include 'nav.php'; ?>
 <?php
 require 'db.php'; // Lidhja me databazën
 
