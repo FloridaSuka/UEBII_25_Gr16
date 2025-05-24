@@ -65,7 +65,7 @@ $isLoggedIn = isset($_SESSION['user_id']);
         0% { transform: rotateY(0deg); }
         100% { transform: rotateY(360deg); }
     }
-    .nav-links {
+    ul.nav-links {
         margin: 0;
         padding: 0;
         list-style: none;
@@ -97,14 +97,14 @@ $isLoggedIn = isset($_SESSION['user_id']);
         font-size: 24px;
         cursor: pointer;
     }
-    @media (max-width: 768px) {
+    @media (max-width: 840px) {
         .nav-links {
             display: none;
             flex-direction: column;
             width: 100%;
             background-color: #264653;
             position: absolute;
-            top: 60px;
+            top: 80px;
             left: 0;
             text-align: center;
         }
@@ -113,10 +113,16 @@ $isLoggedIn = isset($_SESSION['user_id']);
             margin-top: 40px;
         }
         .nav-links li {
-            margin: 10px 0;
+            margin: 20px 0;
         }
         .hamburger {
             display: block;
+        }
+        .user-icon span,img {
+            margin-left: 0;
+        }
+        .user-icon{
+            margin-left: 0;
         }
     }
     .modal {
@@ -203,10 +209,22 @@ $isLoggedIn = isset($_SESSION['user_id']);
         min-width: 70px;
     }
     .user-icon span {
-        margin-top: 5px;
+        margin-top: 10px;
         color: white;
         font-size: 14px;
         font-weight: bold;
+        margin-left: 10px;
+
+    }
+    .user-icon:focus {
+        outline: none;
+        border: none; /* optional: only use if needed */
+        box-shadow: none; /* if it has glow/shadow on focus */
+    }
+    button#loginIcon.login-btn:focus{
+        outline: none;
+        border: none; /* optional: only use if needed */
+        box-shadow: none; /* if it has glow/shadow on focus */
     }
     @font-face {
         font-family: 'myfont1regular';
@@ -238,7 +256,7 @@ $isLoggedIn = isset($_SESSION['user_id']);
                         onclick="showLoginPopup()"
                     <?php endif; ?>
                     style="background: none; border: none; cursor: pointer;">
-                <img src="foto/user-icon.svg" alt="user icon" style="width: 30px;"><br>
+                <img src="foto/user-icon.svg" alt="user icon" style="margin-bottom: 5px; width: 30px;"><br>
                 <span style="color: white; font-weight: bold;">
                 <?php echo ($isLoggedIn && isset($_SESSION['emri_perdoruesit'])) ? $_SESSION['emri_perdoruesit'] : 'Kyçu'; ?>
                 </span>
@@ -257,68 +275,68 @@ $isLoggedIn = isset($_SESSION['user_id']);
     <div class="hamburger">&#9776;</div>
 </nav>
 <script>
-function showLoginPopup() {
-  const loginModal = document.getElementById("loginModal");
-  if (loginModal) {
-    loginModal.style.display = "flex";
-  }
-}
-
-window.addEventListener("DOMContentLoaded", () => {
-  const hamburger = document.querySelector('.hamburger');
-  const navLinks = document.querySelector('.nav-links');
-  if (hamburger && navLinks) {
-    hamburger.addEventListener('click', () => {
-      navLinks.classList.toggle('show');
-    });
-  }
-
-  const closeBtn = document.getElementById("closeBtn");
-  if (closeBtn) {
-    closeBtn.addEventListener("click", function () {
-      document.getElementById("loginModal").style.display = "none";
-    });
-  }
-
-  window.addEventListener("click", (e) => {
-    const modal = document.getElementById("loginModal");
-    if (e.target === modal) {
-      modal.style.display = "none";
+    function showLoginPopup() {
+    const loginModal = document.getElementById("loginModal");
+    if (loginModal) {
+        loginModal.style.display = "flex";
     }
-  });
+    }
 
-  const loginForm = document.getElementById("loginForm");
-  if (loginForm) {
-    loginForm.addEventListener("submit", function(e) {
-      e.preventDefault();
-      const username = document.getElementById("username").value;
-      const password = document.getElementById("password").value;
+    window.addEventListener("DOMContentLoaded", () => {
+    const hamburger = document.querySelector('.hamburger');
+    const navLinks = document.querySelector('.nav-links');
+    if (hamburger && navLinks) {
+        hamburger.addEventListener('click', () => {
+        navLinks.classList.toggle('show');
+        });
+    }
 
-      fetch("login.php", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded"
-        },
-        body: `emri_perdoruesit=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`
-      })
-      .then(response => response.json())
-        .then(data => {
-        console.log("Përgjigja nga serveri:", data); // 🔍 Debug: kontrollo formatin e JSON
-        if (data.sukses) {
-            alert("✅ Kyçja u realizua me sukses!");
-            window.location.href = data.redirect;
-        } else {
-            alert(data.mesazh);
+    const closeBtn = document.getElementById("closeBtn");
+    if (closeBtn) {
+        closeBtn.addEventListener("click", function () {
+        document.getElementById("loginModal").style.display = "none";
+        });
+    }
+
+    window.addEventListener("click", (e) => {
+        const modal = document.getElementById("loginModal");
+        if (e.target === modal) {
+        modal.style.display = "none";
         }
-        })
-
-      .catch(error => {
-        alert("❌ Gabim gjatë komunikimit: " + error.message);
-        console.error("Gabim:", error);
-      });
     });
-  }
-});
+
+    const loginForm = document.getElementById("loginForm");
+    if (loginForm) {
+        loginForm.addEventListener("submit", function(e) {
+        e.preventDefault();
+        const username = document.getElementById("username").value;
+        const password = document.getElementById("password").value;
+
+        fetch("login.php", {
+            method: "POST",
+            headers: {
+            "Content-Type": "application/x-www-form-urlencoded"
+            },
+            body: `emri_perdoruesit=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`
+        })
+        .then(response => response.json())
+            .then(data => {
+            console.log("Përgjigja nga serveri:", data); // 🔍 Debug: kontrollo formatin e JSON
+            if (data.sukses) {
+                alert("✅ Kyçja u realizua me sukses!");
+                window.location.href = data.redirect;
+            } else {
+                alert(data.mesazh);
+            }
+            })
+
+        .catch(error => {
+            alert("❌ Gabim gjatë komunikimit: " + error.message);
+            console.error("Gabim:", error);
+        });
+        });
+    }
+    });
 </script>
 </header>
 <div class="modal" id="loginModal" style="display:none">
