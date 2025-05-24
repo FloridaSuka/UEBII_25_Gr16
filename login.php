@@ -1,12 +1,25 @@
 <?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 session_start();
 require 'db.php';
 header('Content-Type: application/json');
 
+// 💡 Kontrollo nëse POST vjen siç duhet
+if (!isset($_POST['emri_perdoruesit']) || !isset($_POST['password'])) {
+    echo json_encode([
+        "sukses" => false,
+        "mesazh" => "Të dhënat nuk u pranuan."
+    ]);
+    exit;
+}
+
 $username = $_POST['emri_perdoruesit'] ?? '';
 $password = $_POST['password'] ?? '';
 
-$stmt = $conn->prepare("SELECT * FROM users WHERE emri_perdoruesit = ?");
+$stmt = $con->prepare("SELECT * FROM users WHERE emri_perdoruesit = ?");
 $stmt->bind_param("s", $username);
 $stmt->execute();
 $result = $stmt->get_result();
@@ -32,5 +45,5 @@ if ($result->num_rows === 1) {
 }
 
 $stmt->close();
-$conn->close();
+$con->close();
 ?>

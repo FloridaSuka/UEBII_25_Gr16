@@ -14,7 +14,7 @@ $emri_perdoruesit = trim($_POST['emri_perdoruesit'] ?? '');
 $email = trim($_POST['email'] ?? '');
 $datelindja = $_POST['datelindja'] ?? '';
 $fjalekalimi = $_POST['password'] ?? '';
-$roli = $_POST['roli'] ?? 'user';
+$roli = $_POST['Roli'] ?? 'user';
 
 // Validime
 $regex_emri = "/^[A-ZÇË][a-zçë]{2,}$/u";
