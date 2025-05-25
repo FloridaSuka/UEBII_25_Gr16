@@ -1,3 +1,4 @@
+<?=session_start();?>
 <?php include 'cookie-box.php';?>
 <!DOCTYPE html>
 <html lang="sq">
