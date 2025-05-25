@@ -34,10 +34,7 @@
                 }
             }
         });
-</script>
-
-
-
+    </script>
     <script>
         $(document).ready(function () {
             $(".btn-primary").click(function () {
@@ -69,16 +66,34 @@
                         }
                     }
 
-                    $punet = [
-                        new Puna("Arkitekt", "Dizajnon hap&#235;sira funksionale dhe estetike."),
-                        new Puna("Avokat", "Mbron dhe k&#235;shillon n&#235; ç&#235;shtje ligjore."),
-                        new Puna("Inxhinier", "Planifikon dhe nd&#235;rton struktura."),
-                        new Puna("Stomatolog", "Kujdeset p&#235;r sh&#235;ndetin oral.")
-                    ];
+                    $arkitekt = new Puna("Arkitekt", "Dizajnon hapësira funksionale dhe estetike.");
+                    $avokat = new Puna("Avokat", "Mbron dhe këshillon në çështje ligjore.");
+                    $inxhinier = new Puna("Inxhinier", "Planifikon dhe ndërton struktura.");
+                    $stomatolog = new Puna("Stomatolog", "Kujdeset për shëndetin oral.");
+                    $mesues = new Puna("Mesues", "Kujdeset edukimin e nxenesve.");
+
+
+                    $punet = [];
+                    $punet[] = &$arkitekt;     
+                    $punet[] = $avokat;
+                    $punet[] = $mesues;
+                    $punet[] = $inxhinier;
+
+                    function ndryshoTitullin(&$obj, $riTitull) {
+                        $obj->titulli = $riTitull;
+                    }
+                    ndryshoTitullin($punet[1], "Jurist"); 
+
+                    $kopje = $punet[0]; 
+                    $kopje->titulli = "Arkitekt i Brendshëm"; 
+
+                    $punet[] = $stomatolog;
+                    unset($punet[2]); // largon Inxhinierin
 
                     foreach ($punet as $pune) {
                         $pune->shfaq();
                     }
+
                 ?>
             </div>
         </div>
