@@ -15,7 +15,6 @@ $isLoggedIn = isset($_SESSION['user_id']);
         top: 0;
         left: 0;
         width: 100%;
-        border-radius: 10px;
         z-index: 10;
         background-color: #264653;
         display: flex;
