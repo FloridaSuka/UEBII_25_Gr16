@@ -252,39 +252,41 @@ ob_start();
 </head>
 <body>
 <main>
-      <!-- Titulli Kryesor -->
-      <div class="profession-title">
-   <b>     Detajet e Profesionit - Shofer</b>
-    </div>
+     <!-- Titulli Kryesor -->
+<div class="profession-title">
+   <b>Detajet e Profesionit - Marketing</b>
+</div>
 
-    <!-- Seksioni i Detajeve -->
-    <div class="profession-details"></div>
+<!-- Seksioni i Detajeve -->
+<div class="profession-details"></div>
 
-    <!-- Seksioni i Profilit -->
-    <div class="profilit">
-        <h1>Profili i Shoferit</h1>
-        <h3>Transportimi i mallrave ose udhëtarëve në mënyrë të sigurt dhe të përgjegjshme.</h3>
-    </div>
+<!-- Seksioni i Profilit -->
+<div class="profilit">
+    <h1>Profili i Specialistit të Marketingut</h1>
+    <h3>Planifikimi dhe zbatimi i strategjive për të promovuar produktet ose shërbimet dhe për të rritur ndërgjegjësimin e markës.</h3>
+</div>
 
-    <!-- Seksioni i Kërkesave -->
-    <div class="requirements">
-        <h2>Kërkesat Kryesore</h2>
-        <ul class="ul">
-            <li>Patentë shoferi valide e kategorisë përkatëse.</li>
-            <li>Eksperiencë në drejtimin e automjeteve.</li>
-            <li>Njohuri mbi mirëmbajtjen bazë të automjetit.</li>
-            <li>Aftësi të mira komunikimi dhe sjellje profesionale.</li>
-        </ul>
-    </div>
-
-    <!-- Seksioni i Përfitimeve -->
-    <h2>Përfitimet</h2>
-    <p>Duke punuar si shofer, mund të përfitoni:</p>
+<!-- Seksioni i Kërkesave -->
+<div class="requirements">
+    <h2>Kërkesat Kryesore</h2>
     <ul class="ul">
-        <li>Paga konkurruese dhe bonuse.</li>
-        <li>Mundësi për të udhëtuar dhe njohur vende të reja.</li>
-        <li>Fleksibilitet në orarin e punës.</li>
+        <li>Diplomë në marketing, komunikim ose fushë të ngjashme.</li>
+        <li>Aftësi në përdorimin e mjeteve të marketingut digjital (si Google Ads, Meta Ads, SEO).</li>
+        <li>Kreativitet dhe mendim strategjik.</li>
+        <li>Aftësi të shkëlqyera komunikuese dhe analitike.</li>
     </ul>
+</div>
+
+<!-- Seksioni i Përfitimeve -->
+<h2>Përfitimet</h2>
+<p>Duke punuar në marketing, mund të përfitoni:</p>
+<ul class="ul">
+    <li>Mundësi për të ndikuar në imazhin dhe rritjen e kompanisë.</li>
+    <li>Ambient dinamik dhe kreativ pune.</li>
+    <li>Trajnime të rregullta dhe zhvillim profesional.</li>
+    <li>Bonuse bazuar në performancë dhe rezultate.</li>
+</ul>
+
 <!-- Seksioni i Aplikimit -->
 <?php
 
