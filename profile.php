@@ -84,7 +84,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['ndrysho_fjalekalim']))
 <head>
     <meta charset="UTF-8">
     <title>Profili Im</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css">
     <style>
+         ::-webkit-scrollbar {
+            width: 10px;
+        }
+        ::-webkit-scrollbar-track {
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #264653;
+            border-radius: 10px;
+        }
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: #f1f1f1;
@@ -209,6 +221,23 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['ndrysho_fjalekalim']))
         <input type="password" name="fjalekalimi_ri_konfirmim" required>
 
         <button type="submit" name="ndrysho_fjalekalim">Ndrysho Fjalëkalimin</button>
+    </form>
+
+    <hr>
+
+     <form method="POST" onsubmit="return confirm('A jeni të sigurt që dëshironi të fshini llogarinë tuaj? Ky veprim nuk mund të kthehet.')">
+        <h3 style="color: red;">Fshi Llogarinë</h3>
+
+        <label>Emri i përdoruesit:</label>
+        <input type="text" name="username_fshi" required>
+
+        <label>Email:</label>
+        <input type="email" name="email_fshi" required>
+
+        <label>Fjalëkalimi:</label>
+        <input type="password" name="password_fshi" required>
+
+        <button type="submit" name="fshi_llogarine" style="background-color: #e76f51;">Fshi Llogarinë</button>
     </form>
     <?php include 'footer.php';?>
 
