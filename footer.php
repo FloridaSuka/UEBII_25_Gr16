@@ -147,7 +147,7 @@ function validoEmail($email) {
     <div class="footer-container">
         <form method="POST"  id = "contactForm" class="contact-form" style="padding-left: 10px;" id="kontaktForm">
             <fieldset class="form-group">
-                <h3 style="color: #FFFFFF;">Na kontaktoni</h3>
+                <h3 style="color: #FFFFFF;">Feedback</h3>
             </fieldset>
             <fieldset class="form-group">
                 <input name="emri" class="form-control" placeholder="Shëno emrin" required>
