@@ -3,19 +3,44 @@
 require 'db.php'; // Lidhja me databazën
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $stmt = $con->prepare("INSERT INTO shpalljet (titulli, pershkrimi, kompania, lokacioni, paga, data_publikimit, afati, user_id)
-                           VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
 
     $titulli = $_POST['pozita'];
     $pershkrimi = $_POST['pershkrimi'];
-    $kompania = $_POST['kategoria']; // e përdorim për emër të kompanisë
+    $kompania = $_POST['kategoria'];
     $lokacioni = $_POST['lokacioni'];
     $paga = $_POST['paga'];
     $data = $_POST['dataShpalljes'];
     $afati = $_POST['afatiAplikimit'];
-    $user_id = 1; // nëse do e lidhësh me përdoruesit, vendos ID-n nga session
+   
+    $kerkesa = $_POST['kerkesa'];
+    $user_id = 1; // ose: $_SESSION['user_id'];
 
-    $stmt->bind_param("sssssssi", $titulli, $pershkrimi, $kompania, $lokacioni, $paga, $data, $afati, $user_id);
+    // Fotoja - ose file ose link
+    $foto_path = '';
+    if (!empty($_FILES["foto_file"]["name"])) {
+        $upload_folder = "foto/";
+        $foto_emri = basename($_FILES["foto_file"]["name"]);
+        $target_path = $upload_folder . $foto_emri;
+
+        if (move_uploaded_file($_FILES["foto_file"]["tmp_name"], $target_path)) {
+            $foto_path = $target_path;
+        } else {
+            $mesazhSukses = "❌ Ngarkimi i fotos dështoi.";
+            exit;
+        }
+    } elseif (!empty($_POST['foto_link'])) {
+        $foto_path = $_POST['foto_link'];
+    } else {
+        $mesazhSukses = "❌ Ju duhet të vendosni një foto (ngarkim ose link).";
+        exit;
+    }
+
+    // Insertim në databazë
+    $stmt = $con->prepare("INSERT INTO shpalljet 
+    (titulli, pershkrimi, kompania, lokacioni, paga, data_publikimit, afati, user_id, foto, faqja, kerkesa) 
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+
+    $stmt->bind_param("sssssssisss", $titulli, $pershkrimi, $kompania, $lokacioni, $paga, $data, $afati, $user_id, $foto_path, $faqja, $kerkesa);
 
     if ($stmt->execute()) {
         $mesazhSukses = "✅ Shpallja u ruajt në databazë!";
@@ -48,26 +73,45 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     </style>
 </head>
 <body>
-    <div class="container-box">
-        <h2>Shto një shpallje të re</h2>
-        <?php if (isset($mesazhSukses)) echo "<div class='alert alert-success'>$mesazhSukses</div>"; ?>
-        <form method="post">
-           
-        
-        <div class="form-group"><label>Pozita:</label><input type="text" name="pozita" class="form-control" required></div>
+<div class="container-box">
+    <h2>Shto një shpallje të re</h2>
+    <?php if (isset($mesazhSukses)) echo "<div class='alert alert-success'>$mesazhSukses</div>"; ?>
+    <form method="post" enctype="multipart/form-data">
+
+        <div class="form-group"><label>Pozita:</label>
+            <input type="text" name="pozita" class="form-control" required></div>
+
         <div class="form-group">
-    <label>Foto (path ose URL):</label>
-    <input type="text" name="foto" class="form-control" required>
+            <label>Ngarko Foto (ose vendos link):</label>
+            <input type="file" name="foto_file" class="form-control mb-2" accept="image/*">
+            <small class="form-text text-muted">OSE</small>
+            <input type="text" name="foto_link" class="form-control" placeholder="Vendos linkun e fotos">
+        </div>
+
+        <div class="form-group"><label>Kompania (ose Kategoria):</label>
+            <input type="text" name="kategoria" class="form-control" required></div>
+
+        <div class="form-group"><label>Data e Shpalljes:</label>
+            <input type="date" name="dataShpalljes" class="form-control" required></div>
+
+        <div class="form-group"><label>Paga (€):</label>
+            <input type="text" name="paga" class="form-control" required></div>
+
+        <div class="form-group"><label>Lokacioni:</label>
+            <input type="text" name="lokacioni" class="form-control" required></div>
+
+        <div class="form-group"><label>Përshkrimi:</label>
+            <textarea name="pershkrimi" class="form-control" rows="4" required></textarea></div>
+
+        <div class="form-group"><label>Kërkesat:</label>
+            <textarea name="kerkesa" class="form-control" rows="4" required></textarea></div>
+
+        <div class="form-group"><label>Afati i aplikimit:</label>
+            <input type="date" name="afatiAplikimit" class="form-control" required></div>
+
+       
+        <button type="submit" class="btn btn-success">Shto</button>
+    </form>
 </div>
-  
-        <div class="form-group"><label>Kompania (ose Kategoria):</label><input type="text" name="kategoria" class="form-control" required></div>
-            <div class="form-group"><label>Data e Shpalljes:</label><input type="date" name="dataShpalljes" class="form-control" required></div>
-            <div class="form-group"><label>Paga (€):</label><input type="text" name="paga" class="form-control" required></div>
-            <div class="form-group"><label>Lokacioni:</label><input type="text" name="lokacioni" class="form-control" required></div>
-            <div class="form-group"><label>Përshkrimi:</label><textarea name="pershkrimi" class="form-control" rows="4" required></textarea></div>
-            <div class="form-group"><label>Afati i aplikimit:</label><input type="date" name="afatiAplikimit" class="form-control" required></div>
-            <button type="submit" class="btn btn-success">Shto</button>
-        </form>
-    </div>
 </body>
 </html>
