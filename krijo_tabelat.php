@@ -18,7 +18,7 @@ $sql2 = "CREATE TABLE IF NOT EXISTS shpalljet (
     kompania VARCHAR(50) NOT NULL,
     lokacioni VARCHAR(50) NOT NULL,
     paga DECIMAL(10,2) NOT NULL,
-    data_publikimit DATE NOT NULL DEFAULT curdate(),
+    data_publikimit DATE NOT NULL DEFAULT CURDATE(),
     afati DATE NOT NULL,
     kerkesa TEXT NOT NULL,
 )";

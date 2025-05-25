@@ -9,7 +9,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $kompania = $_POST['kategoria'];
     $lokacioni = $_POST['lokacioni'];
     $paga = $_POST['paga'];
-    $data = $_POST['dataShpalljes'];
     $afati = $_POST['afatiAplikimit'];
    
     $kerkesa = $_POST['kerkesa'];
@@ -36,15 +35,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 
     // Insertim në databazë
-   $sql = "INSERT INTO shpalljet (titulli, foto, kompania, lokacioni, paga, data_publikimit, pershkrimi, afati, kerkesa)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+   $sql = "INSERT INTO shpalljet (titulli, foto, kompania, lokacioni, paga, pershkrimi, afati, kerkesa) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+
 $stmt = $con->prepare($sql);
 
 if (!$stmt) {
     die("Gabim në prepare(): " . $con->error);
 }
 
-$stmt->bind_param("sssssssss", $titulli, $foto_path, $kompania, $lokacioni, $paga, $data, $pershkrimi, $afati, $kerkesa);
+$stmt->bind_param("ssssssss", $titulli, $foto_path, $kompania, $lokacioni, $paga, $pershkrimi, $afati, $kerkesa);
 
 
     if ($stmt->execute()) {
@@ -95,9 +94,6 @@ $stmt->bind_param("sssssssss", $titulli, $foto_path, $kompania, $lokacioni, $pag
 
         <div class="form-group"><label>Kompania (ose Kategoria):</label>
             <input type="text" name="kategoria" class="form-control" required></div>
-
-        <div class="form-group"><label>Data e Shpalljes:</label>
-            <input type="date" name="dataShpalljes" class="form-control" required></div>
 
         <div class="form-group"><label>Paga (€):</label>
             <input type="text" name="paga" class="form-control" required></div>
