@@ -9,8 +9,9 @@
 </head>
 
 <body>
-<div id="header-container"></div>
-<?php include 'nav.php'; ?>
+  <div id="header-container"></div>
+    <script src="navHandler.js"></script>
+   <?php include 'nav.php'; ?>
 
 <div id="success-message" style="display: block; margin: 50px auto; padding: 30px; max-width: 600px; background-color: white; border: 2px solid #2a9d8f; border-radius: 15px; box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15); text-align: center; color: black; font-family: Arial, sans-serif; font-style: italic;">
     <div style="font-size: 50px; margin-bottom: 20px;">🎉</div>

@@ -62,6 +62,29 @@
 
     <script>
         // Regjistrimi
+        document.querySelector("#register").addEventListener("submit", function(e) {
+            e.preventDefault();
+            const formData = new FormData(this);
+
+            fetch("register.php", {
+                method: "POST",
+                body: formData
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.sukses) {
+                    // Shfaq mesazh suksesi dhe ridrejto pas 2 sekondash
+                    alert("✅ " + data.mesazh);
+                    setTimeout(() => window.location.href = "index.php", 2000);
+                } else {
+                    alert("❌ " + (data.gabime?.join("\n") || "Gabim i panjohur gjatë regjistrimit."));
+                }
+            })
+            .catch(error => {
+                alert("❌ Gabim gjatë komunikimit: " + error.message);
+                console.error("Gabim:", error);
+            });
+        });
     // Login
 document.querySelector("#login").addEventListener("submit", function(e) {
     e.preventDefault();

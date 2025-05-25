@@ -90,6 +90,8 @@ $koment = (count($mundesite) >= 20) ? "🧠 Ke shumë mundësi për të ndërtua
 </head>
 <body>
     <div id="header-container"></div>
+    <script src="navHandler.js"></script>
+   <?php include 'nav.php'; ?>
 
     <main class="container">
         <h1><?= $mesazhiFaqes ?></h1>
@@ -108,12 +110,9 @@ $koment = (count($mundesite) >= 20) ? "🧠 Ke shumë mundësi për të ndërtua
         </div>
     </main>
 
-    <a href="#" class="back-btn-floating" onclick="kthehu();"></a>
+    <a href="keshilla.php" class="back-btn-floating" onclick="kthehu();"></a>
     <!-- Include footer -->
     <?php include 'footer.php';?>
-
-    <script src="navHandler.js"></script>
     <script src="loginPopup.js"></script>
-   <?php include 'nav.php'; ?>
 </body>
 </html>
