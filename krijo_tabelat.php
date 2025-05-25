@@ -20,7 +20,7 @@ $sql2 = "CREATE TABLE IF NOT EXISTS shpalljet (
     paga DECIMAL(10,2) NOT NULL,
     data_publikimit DATE NOT NULL DEFAULT CURDATE(),
     afati DATE NOT NULL,
-    kerkesa TEXT NOT NULL,
+    kerkesa TEXT NOT NULL
 )";
 
 if (mysqli_query($con, $sql1)) {

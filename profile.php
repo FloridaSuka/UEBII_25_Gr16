@@ -84,8 +84,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['ndrysho_fjalekalim']))
 <head>
     <meta charset="UTF-8">
     <title>Profili Im</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css">
     <style>
-        body {
+         ::-webkit-scrollbar {
+            width: 10px;
+        }
+        ::-webkit-scrollbar-track {
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #264653;
+            border-radius: 10px;
+        }
+        .body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: #f1f1f1;
             margin-top: 100px;
@@ -97,7 +109,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['ndrysho_fjalekalim']))
             margin-top: 30px;
         }
 
-        form {
+        .form {
             width: 400px;
             background-color: #fff;
             margin: 30px auto;
@@ -168,12 +180,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['ndrysho_fjalekalim']))
         }
     </style>
 </head>
-<body>
+<body class="body">
     <h2>Profili Im</h2>
 
     <?php if ($mesazhi) echo "<div class='mesazh'>$mesazhi</div>"; ?>
 
-    <form method="POST">
+    <form class="form" method="POST">
         <h3>Të dhënat personale</h3>
 
         <label>Emri:</label>
@@ -196,7 +208,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['ndrysho_fjalekalim']))
 
     <hr>
 
-    <form method="POST">
+    <form class="form" method="POST">
         <h3>Ndrysho Fjalëkalimin</h3>
 
         <label>Fjalëkalimi Aktual:</label>
@@ -210,6 +222,47 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['ndrysho_fjalekalim']))
 
         <button type="submit" name="ndrysho_fjalekalim">Ndrysho Fjalëkalimin</button>
     </form>
+
+    <hr>
+
+     <form class="form" method="POST" onsubmit="return confirm('A jeni të sigurt që dëshironi të fshini llogarinë tuaj? Ky veprim nuk mund të kthehet.')" id="fshiForm">
+        <h3 style="color: red;">Fshi Llogarinë</h3>
+
+        <label>Emri i përdoruesit:</label>
+        <input type="text" name="username_fshi" required>
+
+        <label>Email:</label>
+        <input type="email" name="email_fshi" required>
+
+        <label>Fjalëkalimi:</label>
+        <input type="password" name="password_fshi" required>
+
+        <button type="submit" name="fshi_llogarine" style="background-color: #e76f51;">Fshi Llogarinë</button>
+    </form>
+
+    <script>
+        document.getElementById("fshiForm").addEventListener("submit", function (e) {
+            e.preventDefault();
+
+            const formData = new FormData(this);
+
+            fetch("fshiUser.php", {
+                method: "POST",
+                body: formData
+            })
+            .then(r => r.text())
+            .then(data => {
+                if (data.trim() === "sukses") {
+                    alert("Llogaria u fshi me sukses.");
+                    window.location.href = "index.php";
+                } else {
+                    alert("❌ Fshirja dështoi. Kontrollo të dhënat.");
+                }
+            })
+            .catch(err => alert("❌ Gabim në lidhje me serverin."));
+        });
+</script>
+
     <?php include 'footer.php';?>
 
 </body>
