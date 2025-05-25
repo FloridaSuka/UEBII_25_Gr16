@@ -254,8 +254,8 @@ document.getElementById("shtoShpalljeBtn").addEventListener("click", function ()
 
 
  
+$result = $con->query("SELECT * FROM shpalljet WHERE afati >= CURDATE() ORDER BY data_publikimit DESC");
 
-    $result = $con->query("SELECT * FROM shpalljet ORDER BY data_publikimit DESC");
     
     if ($result->num_rows > 0) {
         while ($row = $result->fetch_assoc()) {
