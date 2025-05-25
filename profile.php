@@ -210,5 +210,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['ndrysho_fjalekalim']))
 
         <button type="submit" name="ndrysho_fjalekalim">Ndrysho Fjalëkalimin</button>
     </form>
+    <?php include 'footer.php';?>
+
 </body>
 </html>
