@@ -64,6 +64,29 @@
 
     <script>
         // Regjistrimi
+          document.querySelector("#register").addEventListener("submit", function(e) {
+            e.preventDefault();
+            const formData = new FormData(this);
+    
+
+            fetch("register.php", {
+                method: "POST",
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.sukses) {
+                    alert("✅ " + data.mesazh + "\nMirë se erdhe, " + data.emri + " " + data.mbiemri + "!");
+                    // window.location.href = "home.php";
+                } else {
+                    alert("⚠️ Gabime gjatë regjistrimit:\n\n" + data.gabime.join("\n"));
+                }
+            })
+            .catch(error => {
+                alert("❌ Ka ndodhur një gabim në komunikim.");
+                console.error("Gabim:", error);
+            });
+        });
     // Login
 document.querySelector("#login").addEventListener("submit", function(e) {
     e.preventDefault();
