@@ -1,4 +1,36 @@
 <?php include 'cookie-box.php';?>
+<?php
+include 'db.php'; // ky është file-i yt për lidhjen me DB
+session_start();
+
+// 1. Merr numrin e përdoruesve nga databaza
+$sql = "SELECT COUNT(*) AS total FROM users";
+$result = mysqli_query($con, $sql);
+$row = mysqli_fetch_assoc($result);
+$nrPerdorues = $row['total'];
+
+// 2. Numërimi i vizitave nga vizitat.txt
+$logFile = "logs/vizitat.txt";
+$faqja = basename($_SERVER['PHP_SELF']); // emri i faqes
+$ip = $_SERVER['REMOTE_ADDR'] ?? 'unknown';
+$userAgent = $_SERVER['HTTP_USER_AGENT'] ?? 'unknown';
+$data = date("Y-m-d H:i:s");
+
+// log vetëm herën e parë në sesion
+if (!isset($_SESSION['vizituar_'.$faqja])) {
+    $_SESSION['vizituar_'.$faqja] = true;
+
+    $rreshti = "[$data] IP: $ip | Page: $faqja | User-Agent: $userAgent" . PHP_EOL;
+
+    if (!file_exists("logs")) mkdir("logs");
+    $file = fopen($logFile, "a");
+    fwrite($file, $rreshti);
+    fclose($file);
+}
+$vizita = file_exists($logFile) ? count(file($logFile)) : 0;
+
+?>
+
 <!DOCTYPE html>
 <html lang="sq">
   <head>
@@ -212,25 +244,24 @@
 
     <script>
       const stats = [
-        { number: 500, label: "Përdorues të regjistruar" },
-        { number: 95, label: "Përqindja e kënaqësisë së përdoruesve" },
-        { number: 200, label: "Kompanitë që bashkëpunojnë me ne" },
+        { number: <?= $nrPerdorues ?>, label: "Përdorues të regjistruar" },
+        { number: <?= $vizita ?>, label: "Vizita në këtë faqe" },
+        { number: 200, label: "Kompanitë që bashkëpunojnë me ne" }
       ];
 
       const statsHTML = stats.reduce((html, stat) => {
         return (
           html +
-          `
-                <div class="stat">
-                    <p class="stat-number">${stat.number}</p>
-                    <p class="stat-label">${stat.label}</p>
-                </div>
-            `
+          `<div class="stat">
+              <p class="stat-number">${stat.number}</p>
+              <p class="stat-label">${stat.label}</p>
+          </div>`
         );
       }, "");
 
       document.getElementById("stats-container").innerHTML = statsHTML;
     </script>
+
     <article class="content">
       <h1 class="h1">Rreth Nesh</h1>
       <p class="p" id="history">
