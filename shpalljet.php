@@ -35,7 +35,7 @@ if (!isset($_SESSION['user_id'])) {
     <?php include 'nav.php'; ?>
   </div>
     <section>
-      <input type="text" id="kerko" onkeyup="kerko()" placeholder="Kerko..">
+      <input style = "margin-top: 20px;" type="text" id="kerko" onkeyup="kerko()" placeholder="Kerko..">
      
 
       <br>
@@ -89,17 +89,45 @@ if (!isset($_SESSION['user_id'])) {
       </div>
       </div>
     </section>
-    
-       <form method="GET" class="mb-4" style="margin-top: 35px; margin-left: 920px; size: 30px;margin-bottom: -70px;">
-    <label for="rendit">Rendit sipas:</label>
-    <select name="rendit" id="rendit" onchange="this.form.submit()">
-    <option value="" disabled <?= !isset($_GET['rendit']) || $_GET['rendit'] == '' ? 'selected' : '' ?>>Zgjidh renditjen</option>
-        <option value="paga_desc" <?= (isset($_GET['rendit']) && $_GET['rendit'] == 'paga_desc') ? 'selected' : '' ?>>Paga (nga më e larta)</option>
-        <option value="paga_asc" <?= (isset($_GET['rendit']) && $_GET['rendit'] == 'paga_asc') ? 'selected' : '' ?>>Paga (nga më e ulëta)</option>
-        <option value="data_asc" <?= (isset($_GET['rendit']) && $_GET['rendit'] == 'data_asc') ? 'selected' : '' ?>>Data (më e hershmja)</option>
-        <option value="data_desc" <?= (isset($_GET['rendit']) && $_GET['rendit'] == 'data_desc') ? 'selected' : '' ?>>Data (më e vonshmja)</option>
-    </select>
-</form>
+     <div style="display: flex; align-items: center; justify-content: space-between; margin: 40px 100px -60px 100px;">
+    <!-- Ikona + -->
+<div id="shtoShpalljeBtn"
+     style="font-size: 20px; cursor: pointer; margin-left: 150px; margin-top:-10px;"
+     data-roli="<?php echo $_SESSION['roli'] ?? ''; ?>">
+    Shto shpallje +
+</div>
+<script>
+document.getElementById("shtoShpalljeBtn").addEventListener("click", function () {
+    const roli = this.getAttribute("data-roli");
+
+    if (roli === "admin") {
+        // Redirecto te shtoshpallje.php nëse është admin
+        window.location.href = "shtoshpallje.php";
+    } else if (roli === "user") {
+        // Shfaq alert nëse është user
+        alert("❌ Ju nuk jeni i autorizuar për këtë veprim.");
+    } else {
+        // Nëse nuk është kyçur fare (roli i zbrazët)
+        alert("ℹ️ Ju duhet të kyçeni për të shtuar shpallje.");
+        window.location.href = "index.php?mesazh=Ju+duhet+te+kyceni+per+te+shtuar+shpallje.&redirect=shtoShpallje.php";
+    }
+});
+</script>
+
+
+    <!-- Dropdown renditja -->
+    <form method="GET" class="mb-4" style="margin-right:250px;">
+        <label for="rendit">Rendit sipas:</label>
+        <select name="rendit" id="rendit" onchange="this.form.submit()">
+            <option value="" disabled <?= !isset($_GET['rendit']) || $_GET['rendit'] == '' ? 'selected' : '' ?>>Zgjidh renditjen</option>
+            <option value="paga_desc" <?= (isset($_GET['rendit']) && $_GET['rendit'] == 'paga_desc') ? 'selected' : '' ?>>Paga (nga më e larta)</option>
+            <option value="paga_asc" <?= (isset($_GET['rendit']) && $_GET['rendit'] == 'paga_asc') ? 'selected' : '' ?>>Paga (nga më e ulëta)</option>
+            <option value="data_asc" <?= (isset($_GET['rendit']) && $_GET['rendit'] == 'data_asc') ? 'selected' : '' ?>>Data (më e hershmja)</option>
+            <option value="data_desc" <?= (isset($_GET['rendit']) && $_GET['rendit'] == 'data_desc') ? 'selected' : '' ?>>Data (më e vonshmja)</option>
+        </select>
+    </form>
+</div>
+
     <div class="container" id="card-container">
       
       <div class="row" >

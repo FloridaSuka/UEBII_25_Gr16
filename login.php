@@ -37,7 +37,7 @@ if ($result->num_rows === 1) {
 
         echo json_encode([
             "sukses" => true,
-            "redirect" => ($user['Roli'] === 'admin') ? "shtoShpallje.php" : $redirect
+            "redirect" => ($user['Roli'] === 'admin') ? "home.php" : $redirect
         ]);
     } else {
         echo json_encode(["sukses" => false, "mesazh" => "Fjalëkalimi është gabim."]);

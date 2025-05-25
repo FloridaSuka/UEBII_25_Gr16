@@ -51,9 +51,29 @@ a{
     top: 8%;
 
 }
+
+.reset{
+   
+    position:absolute;
+    left: 65%;
+    top: 8%;
+
+}
 .form-box{
     width: 380px;
-    height:500px;
+    height:450px;
+    position: relative;
+    margin: 6% auto;
+    background: rgba(255, 255, 255, 0.207) ;
+    padding: 6px;
+    overflow: hidden;
+    border-radius: 10%;
+
+}
+
+.form-box1{
+    width: 350px;
+    height:450px;
     position: relative;
     margin: 6% auto;
     background: rgba(255, 255, 255, 0.207) ;
@@ -99,9 +119,14 @@ a{
     top:140px;
     position: absolute;
     width:280px;
-    transition: .5s;
+    transition: .5s; 
+}
 
-    
+.input-group1{
+    top:100px;
+    position: absolute;
+    width:280px;
+    transition: .5s; 
 }
 .return-link {
     margin: 90px 20px;
@@ -155,11 +180,25 @@ a{
     background: transparent;
     color: #fff;
 }
+
+.input-field2{
+    width:100%;
+    padding: 10px 5px ;
+    margin:5px 15px;
+    border-left: 10px;
+    border-top: 0;
+    border-right: 0;
+    border-bottom: 1px solid #fff;
+    outline:none;
+    background: transparent;
+    color: #fff;
+}
 ::placeholder {
     color: #fff; /* Ngjyra e bardhë për placeholder */
     opacity: 1;
 }
 .submit-btn{
+    top: 80px; /* E shtyn butonin më poshtë */
     width:85%;
     padding: 10px 30px;
     cursor:pointer;
@@ -173,9 +212,24 @@ a{
 }
 .submit-btn1 {
     position: relative;
-    top: 30px; /* E shtyn butonin më poshtë */
+    top: 60px; /* E shtyn butonin më poshtë */
     width: 85%;
-    padding: 10px 70px;
+    padding: 10px 30px;
+    cursor: pointer;
+    display: block;
+    margin: auto;
+    background: linear-gradient(to right, #45cfbf 50%, #2A9D8F 80%);
+    border: 0;
+    outline: none;
+    border-radius: 30px;
+    color: #fff;
+}
+.submit-btn3{
+    position: relative;
+    top: 50px; /* E shtyn butonin më poshtë */
+    left: 32.5px;
+    width: 85%;
+    padding: 10px 30px;
     cursor: pointer;
     display: block;
     margin: auto;
@@ -223,5 +277,8 @@ span{
     left:50px;
 }
 #register{
+    left:450px;
+}
+#reset{
     left:450px;
 }

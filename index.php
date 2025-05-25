@@ -37,8 +37,7 @@
             <form id="login" class="input-group">
                 <input type="text" name="emri_perdoruesit" class="input-field" placeholder="Emri i përdoruesit" required>
                 <input type="password" name="password" class="input-field" placeholder="Fjalëkalimi" required>
-                <input type="checkbox" class="check-box"><span>Kujto Fjalëkalimin</span> 
-                <label class="button1"><a href="#">Keni harruar fjalëkalimin?</a></label>
+                <label class="button1"><a href="resetPassword.php">Keni harruar fjalëkalimin?</a></label>
                 <button type="submit" class="submit-btn1">Hyr</button>
             </form>
 
@@ -55,7 +54,6 @@
                     <option value="user" style="color: black;">Punëtor</option>
                     <option value="admin" style="color: black;">Pundhënës</option>
                 </select>
-                <input type="checkbox" class="check-box"><span>Jam dakord me termat dhe kushtet</span>
                 <button type="submit" class="submit-btn">Regjistrohu</button>
             </form>
 
