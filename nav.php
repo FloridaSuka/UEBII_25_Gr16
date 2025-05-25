@@ -249,12 +249,28 @@ $isLoggedIn = isset($_SESSION['user_id']);
                 </span>
             </button>
             <?php if ($isLoggedIn): ?>
-            <div class="dropdown-content" id="userDropdown">
-                <p><strong><?php echo $_SESSION['emri'] . ' ' . $_SESSION['mbiemri']; ?></strong></p>
-                <a href="logout.php">
-                <img src="foto/log-out.png" alt="Dil" style="width: 35px;">
-                </a>
-            </div>
+        <div class="dropdown-content" id="userDropdown" style="text-align: center; padding: 10px;">
+    <!-- Emri dhe mbiemri -->
+    <p style="margin: 0; font-weight: bold; color: #264653;">
+        <?php echo $_SESSION['emri'] . ' ' . $_SESSION['mbiemri']; ?>
+    </p>
+
+    <!-- Ikona e profilit (Profili) -->
+    <div style="margin-top: 8px;">
+        <a href="profile.php" title="Profili">
+            <img src="foto/gear.png" alt="Profili" style="width: 32px; height: 32px;">
+        </a>
+    </div>
+
+    <!-- Ikona e logout më poshtë -->
+    <div style="margin-top: 15px;">
+        <a href="logout.php" title="Dil">
+            <img src="foto/log-out.png" alt="Dil" style="width: 35px;">
+        </a>
+    </div>
+</div>
+
+
             <?php endif; ?>
             </div>
         </div>
