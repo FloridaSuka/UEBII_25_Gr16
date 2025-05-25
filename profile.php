@@ -97,7 +97,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['ndrysho_fjalekalim']))
             background: #264653;
             border-radius: 10px;
         }
-        body {
+        .body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: #f1f1f1;
             margin-top: 100px;
@@ -109,7 +109,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['ndrysho_fjalekalim']))
             margin-top: 30px;
         }
 
-        form {
+        .form {
             width: 400px;
             background-color: #fff;
             margin: 30px auto;
@@ -180,12 +180,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['ndrysho_fjalekalim']))
         }
     </style>
 </head>
-<body>
+<body class="body">
     <h2>Profili Im</h2>
 
     <?php if ($mesazhi) echo "<div class='mesazh'>$mesazhi</div>"; ?>
 
-    <form method="POST">
+    <form class="form" method="POST">
         <h3>Të dhënat personale</h3>
 
         <label>Emri:</label>
@@ -208,7 +208,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['ndrysho_fjalekalim']))
 
     <hr>
 
-    <form method="POST">
+    <form class="form" method="POST">
         <h3>Ndrysho Fjalëkalimin</h3>
 
         <label>Fjalëkalimi Aktual:</label>
@@ -225,7 +225,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['ndrysho_fjalekalim']))
 
     <hr>
 
-     <form method="POST" onsubmit="return confirm('A jeni të sigurt që dëshironi të fshini llogarinë tuaj? Ky veprim nuk mund të kthehet.')" id="fshiForm">
+     <form class="form" method="POST" onsubmit="return confirm('A jeni të sigurt që dëshironi të fshini llogarinë tuaj? Ky veprim nuk mund të kthehet.')" id="fshiForm">
         <h3 style="color: red;">Fshi Llogarinë</h3>
 
         <label>Emri i përdoruesit:</label>
