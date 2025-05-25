@@ -6,6 +6,21 @@
     <link rel="stylesheet" href="faqjakryesore.css">
 </head>
 <body>
+    <div id="login-message" style="
+    display: none;
+    position: fixed;
+    top: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #264653;
+    color: white;
+    padding: 15px 25px;
+    border-radius: 8px;
+    font-size: 16px;
+    z-index: 9999;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+"></div>
+
     <img src="foto/logo.svg" alt="Logo" class="logo">
     <p class="show">Mirë se erdhe, <br> shpresojmë të gjeni atë që po kërkoni.</p>
     <a href="home.php" class="return-link">Vazhdo pa u kyçur</a>
@@ -49,53 +64,36 @@
 
     <script>
         // Regjistrimi
-        document.querySelector("#register").addEventListener("submit", function(e) {
-            e.preventDefault();
-            const formData = new FormData(this);
+    // Login
+document.querySelector("#login").addEventListener("submit", function(e) {
+    e.preventDefault();
+    const formData = new FormData(this);
 
-            fetch("register.php", {
-                method: "POST",
-                body: formData
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.sukses) {
-                    alert("✅ " + data.mesazh + "\nMirë se erdhe, " + data.emri + " " + data.mbiemri + "!");
-                    // window.location.href = "home.php";
-                } else {
-                    alert("⚠️ Gabime gjatë regjistrimit:\n\n" + data.gabime.join("\n"));
-                }
-            })
-            .catch(error => {
-                alert("❌ Ka ndodhur një gabim në komunikim.");
-                console.error("Gabim:", error);
-            });
-        });
+    // ✅ Kontrollo nëse URL përmban ?redirect
+    const params = new URLSearchParams(window.location.search);
+    if (params.has("redirect")) {
+        formData.append("redirect", params.get("redirect"));
+    }
 
-        // Login
-        document.querySelector("#login").addEventListener("submit", function(e) {
-            e.preventDefault();
-            const formData = new FormData(this);
+    fetch("login.php", {
+        method: "POST",
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.sukses) {
+            window.location.href = data.redirect;
+        } else {
+            const mesazh = data?.mesazh || (data?.gabime?.join("\n") ?? "Gabim i panjohur.");
+            alert("❌ " + mesazh);
+        }
+    })
+    .catch(error => {
+        alert("❌ Gabim gjatë komunikimit: " + error.message);
+        console.error("Gabim:", error);
+    });
+});
 
-            fetch("login.php", {
-                method: "POST",
-                body: formData
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.sukses) {
-                    window.location.href = data.redirect;
-                } else {
-                    console.log("Përgjigja nga serveri:", data);
-                    const mesazh = data?.mesazh || (data?.gabime?.join("\n") ?? "Gabim i panjohur.");
-                    alert("❌ " + mesazh);
-                }
-            })
-            .catch(error => {
-                alert("❌ Gabim gjatë komunikimit: " + error.message);
-                console.error("Gabim:", error);
-            });
-        });
 
         // Animacioni për ndërrimin e formave
         function login() {
@@ -109,6 +107,23 @@
             document.getElementById("register").style.left = "50px";
             document.getElementById("btn").style.left = "110px";
         }
+
+        // ✅ Shfaq alert nëse vjen mesazh përmes URL-së
+       window.addEventListener("DOMContentLoaded", () => {
+    const params = new URLSearchParams(window.location.search);
+    if (params.has("mesazh")) {
+        const decodedMsg = decodeURIComponent(params.get("mesazh"));
+        const msgBox = document.getElementById("login-message");
+        msgBox.textContent = decodedMsg;
+        msgBox.style.display = "block";
+
+        // Zhduke pas 3 sekondash
+        setTimeout(() => {
+            msgBox.style.display = "none";
+        }, 3000);
+    }
+});
+
     </script>
 </body>
 </html>

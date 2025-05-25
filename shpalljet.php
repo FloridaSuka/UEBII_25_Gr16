@@ -1,4 +1,17 @@
 <?php include 'cookie-box.php';?>
+<?php
+session_start();
+if (!isset($_SESSION['user_id'])) {
+    $mesazhi = urlencode("Ju duhet të kyçeni për të parë shpalljet.");
+    echo "<script>
+        window.location.href = 'index.php?mesazh=$mesazhi&redirect=shpalljet.php';
+    </script>";
+    exit();
+}
+?>
+
+<!-- Pjesa tjetër e HTML për shpalljet -->
+
 <!DOCTYPE html>
 <html lang="sq">
 <head>
