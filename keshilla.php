@@ -9,21 +9,31 @@ try {
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_TIMEOUT => 5
     ]);
+    
     $response = curl_exec($curl);
+
+    if ($response === false) {
+        throw new Exception("Nuk u arrit të merret përgjigjja nga API.");
+    }
+
     curl_close($curl);
 
-    if ($response !== false) {
-        $data = json_decode($response, true);
-        if (isset($data[0]['q']) && isset($data[0]['a'])) {
-            $quoteText = $data[0]['q'];
-            $quoteAuthor = $data[0]['a'];
-        }
+    $data = json_decode($response, true);
+    if (!isset($data[0]['q']) || !isset($data[0]['a'])) {
+        throw new Exception("Struktura e të dhënave nga API është e papritur.");
     }
+
+    $quoteText = $data[0]['q'];
+    $quoteAuthor = $data[0]['a'];
+
 } catch (Exception $e) {
-    // Në rast të gabimit, përdoret citati rezervë
+    //
     $quoteText = "Success is not an accident – ​​it is the result of preparation, hard work, and continuous learning. Discover your potential and build a future you deserve.";
     $quoteAuthor = "FindYourWay";
+
+    throw new Exception("Gabim gjatë marrjes së citatit: " . $e->getMessage(), $e->getCode(), $e);
 }
+
 ?>
 <?php include 'cookie-box.php';?>
 <!DOCTYPE html>
