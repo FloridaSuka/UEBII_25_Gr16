@@ -23,6 +23,7 @@ $stmt = $con->prepare("SELECT * FROM users WHERE emri_perdoruesit = ?");
 $stmt->bind_param("s", $username);
 $stmt->execute();
 $result = $stmt->get_result();
+$redirect = $_POST['redirect'] ?? 'home.php';
 
 if ($result->num_rows === 1) {
     $user = $result->fetch_assoc();
@@ -36,13 +37,18 @@ if ($result->num_rows === 1) {
 
         echo json_encode([
             "sukses" => true,
-            "redirect" => ($user['Roli'] === 'admin') ? "shtoShpallje.php" : "home.php"
+            "redirect" => ($user['Roli'] === 'admin') ? "shtoShpallje.php" : $redirect
         ]);
     } else {
         echo json_encode(["sukses" => false, "mesazh" => "Fjalëkalimi është gabim."]);
     }
 } else {
     echo json_encode(["sukses" => false, "mesazh" => "Përdoruesi nuk ekziston."]);
+}
+// Nëse vjen nga redirektimi dhe ka mesazh në URL, shfaq alert
+if (isset($_GET['mesazh'])) {
+    $mesazh = urldecode($_GET['mesazh']);
+    echo "<script>alert('$mesazh');</script>";
 }
 
 $stmt->close();

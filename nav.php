@@ -1,5 +1,7 @@
 <?php
-session_start();
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 $isLoggedIn = isset($_SESSION['user_id']);
 ?>
 <html lang="en">
@@ -229,7 +231,9 @@ $isLoggedIn = isset($_SESSION['user_id']);
     <ul class="nav-links">
         <li><a href="home.php">Ballina</a></li>
         <li><a href="rrethnesh.php">Rreth nesh</a></li>
-        <li><a href="shpalljet.php">Shpallje</a></li>
+        <li><a href="shpalljet.php" <?php if (!$isLoggedIn): ?>
+           onclick="event.preventDefault(); window.location.href='index.php?mesazh=<?= urlencode('Ju duhet të kyçeni për të parë shpalljet.') ?>&redirect=shpalljet.php';"
+       <?php endif; ?> >Shpallje</a></li>
         <li><a href="keshilla.php">Këshilla</a></li>
         <div class="user-icon">
             <div class="dropdown">
