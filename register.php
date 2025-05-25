@@ -14,7 +14,7 @@ $emri_perdoruesit = trim($_POST['emri_perdoruesit'] ?? '');
 $email = trim($_POST['email'] ?? '');
 $datelindja = $_POST['datelindja'] ?? '';
 $fjalekalimi = $_POST['password'] ?? '';
-$roli = $_POST['Roli'] ?? 'user';
+$roli = $_POST['roli'] ?? 'user';
 
 // Validime
 $regex_emri = "/^[A-ZÇË][a-zçë]{2,}$/u";
@@ -56,7 +56,7 @@ $kontrollo->close();
 
 // Ruajtja në databazë
 $hashedPassword = password_hash($fjalekalimi, PASSWORD_DEFAULT);
-$stmt = $con->prepare("INSERT INTO users (emri, mbiemri, emri_perdoruesit, email, datelindja, password, Roli) VALUES (?, ?, ?, ?, ?, ?, ?)");
+$stmt = $con->prepare("INSERT INTO users (emri, mbiemri, emri_perdoruesit, email, datelindja, password, roli) VALUES (?, ?, ?, ?, ?, ?, ?)");
 $stmt->bind_param("sssssss", $emri, $mbiemri, $emri_perdoruesit, $email, $datelindja, $hashedPassword, $roli);
 
 if ($stmt->execute()) {
