@@ -114,5 +114,6 @@ $stmt->bind_param("ssssssss", $titulli, $foto_path, $kompania, $lokacioni, $paga
         <button type="submit" class="btn btn-success">Shto</button>
     </form>
 </div>
+<?php include 'footer.php'; ?>
 </body>
 </html>
