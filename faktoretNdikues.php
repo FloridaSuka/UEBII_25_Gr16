@@ -1,3 +1,4 @@
+<?=session_start();?>
 <?php
 define("KATEGORIA_DEFAULT", "e papercaktuar");
 $mesazhiFaqes = "Faktorët që ndikojnë në përzgjedhjen e karrierës";

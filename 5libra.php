@@ -1,3 +1,4 @@
+<?=session_start();?>
 <?php
 define("NGJYRA_TITULLIT", "#264653");
 $titulliFaqes = "5 Libra për të Frymëzuar Suksesin";

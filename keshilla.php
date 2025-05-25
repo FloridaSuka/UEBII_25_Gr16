@@ -60,25 +60,25 @@ try {
       </div>
       <div class="cards">
         <div class="card " data-title="Cilat jan&#235 disa nga mund&#235sit&#235 e zhvillimit profesional">
-            <a id="link-keshillat" href="mundesiteZhvillimit.php" target="_blank">
+            <a id="link-keshillat" href="mundesiteZhvillimit.php" >
               <img src="https://img.freepik.com/premium-vector/ui-ux-design-concept-people-creating-application-content-text-place-illustration_138260-627.jpg"><br>
             </a>
             <h4>Cilat jan&#235 disa nga mund&#235sit&#235 e zhvillimit profesional</h4>
           </div>
         <div class="card "data-title="Elevator Pitch"  >
-          <a id="link-keshillat" href="elevatorPitch.php" target="_blank">
+          <a id="link-keshillat" href="elevatorPitch.php">
             <img src="https://media.istockphoto.com/id/1337672378/vector/office-staff-wait-elevator-in-business-center-hall.jpg?s=612x612&w=0&k=20&c=2PX8DUGkDbCHXaF-mcPtbMKpb_ivrds_Aw9uZn67KnA="><br>
           </a>
           <h4>Elevator Pitch</h4>
         </div>
         <div class="card " data-title="Faktor&#235t ndikues n&#235 p&#235rzgjedhjen e karrier&#235s">
-          <a id="link-keshillat" href="faktoretNdikues.php" target="_blank">
+          <a id="link-keshillat" href="faktoretNdikues.php" >
             <img src="https://studenti.solutions/wp-content/uploads/2022/07/360_F_216366012_xamXcdVg3tXZhfgLJrAbg5XDu6cuku1X.jpg">
           </a>
           <h4>Faktor&#235t ndikues n&#235 p&#235rzgjedhjen e karrier&#235s</h4>
         </div>
         <div class="card " data-title="&Ccedilka nevojitet p&#235rve&#231 motivimet p&#235r ti arritur q&#235llimet?" >
-          <a id="link-keshillat" href="arritjaQellimit.php" target="_blank">
+          <a id="link-keshillat" href="arritjaQellimit.php" >
             <img src="https://media.istockphoto.com/id/1195893403/vector/girl-marks-done-the-to-do-list-make-a-choice.jpg?s=612x612&w=0&k=20&c=sMlF2un78idsmGooAVpssfLRrgNNCvMCKZWo_KkO7Z4=">
           </a>
           <h4>&Ccedilka nevojitet p&#235rve&#231 motivimit
@@ -86,7 +86,7 @@ try {
           </h4>
         </div>
         <div class="card" data-title="5 Libra q&#235 duhen lexuar p&#235r t&#235 frym&#235zuar suksesin" > 
-            <a id="link-keshillat" href="5libra.php" target="_blank">
+            <a id="link-keshillat" href="5libra.php">
               <img src="https://media.istockphoto.com/id/1072242336/vector/book-library-educational-concept-characters-reading-books-young-readers-man-and-woman.jpg?s=612x612&w=0&k=20&c=0gwK04N0vJPZYaBNF2sJ2k2I5OKLuoSH8iuIacsPtJQ="><br>
             </a>
             <h4>5 Libra q&#235 duhen lexuar p&#235r t&#235 frym&#235zuar suksesin</h4>
@@ -96,7 +96,7 @@ try {
     <div class="mid-message" style="font-style: italic; margin-top: 150px; margin-bottom: 150px;">
       <h2><?php echo htmlspecialchars($quoteText); ?></h2>
       <p style="font-style: italic;">- <?php echo htmlspecialchars($quoteAuthor); ?></p>
-      <p style="font-size: 10px; color: gray; margin-bottom: 20px;">Citatet janë ofruar nga <a href="https://zenquotes.io/" target="_blank" style="color: gray;">ZenQuotes API</a></p>
+      <p style="font-size: 10px; color: gray; margin-bottom: 20px;">Citatet janë ofruar nga <a href="https://zenquotes.io/" style="color: gray;">ZenQuotes API</a></p>
     </div>
     <section class="V1"> 
       <section class="video">
