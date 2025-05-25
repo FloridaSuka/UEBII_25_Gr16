@@ -225,7 +225,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['ndrysho_fjalekalim']))
 
     <hr>
 
-     <form method="POST" onsubmit="return confirm('A jeni të sigurt që dëshironi të fshini llogarinë tuaj? Ky veprim nuk mund të kthehet.')">
+     <form method="POST" onsubmit="return confirm('A jeni të sigurt që dëshironi të fshini llogarinë tuaj? Ky veprim nuk mund të kthehet.')" id="fshiForm">
         <h3 style="color: red;">Fshi Llogarinë</h3>
 
         <label>Emri i përdoruesit:</label>
@@ -239,6 +239,30 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['ndrysho_fjalekalim']))
 
         <button type="submit" name="fshi_llogarine" style="background-color: #e76f51;">Fshi Llogarinë</button>
     </form>
+
+    <script>
+        document.getElementById("fshiForm").addEventListener("submit", function (e) {
+            e.preventDefault();
+
+            const formData = new FormData(this);
+
+            fetch("fshiUser.php", {
+                method: "POST",
+                body: formData
+            })
+            .then(r => r.text())
+            .then(data => {
+                if (data.trim() === "sukses") {
+                    alert("Llogaria u fshi me sukses.");
+                    window.location.href = "index.php";
+                } else {
+                    alert("❌ Fshirja dështoi. Kontrollo të dhënat.");
+                }
+            })
+            .catch(err => alert("❌ Gabim në lidhje me serverin."));
+        });
+</script>
+
     <?php include 'footer.php';?>
 
 </body>
