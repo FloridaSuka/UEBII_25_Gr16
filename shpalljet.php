@@ -1,5 +1,32 @@
 <?php include 'cookie-box.php';?>
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+function errorHandler($errno, $errstr, $errfile, $errline)
+{
+    $mesazh = "<div style='background-color: #ffe6e6; color: #a94442; padding: 15px; margin: 15px; border-left: 5px solid #a94442;'>
+        <strong>⚠️ Gabim [$errno]:</strong> $errstr<br>
+        <strong>📄 Skedari:</strong> $errfile <br>
+        <strong>📌 Rreshti:</strong> $errline
+    </div>";
+
+    echo $mesazh;
+
+    // 📁 Sigurohu që ekziston folderi logs
+    $logFolder = __DIR__ . "/logs";
+    if (!file_exists($logFolder)) {
+        mkdir($logFolder, 0777, true);
+    }
+
+    // 📝 Pastaj shkruaj gabimin në fajll
+    $logPath = $logFolder . "/error_log.txt";
+    $logData = "[" . date("Y-m-d H:i:s") . "] Gabim [$errno] në $errfile, rreshti $errline: $errstr" . PHP_EOL;
+    file_put_contents($logPath, $logData, FILE_APPEND);
+}
+
+set_error_handler("errorHandler");
+
 session_start();
 if (!isset($_SESSION['user_id'])) {
     $mesazhi = urlencode("Ju duhet të kyçeni për të parë shpalljet.");
@@ -8,6 +35,7 @@ if (!isset($_SESSION['user_id'])) {
     </script>";
     exit();
 }
+
 ?>
 
 <!-- Pjesa tjetër e HTML për shpalljet -->
