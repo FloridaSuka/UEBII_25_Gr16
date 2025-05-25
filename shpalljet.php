@@ -222,66 +222,29 @@ document.getElementById("shtoShpalljeBtn").addEventListener("click", function ()
         }
     }
 
-    $cards = [
-    new Card("Pozitë e Lirë - Mësuese e Matematikës", "foto/Shkolla e Mesme Alpbach.jpg", "18/06/2024", "Arsim", "€700", "Prizren", "\"Shkolla e Mesme Alpbach\" në Prishtinë kërkon mësuese të matematikës për vitin shkollor të ardhshëm.", "15/03/2025", "shkoTeFaqja1()"),
-    new Card("Pozitë e Lirë - Arkitekt", "foto/Design Studio Prizren.jpg", "20/06/2024", "Arkitekturë", "€800", "Prizren", "\"Design Studio Prizren\" kërkon arkitekt të përkushtuar për projekte të reja të dizajnimit dhe planifikimit urban.", "20/02/2025", "shkoTeFaqja2()"),
-    new Card("Pozitë e Lirë - Inxhinier", "foto/Ndertimi.webp", "22/06/2024", "Inxhinieri", "€700", "Pejë", "Kompania \"Ndërtimi Peja\" në Pejë kërkon inxhinier për mbikëqyrje dhe implementim të projekteve të ndërtimit.", "01/03/2025", "shkoTeFaqja3()"),
-    new Card("Pozitë e Lirë - IT Specialist", "foto/IT Solution Gjilan.jpg", "23/06/2024", "IT", "€600", "Gjilan", "Kompania \"IT Solution Gjilan\" në Gjilan kërkon një IT Specialist për mirëmbajtjen dhe zhvillimin e infrastrukturës teknologjike.", "10/03/2025", "shkoTeFaqja4()"),
-    new Card("Pozitë e Lirë - Kuzhinier", "foto/Tradita_Kacanik.jpg", "24/06/2024", "Hoteleri", "€600", "Kaçanik", "Restoranti \"Tradita Kaçanik\" në Kaçanik kërkon kuzhinier me përvojë për ushqime tradicionale dhe moderne.", "15/02/2025", "shkoTeFaqja5()"),
-    new Card("Pozitë e Lirë - Shofer", "foto/Transporti_Ferizaj.jpg", "25/06/2024", "Transport", "€350", "Ferizaj", "Kompania \"Transport Ferizaj\" në Ferizaj kërkon shofer me kategori B për transport dhe shpërndarje.", "01/03/2025", "shkoTeFaqja6()"),
-    new Card("Pozitë e Lirë - Stomatolog", "foto/ordinanca.webp", "28/03/2024", "Shëndetësi", "€1000", "Kaçanik", "Klinika \"SmileCare Dental\" kërkon stomatolog me përvojë për trajtime moderne dentare dhe kujdes ndaj pacientëve.", "15/01/2025", "shkoTeFaqja7()"),
-    new Card("Pozitë e Lirë - Fotograf", "foto/fotograf.webp", "17/01/2024", "Media & Art", "€720", "Gjakovë", "Studio fotografike \"Film Studio\" kërkon fotograf kreativ për realizimin e fotosesioneve dhe projekteve artistike.", "15/01/2025", "shkoTeFaqja8()"),
-    new Card("Pozitë e Lirë - Kontabilist", "foto/kontabilist.webp", "12/03/2024", "Financa", "€800", "Malishevë", "Kompania \"FinancePro\" kërkon kontabilist me njohuri të avancuara për përgatitjen e bilanceve financiare dhe raportimin fiskal.", "15/01/2025", "shkoTeFaqja9()"),
-    new Card("Pozitë e Lirë - Zhvillues Software", "foto/zhvilluess.avif", "29/12/2024", "Teknologji", "€1000", "Prizren", "Kompania \"TechDev\" kërkon zhvillues software me njohuri të avancuara në gjuhët e programimit dhe krijimin e aplikacioneve web.", "10/02/2025", "shkoTeFaqja10()"),
-    new Card("Pozitë e Lirë - Specialist Marketingu", "foto/marketing.jpg", "29/12/2024", "Marketing", "€900", "Mitrovicë", "Kompania \"MarketPro\" kërkon specialist marketingu me aftësi në krijimin dhe menaxhimin e fushatave reklamimi online.", "20/01/2025", "shkoTeFaqja11()"),
-    new Card("Pozitë e Lirë - Avokat", "foto/avokat.webp", "29/12/2024", "Shërbime Juridike", "€1100", "Fushë Kosovë", "Kompania \"JuridikPro\" kërkon avokat me njohuri të thella në ligjin civil dhe penal për të ofruar shërbime juridike për klientët.", "15/01/2025", "shkoTeFaqja12()")
-];
-  
-  
- // Rendit pozitat në mënyrë zbritëse sipas pagës
-
+   
 
 
  
-   
-    if (isset($_GET['rendit'])) {
-        $rendit = $_GET['rendit'];
-    
-        usort($cards, function($a, $b) use ($rendit) {
-            switch ($rendit) {
-                case 'paga_desc':
-                    return (int)filter_var($b->paga, FILTER_SANITIZE_NUMBER_INT) - (int)filter_var($a->paga, FILTER_SANITIZE_NUMBER_INT);
-                case 'paga_asc':
-                    return (int)filter_var($a->paga, FILTER_SANITIZE_NUMBER_INT) - (int)filter_var($b->paga, FILTER_SANITIZE_NUMBER_INT);
-                    case 'data_asc':
-                        return strtotime($a->dataShpalljes) - strtotime($b->dataShpalljes);
-                    case 'data_desc':
-                        return strtotime($b->dataShpalljes) - strtotime($a->dataShpalljes);
-
-            }
-            return 0;
-        });
-    }
-    foreach ($cards as $card) {
-        $card->shfaq();
-    }
-   
 
     $result = $con->query("SELECT * FROM shpalljet ORDER BY data_publikimit DESC");
     
     if ($result->num_rows > 0) {
         while ($row = $result->fetch_assoc()) {
+            $id = $row['id'];
             $pozita = $row['titulli'];
-            $foto = "foto/default.jpg"; // ose shto kolonë 'foto' në db nëse ke
+            $foto = $row['foto']; // merre foton nga databaza
             $data = $row['data_publikimit'];
             $kategoria = $row['kompania'];
             $paga = $row['paga'];
             $lokacioni = $row['lokacioni'];
             $pershkrimi = $row['pershkrimi'];
             $afati = $row['afati'];
-            $faqja = $row['faqja'] ?? "#";
+            $onclick = "window.location.href='DetajetShpallje.php?id=$id'";
+            
     
-            $onclick = "window.location.href='$faqja'";
+            $onclick = "window.location.href='DetajetShpallje.php?id={$row['id']}'";
+
             
             $c = new Card($pozita, $foto, $data, $kategoria, $paga, $lokacioni, $pershkrimi, $afati, $onclick);
             $c->shfaq();
