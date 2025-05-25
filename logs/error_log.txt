@@ -1,0 +1,2 @@
+[2025-05-25 23:27:38] Gabim [2] në C:\xampp1\htdocs\UEBII_25_Gr16\shpalljet.php, rreshti 264: Undefined array key "foto"
+[2025-05-25 23:42:47] Gabim [2] në C:\xampp1\htdocs\UEBII_25_Gr16\shpalljet.php, rreshti 264: Undefined array key "foto"
