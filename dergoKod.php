@@ -42,45 +42,51 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $mail = new PHPMailer(true);
 
-    try {
-        $mail->isSMTP();
-        $mail->Host       = 'smtp.gmail.com';
-        $mail->SMTPAuth   = true;
-        $mail->Username   = 'findyourway.2024.25@gmail.com';
-        $mail->Password   = 'obszazgpwveinsmz'; // Ndroje nëse ndryshon App Password
-        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-        $mail->Port       = 587;
-        $mail->CharSet    = 'UTF-8';
+   try {
+    $mail->isSMTP();
+    $mail->Host       = 'smtp.gmail.com';
+    $mail->SMTPAuth   = true;
+    $mail->Username   = 'findyourway.2024.25@gmail.com';
+    $mail->Password   = 'obszazgpwveinsmz'; // Ndroje nëse ndryshon App Password
+    $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+    $mail->Port       = 587;
+    $mail->CharSet    = 'UTF-8';
 
-        $mail->setFrom('findyourway.2024.25@gmail.com', 'FindYourWay');
-        $mail->addAddress($email, $emri_perdoruesit);
+    $mail->setFrom('findyourway.2024.25@gmail.com', 'FindYourWay');
+    $mail->addAddress($email, $emri_perdoruesit);
 
-        $mail->isHTML(true);
-        $mail->Subject = 'Kodi i Verifikimit - FindYourWay';
-        $mail->Body    = "
-            <p>Përshëndetje <strong>$emri_perdoruesit</strong>,</p>
-            <p>Kodi juaj për verifikim është: <strong style='font-size: 20px;'>$verificationCode</strong></p>
-            <p>Shënoje këtë kod për të vazhduar me ndryshimin e fjalëkalimit.</p>
-            <br><em>Ky email është automatik - mos u përgjigj.</em>";
+    $mail->isHTML(true);
+    $mail->Subject = 'Kodi i Verifikimit - FindYourWay';
+    $mail->Body    = "
+        <p>Përshëndetje <strong>$emri_perdoruesit</strong>,</p>
+        <p>Kodi juaj për verifikim është: <strong style='font-size: 20px;'>$verificationCode</strong></p>
+        <p>Shënoje këtë kod për të vazhduar me ndryshimin e fjalëkalimit.</p>
+        <br><em>Ky email është automatik - mos u përgjigj.</em>";
 
-        $mail->send();
-
-        // ✅ Ruaje me fwrite në një file .txt
-        $folder = __DIR__ . "/logs";
-        if (!file_exists($folder)) {
-            mkdir($folder, 0777, true);
-        }
-
-        $filepath = $folder . "/kodet_verifikimit.txt";
-        $logLine = "Username: $emri_perdoruesit | Email: $email | Kodi: $verificationCode | Koha: " . date("Y-m-d H:i:s") . PHP_EOL;
-
-        $file = fopen($filepath, "a");
-        fwrite($file, $logLine);
-        fclose($file);
-
-        echo json_encode(["status" => "success", "message" => "Kodi u dërgua me sukses! Kontrolloni emailin tuaj."]);
-
-    } catch (Exception $e) {
-        echo json_encode(["status" => "error", "message" => "Gabim gjatë dërgesës së emailit: {$mail->ErrorInfo}"]);
+    if (!$mail->send()) {
+        throw new Exception("Dërgimi i emailit dështoi: " . $mail->ErrorInfo);
     }
+
+    // ✅ Ruajtja e kodit në një fajll log
+    $folder = __DIR__ . "/logs";
+    if (!file_exists($folder)) {
+        if (!mkdir($folder, 0777, true)) {
+            throw new Exception("Dështoi krijimi i folderit për log.");
+        }
+    }
+
+    $filepath = $folder . "/kodet_verifikimit.txt";
+    $logLine = "Username: $emri_perdoruesit | Email: $email | Kodi: $verificationCode | Koha: " . date("Y-m-d H:i:s") . PHP_EOL;
+
+    if (!file_put_contents($filepath, $logLine, FILE_APPEND)) {
+        throw new Exception("Dështoi shkrimi i kodit në fajll.");
+    }
+
+    echo json_encode(["status" => "success", "message" => "Kodi u dërgua me sukses! Kontrolloni emailin tuaj."]);
+
+} catch (Exception $e) {
+    // Trajto gabimin në mënyrë të personalizuar
+    echo json_encode(["status" => "error", "message" => "Gabim: " . $e->getMessage()]);
+    // Opsionale: mund të logosh edhe gabimin në një fajll tjetër nëse dëshiron
+}
 }
