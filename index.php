@@ -37,7 +37,7 @@
             <form id="login" class="input-group">
                 <input type="text" name="emri_perdoruesit" class="input-field" placeholder="Emri i përdoruesit" required>
                 <input type="password" name="password" class="input-field" placeholder="Fjalëkalimi" required>
-                <label class="button1"><a href="resetPassword.php">Keni harruar fjalëkalimin?</a></label>
+                <label class="button1"><a href="resetPassword.php">Ndrysho Fjalëkalimin</a></label>
                 <button type="submit" class="submit-btn1">Hyr</button>
             </form>
 
