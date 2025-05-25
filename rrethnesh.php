@@ -9,26 +9,31 @@ $result = mysqli_query($con, $sql);
 $row = mysqli_fetch_assoc($result);
 $nrPerdorues = $row['total'];
 
-// 2. Numërimi i vizitave nga vizitat.txt
-$logFile = "logs/vizitat.txt";
-$faqja = basename($_SERVER['PHP_SELF']); // emri i faqes
-$ip = $_SERVER['REMOTE_ADDR'] ?? 'unknown';
-$userAgent = $_SERVER['HTTP_USER_AGENT'] ?? 'unknown';
-$data = date("Y-m-d H:i:s");
+// Funksioni që numëron vizitat për faqe dhe shkruan në fajll
+function numroVizitat($faqja) {
+    $logFile = "logs/vizitat.txt";
+    $ip = $_SERVER['REMOTE_ADDR'] ?? 'unknown';
+    $userAgent = $_SERVER['HTTP_USER_AGENT'] ?? 'unknown';
+    $data = date("Y-m-d H:i:s");
 
-// log vetëm herën e parë në sesion
-if (!isset($_SESSION['vizituar_'.$faqja])) {
-    $_SESSION['vizituar_'.$faqja] = true;
+    if (!isset($_SESSION['vizituar_'.$faqja])) {
+        $_SESSION['vizituar_'.$faqja] = true;
 
-    $rreshti = "[$data] IP: $ip | Page: $faqja | User-Agent: $userAgent" . PHP_EOL;
+        $rreshti = "[$data] IP: $ip | Page: $faqja | UA: $userAgent" . PHP_EOL;
 
-    if (!file_exists("logs")) mkdir("logs");
-    $file = fopen($logFile, "a");
-    fwrite($file, $rreshti);
-    fclose($file);
+        if (!file_exists("logs")) mkdir("logs");
+        file_put_contents($logFile, $rreshti, FILE_APPEND);
+    }
+
+    return file_exists($logFile) ? count(file($logFile)) : 0;
 }
-$vizita = file_exists($logFile) ? count(file($logFile)) : 0;
 
+// Emri i faqes
+$faqja = basename($_SERVER['PHP_SELF']);
+
+// Thirr funksionin dhe ruaj numrin e vizitave
+$vizita = numroVizitat($faqja);
+  
 ?>
 
 <!DOCTYPE html>
