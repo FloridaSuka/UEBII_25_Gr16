@@ -1,6 +1,6 @@
 <?php include 'cookie-box.php';?>
 <?php
-include 'db.php'; // ky është file-i yt për lidhjen me DB
+require 'db.php'; // ky është file-i yt për lidhjen me DB
 session_start();
 
 // 1. Merr numrin e përdoruesve nga databaza
