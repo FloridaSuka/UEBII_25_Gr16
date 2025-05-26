@@ -65,7 +65,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 
     if ($stmt->execute()) {
-        $mesazhSukses = "✅ Shpallja u ruajt në databazë!";
+        $mesazhSukses = "✅ Shpallja u ruajt me sukses!";
     } else {
         $mesazhSukses = "❌ Gabim: " . $stmt->error;
     }
