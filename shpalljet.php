@@ -67,26 +67,46 @@ if (!isset($_SESSION['user_id'])) {
      
 
       <br>
-      <div class="dropdown"  >
-        <button onclick="toggleDropdown(event, 'myDropdown')" class="dropbtn">Qytetet <span class="glyphicon glyphicon-chevron-down" style="font-size: 10px;" ></span></button>
-        <div id="myDropdown" class="dropdown-content">
-          <input type="text" placeholder="Search.." id="myInput" onkeyup="filterFunction()">
-             
-          <a href="#" onclick="filterByCity(this)">Prishtin&#235;</a>
-          <a href="#" onclick="filterByCity(this)">Pej&#235;</a>
-          <a href="#" onclick="filterByCity(this)">Podujev&#235;</a>
-          <a href="#" onclick="filterByCity(this)">Mitrovic&#235;</a>
-          <a href="#" onclick="filterByCity(this)">Fush&#235; Kosov&#235;</a> 
-          <a href="#" onclick="filterByCity(this)">Klin&#235;</a>
-          <a href="#" onclick="filterByCity(this)">Viti</a>
-          <a href="#" onclick="filterByCity(this)">De&#231;an</a>
-          <a href="#" onclick="filterByCity(this)">Gjilan</a>
-          <a href="#" onclick="filterByCity(this)">Prizren</a>
-          <a href="#" onclick="filterByCity(this)">Vushtrri</a>
-          <a href="#" onclick="filterByCity(this)">Malishev&#235;</a>
-          <a href="#" onclick="filterByCity(this)">Drenas</a>
-        </div>
-      </div>
+      
+ <div class="dropdown">
+  <button onclick="toggleDropdown(event, 'myDropdown')" class="dropbtn">
+    Qytetet <span class="glyphicon glyphicon-chevron-down" style="font-size: 10px;"></span>
+  </button>
+
+  <div id="myDropdown" class="dropdown-content">
+    <input type="text" placeholder="Kërko qytetin..." id="myInput" onkeyup="filterFunction()">
+
+    <a class="linku" href="#" onclick="filterByCity(this)">Prishtinë</a>
+    <a class="linku" href="#" onclick="filterByCity(this)">Pejë</a>
+    <a class="linku" href="#" onclick="filterByCity(this)">Mitrovicë</a>
+    <a class="linku" href="#" onclick="filterByCity(this)">Gjilan</a>
+    <a class="linku" href="#" onclick="filterByCity(this)">Prizren</a>
+    <a class="linku" href="#" onclick="filterByCity(this)">Ferizaj</a>
+    <a class="linku" href="#" onclick="filterByCity(this)">Gjakovë</a>
+    <a class="linku" href="#" onclick="filterByCity(this)">Fushë Kosovë</a>
+    <a class="linku" href="#" onclick="filterByCity(this)">Podujevë</a>
+    <a class="linku" href="#" onclick="filterByCity(this)">Obiliq</a>
+    <a class="linku" href="#" onclick="filterByCity(this)">Drenas</a>
+    <a class="linku" href="#" onclick="filterByCity(this)">Vushtrri</a>
+    <a class="linku" href="#" onclick="filterByCity(this)">Suharekë</a>
+    <a class="linku" href="#" onclick="filterByCity(this)">Rahovec</a>
+    <a class="linku" href="#" onclick="filterByCity(this)">Malishevë</a>
+    <a class="linku" href="#" onclick="filterByCity(this)">Kamenicë</a>
+    <a class="linku" href="#" onclick="filterByCity(this)">Istog</a>
+    <a class="linku" href="#" onclick="filterByCity(this)">Skenderaj</a>
+    <a class="linku" href="#" onclick="filterByCity(this)">Dragash</a>
+    <a class="linku" href="#" onclick="filterByCity(this)">Kaçanik</a>
+    <a class="linku" href="#" onclick="filterByCity(this)">Deçan</a>
+    <a class="linku" href="#" onclick="filterByCity(this)">Klinë</a>
+    <a class="linku" href="#" onclick="filterByCity(this)">Leposaviq</a>
+    <a class="linku" href="#" onclick="filterByCity(this)">Zubin Potok</a>
+    <a class="linku" href="#" onclick="filterByCity(this)">Zveçan</a>
+    <a class="linku" href="#" onclick="filterByCity(this)">Shtime</a>
+    <a class="linku" href="#" onclick="filterByCity(this)">Shtërpcë</a>
+    <a class="linku" href="#" onclick="filterByCity(this)">Novobërdë</a>
+  </div>
+</div>
+
       <div class="dropdown">
         <button onclick="toggleDropdown(event, 'myDropdown2')" class="dropbtn">Fushat <span class="glyphicon glyphicon-chevron-down" style="font-size: 10px;" ></span></button>
         <div id="myDropdown2" class="dropdown-content">
@@ -102,7 +122,8 @@ if (!isset($_SESSION['user_id'])) {
           <a href="#" onclick="filterByCategory(this)">Shëndetësi</a>
           <a href="#" onclick="filterByCategory(this)">Sherbime Juridike</a>
           <a href="#" onclick="filterByCategory(this)">Teknologji</a>
-          <a href="#1" onclick="filterByCategory(this)">Transport</a>
+          <a href="#" onclick="filterByCategory(this)">Transport</a>
+         <a href="#" onclick="filterByCategory(this)">Kuzhinë</a>
          
         </div>
       </div>
@@ -165,6 +186,7 @@ document.getElementById("shtoShpalljeBtn").addEventListener("click", function ()
         public $pozita;
         public $foto;
         public $dataShpalljes;
+        public $kompania;
         public $kategoria;
         public $paga;
         public $lokacioni;
@@ -173,10 +195,11 @@ document.getElementById("shtoShpalljeBtn").addEventListener("click", function ()
         public $onclick;
 
     
-        function __construct($pozita,$foto, $dataShpalljes,$kategoria, $paga,$lokacioni,$pershkrimi,$afatiAplikimit,$onclick) {
+        function __construct($pozita,$foto, $dataShpalljes,$kompania,$kategoria, $paga,$lokacioni,$pershkrimi,$afatiAplikimit,$onclick) {
             $this->pozita = $pozita;
             $this ->foto = $foto;
             $this->dataShpalljes = $dataShpalljes;
+            $this -> kompania = $kompania;
             $this -> kategoria = $kategoria;
             $this -> paga = $paga;
             $this -> lokacioni = $lokacioni;
@@ -189,7 +212,7 @@ document.getElementById("shtoShpalljeBtn").addEventListener("click", function ()
 
         function shfaq() {
           echo '
-<div class="col-md-4">
+<div class="col-md-4 card-item">
     <div class="card">
         <img src="' . $this->foto . '" class="card-img-top" alt="Pozitë e Lirë - ' .$this->pozita . '">
         <div class="card-body">
@@ -206,7 +229,20 @@ document.getElementById("shtoShpalljeBtn").addEventListener("click", function ()
                     0 0 1 0 1h-2a.5.5 0 0 1 0-1zm0 3v-.5a.5.5 0 0 1 1 
                     0v.5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1z"/>
                 </svg></span> 
-                <strong>Kategoria:</strong> <span class="kategoria" style="margin-left: 0px;">' . $this->kategoria . '</span>
+                <strong>Kompania:</strong> <span  style="margin-left: 0px;">' . $this->kompania . '</span>
+            </p>
+             <p><span class="ikone" style="margin-left: 10px;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                    class="bi bi-journal" viewBox="0 0 16 16" style="color: #F4A261;">
+                    <path d="M3 0h10a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-1h1v1a1 
+                    1 0 0 0 1 1h10a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H3a1 1 0 0 0-1 
+                    1v1H1V2a2 2 0 0 1 2-2"/>
+                    <path d="M1 5v-.5a.5.5 0 0 1 1 0V5h.5a.5.5 0 0 1 0 
+                    1h-2a.5.5 0 0 1 0-1zm0 3v-.5a.5.5 0 0 1 1 0V8h.5a.5.5 
+                    0 0 1 0 1h-2a.5.5 0 0 1 0-1zm0 3v-.5a.5.5 0 0 1 1 
+                    0v.5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1z"/>
+                </svg></span> 
+                <strong>Kategoria:</strong> <span class="kategoria"  style="margin-left: 0px;">' . $this->kategoria . '</span>
             </p>
             <p><span class="ikone" style="margin-left: 10px;">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
@@ -262,7 +298,7 @@ if ($result && $result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
         $cards[] = new Card(
             $row['titulli'], $row['foto'], $row['data_publikimit'],
-            $row['kompania'], $row['paga'], $row['lokacioni'],
+            $row['kompania'],$row['kategoria'], $row['paga'], $row['lokacioni'],
             $row['pershkrimi'], $row['afati'],
             "window.location.href='DetajetShpallje.php?id={$row['id']}'"
         );

@@ -10,7 +10,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     $titulli = $_POST['pozita'];
     $pershkrimi = $_POST['pershkrimi'];
-    $kompania = $_POST['kategoria'];
+    $kompania = $_POST['kompania'];
+    $kategoria = $_POST['kategoria'];
     $lokacioni = $_POST['lokacioni'];
     $paga = $_POST['paga'];
     $afati = $_POST['afatiAplikimit'];
@@ -39,7 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 
     // Insertim në databazë
-    $sql = "INSERT INTO shpalljet (titulli, foto, kompania, lokacioni, paga, data_publikimit, pershkrimi, afati, kerkesa, user_id)
+    $sql = "INSERT INTO shpalljet (titulli, foto, kompania,kategoria, lokacioni, paga, data_publikimit, pershkrimi, afati, kerkesa, user_id)
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     $stmt = $con->prepare($sql);
 
@@ -47,7 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         die("Gabim në prepare(): " . $con->error);
     }
 
-    $stmt->bind_param("sssssssssi", $titulli, $foto_path, $kompania, $lokacioni, $paga, $data, $pershkrimi, $afati, $kerkesa, $user_id);
+    $stmt->bind_param("sssssssssi", $titulli, $foto_path, $kompania,$kategoria, $lokacioni, $paga, $data, $pershkrimi, $afati, $kerkesa, $user_id);
 
     if ($stmt->execute()) {
         $mesazhSukses = "✅ Shpallja u ruajt në databazë!";
@@ -95,7 +96,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <input type="text" name="foto_link" class="form-control" placeholder="Vendos linkun e fotos">
         </div>
 
-        <div class="form-group"><label>Kompania (ose Kategoria):</label>
+        <div class="form-group"><label>Kompania :</label>
+            <input type="text" name="kompania" class="form-control" required></div>
+             <div class="form-group"><label> Kategoria</label>
             <input type="text" name="kategoria" class="form-control" required></div>
 
         <div class="form-group"><label>Paga (€):</label>
