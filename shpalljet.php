@@ -53,9 +53,91 @@ if (!isset($_SESSION['user_id'])) {
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+     <style>
+#chatContainer {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: white;
+  width: 320px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  font-family: sans-serif;
+  z-index: 9999;
+}
+
+#chatHeader {
+  background-color: #2a9d8f;
+  color: white;
+  padding: 8px 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 10px 10px 0 0;
+}
+
+#chatInput {
+  width: 100%;
+  padding: 10px;
+  border-top: 1px solid #ccc;
+  border: none;
+  border-radius: 0 0 10px 10px;
+}
+
+#pyetjetSugjeruara button {
+  margin: 5px 5px 0 0;
+  background: #e0f7fa;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+
+    </style>
 </head>
 <body>
-  
+<script>
+function pergjigjeEPergatitur(pyetja) {
+  const log = document.getElementById("chatLog");
+  log.innerHTML += `<p><strong>Ti:</strong> ${pyetja}</p>`;
+
+  let pergjigje = "⛔ Nuk ka përgjigje.";
+  switch (pyetja) {
+    case "Si të aplikoj?":
+      pergjigje = "Për të aplikuar, zgjidh një pozitë dhe kliko butonin 'Apliko'.";
+      break;
+    case "Çfarë dokumentesh kërkohen?":
+      pergjigje = "Zakonisht kërkohet CV dhe letër motivimi.";
+      break;
+    case "A ka vende të lira për IT?":
+      pergjigje = "Po, kemi disa pozita në sektorin e IT-së.";
+      break;
+    case "Si mund të kontaktoj kompaninë?":
+      pergjigje = "Të gjitha informacionet e kontaktit janë në fund të shpalljes.";
+      break;
+  }
+
+  log.innerHTML += `<p><strong>Asistenti:</strong> ${pergjigje}</p>`;
+  log.scrollTop = log.scrollHeight;
+}
+function minimizeChat() {
+  const content = document.getElementById("chatContent");
+  content.style.display = content.style.display === "none" ? "block" : "none";
+}
+
+
+function closeChat() {
+  document.getElementById("chatContainer").style.display = "none";
+}
+
+
+
+</script>
+
+
+
    
     <main>
       <div id="header-container"></div>
@@ -212,7 +294,7 @@ document.getElementById("shtoShpalljeBtn").addEventListener("click", function ()
 
         function shfaq() {
           echo '
-<div class="col-md-4 card-item">
+<div class="col-md-4 ">
     <div class="card">
         <img src="' . $this->foto . '" class="card-img-top" alt="Pozitë e Lirë - ' .$this->pozita . '">
         <div class="card-body">
@@ -329,6 +411,33 @@ foreach ($cards as $card) {
   </div>
  
   </main>
+  <div id="chatContainer">
+    <div id="chatHeader" style="background-color: #2a9d8f; color: white; padding: 8px 12px; display: flex; justify-content: space-between; align-items: center;">
+  <span style="font-weight: bold;">Asistenti</span>
+  <div>
+    <button onclick="minimizeChat()" style="background:none; border:none; color:white; font-size:16px;">–</button>
+    <button onclick="closeChat()" style="background:none; border:none; color:white; font-size:16px;">×</button>
+  </div>
+</div>
+<div id="chatContent">
+  <div class="chat-body">
+
+    <div id="pyetjetSugjeruara" style="padding: 10px; border-bottom: 1px solid #ccc;">
+  <p style="margin-bottom: 5px; font-weight: bold;">Pyetjet e zakonshme:</p>
+  <div style="display: flex; flex-wrap: wrap; gap: 5px;">
+    <button onclick="pergjigjeEPergatitur('Si të aplikoj?')">Si të aplikoj?</button>
+    <button onclick="pergjigjeEPergatitur('Çfarë dokumentesh kërkohen?')">Çfarë dokumentesh kërkohen?</button>
+    <button onclick="pergjigjeEPergatitur('A ka vende të lira për IT?')">A ka vende të lira për IT?</button>
+    <button onclick="pergjigjeEPergatitur('Si mund të kontaktoj kompaninë?')">Si mund të kontaktoj kompaninë?</button>
+  </div>
+</div>
+</div>
+
+  <div id="chatLog"></div>
+  <input type="text" id="chatInput" placeholder="Pyet diçka..." />
+  </div>
+</div>
+
   <script src="shpalljet.js"></script>
 </div>
     <!-- Include footer -->
