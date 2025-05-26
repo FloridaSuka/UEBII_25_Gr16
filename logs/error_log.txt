@@ -3,3 +3,7 @@
 [2025-05-26 01:45:47] Gabim [8] në C:\xampp\htdocs\UEBII_25_Gr16\aplikime.php, rreshti 30: session_start(): Ignoring session_start() because a session is already active
 [2025-05-26 03:16:58] Gabim [2] në C:\xampp\htdocs\UEBII_25_Gr16\shpalljet.php, rreshti 166: Undefined variable $cards
 [2025-05-26 03:16:58] Gabim [2] në C:\xampp\htdocs\UEBII_25_Gr16\shpalljet.php, rreshti 166: foreach() argument must be of type array|object, null given
+[2025-05-26 19:02:01] Gabim [2] në C:\xampp1\htdocs\UEBII_25_Gr16\shpalljet.php, rreshti 383: Undefined array key "kategoria"
+[2025-05-26 19:02:01] Gabim [2] në C:\xampp1\htdocs\UEBII_25_Gr16\shpalljet.php, rreshti 383: Undefined array key "kategoria"
+[2025-05-26 19:59:54] Gabim [2] në C:\xampp1\htdocs\UEBII_25_Gr16\shpalljet.php, rreshti 383: Undefined array key "kategoria"
+[2025-05-26 19:59:54] Gabim [2] në C:\xampp1\htdocs\UEBII_25_Gr16\shpalljet.php, rreshti 383: Undefined array key "kategoria"
