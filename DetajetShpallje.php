@@ -2,6 +2,7 @@
 session_start();
 require 'db.php';
 include 'nav.php';
+include 'cookie-box.php';
 
 if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
     echo "<h2 style='color: red; text-align: center;'>ID e shpalljes mungon ose nuk është valide.</h2>";
@@ -21,36 +22,29 @@ if (!$shpallja) {
     exit();
 }
 
-// për aplikim
-define("MIN_AGE", 18);
-define("MAX_AGE", 65);
-
-function isValidEmailOrPhone($input) {
-    return preg_match("/^[\w\-.]+@[\w\-]+\.\w{2,4}$/", $input) ||
-           preg_match("/^\+?[0-9]{8,15}$/", $input);
-}
-function isCapitalized($str) {
-    return preg_match("/^[A-ZÇË]/", $str);
-}
-
 $errors = [];
-if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    $firstName = $_POST['first-name'] ?? '';
-    $lastName = $_POST['last-name'] ?? '';
-    $contact = $_POST['phone-or-email'] ?? '';
-    $age = $_POST['age'] ?? 0;
-    $city = $_POST['qyteti'] ?? '';
-    $experience = $_POST['experience'] ?? 'jo';
-    $motivation = $_POST['motivation'] ?? '';
-    $cvPath = '';
 
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $emri = $_POST['first-name'] ?? '';
+    $mbiemri = $_POST['last-name'] ?? '';
+    $email = $_POST['phone-or-email'] ?? '';
+    $mosha = $_POST['age'] ?? 0;
+    $qyteti = $_POST['qyteti'] ?? '';
+    $pervoja = $_POST['experience'] ?? '';
+    $letra = $_POST['motivation'] ?? '';
+    $aftesite = isset($_POST['aftesite']) ? implode(', ', $_POST['aftesite']) : '';
+    $shpallja_id = $id;
+
+    $cv_path = '';
     if ($_FILES['cv']['error'] === UPLOAD_ERR_OK) {
-        $uploadDir = 'cv_files/';
+        $upload_dir = "cv/";
+        if (!file_exists($upload_dir)) {
+            mkdir($upload_dir, 0777, true);
+        }
         $ext = strtolower(pathinfo($_FILES['cv']['name'], PATHINFO_EXTENSION));
         if (in_array($ext, ['pdf', 'doc', 'docx'])) {
-            if (!is_dir($uploadDir)) mkdir($uploadDir, 0777, true);
-            $cvPath = $uploadDir . uniqid('cv_') . '.' . $ext;
-            move_uploaded_file($_FILES['cv']['tmp_name'], $cvPath);
+            $cv_path = $upload_dir . uniqid('cv_', true) . '.' . $ext;
+            move_uploaded_file($_FILES['cv']['tmp_name'], $cv_path);
         } else {
             $errors[] = "Lejohen vetëm .pdf, .doc, .docx";
         }
@@ -58,18 +52,29 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $errors[] = "Ju lutem ngarkoni CV-në.";
     }
 
-    if (!isCapitalized($firstName)) $errors[] = "Emri duhet me shkronjë të madhe.";
-    if (!isCapitalized($lastName)) $errors[] = "Mbiemri duhet me shkronjë të madhe.";
-    if (!isValidEmailOrPhone($contact)) $errors[] = "Forma e kontaktit është e pavlefshme.";
-    if ($age < MIN_AGE || $age > MAX_AGE) $errors[] = "Mosha duhet të jetë 18–65.";
+    if (!preg_match("/^[A-ZÇË][a-zçë\s]+$/", $emri)) $errors[] = "Emri duhet të fillojë me shkronjë të madhe.";
+    if (!preg_match("/^[A-ZÇË][a-zçë\s]+$/", $mbiemri)) $errors[] = "Mbiemri duhet të fillojë me shkronjë të madhe.";
+    if (!preg_match("/^[\w\-.]+@[\w\-]+\.[a-z]{2,4}$/i", $email) && !preg_match("/^\+?[0-9]{8,15}$/", $email)) {
+        $errors[] = "Forma e kontaktit është e pavlefshme.";
+    }
+    if ($mosha < 18 || $mosha > 65) $errors[] = "Mosha duhet të jetë 18–65.";
 
     if (empty($errors)) {
-        $_SESSION['first_name'] = $firstName;
-        $_SESSION['last_name'] = $lastName;
-        $_SESSION['cv_path'] = $cvPath;
-        $_SESSION['motivation'] = $motivation;
-        header("Location: aplikimi.php");
-        exit();
+        $sql = "INSERT INTO aplikimet (emri, mbiemri, email, mosha, qyteti, pervoja, aftesite, motivimi, cv_path, shpallje_id)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        $stmt = $con->prepare($sql);
+
+        if ($stmt) {
+            $stmt->bind_param("sssisssssi", $emri, $mbiemri, $email, $mosha, $qyteti, $pervoja, $aftesite, $letra, $cv_path, $shpallja_id);
+            if ($stmt->execute()) {
+                echo "<script>alert('✅ Aplikimi u ruajt me sukses!');</script>";
+            } else {
+                echo "❌ Gabim gjatë ruajtjes: " . $stmt->error;
+            }
+            $stmt->close();
+        } else {
+            echo "❌ Gabim prepare(): " . $con->error;
+        }
     }
 }
 ?>
@@ -165,7 +170,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         <br><input type="submit" value="Apliko">
     </form>
 </div>
-
 <?php include 'footer.php'; ?>
 </body>
 </html>

@@ -1,6 +1,10 @@
 <?php include 'nav.php'; ?>
 <?php
 require 'db.php'; // Lidhja me databazën
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
@@ -10,9 +14,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $lokacioni = $_POST['lokacioni'];
     $paga = $_POST['paga'];
     $afati = $_POST['afatiAplikimit'];
-   
     $kerkesa = $_POST['kerkesa'];
-    $user_id = 1; // ose: $_SESSION['user_id'];
+    $user_id = $_SESSION['user_id'];
+    $data = date("Y-m-d"); // vetë gjenerohet data aktuale
 
     // Fotoja - ose file ose link
     $foto_path = '';
@@ -35,16 +39,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 
     // Insertim në databazë
-   $sql = "INSERT INTO shpalljet (titulli, foto, kompania, lokacioni, paga, pershkrimi, afati, kerkesa) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+    $sql = "INSERT INTO shpalljet (titulli, foto, kompania, lokacioni, paga, data_publikimit, pershkrimi, afati, kerkesa, user_id)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    $stmt = $con->prepare($sql);
 
-$stmt = $con->prepare($sql);
+    if (!$stmt) {
+        die("Gabim në prepare(): " . $con->error);
+    }
 
-if (!$stmt) {
-    die("Gabim në prepare(): " . $con->error);
-}
-
-$stmt->bind_param("ssssssss", $titulli, $foto_path, $kompania, $lokacioni, $paga, $pershkrimi, $afati, $kerkesa);
-
+    $stmt->bind_param("sssssssssi", $titulli, $foto_path, $kompania, $lokacioni, $paga, $data, $pershkrimi, $afati, $kerkesa, $user_id);
 
     if ($stmt->execute()) {
         $mesazhSukses = "✅ Shpallja u ruajt në databazë!";
@@ -110,7 +113,6 @@ $stmt->bind_param("ssssssss", $titulli, $foto_path, $kompania, $lokacioni, $paga
         <div class="form-group"><label>Afati i aplikimit:</label>
             <input type="date" name="afatiAplikimit" class="form-control" required></div>
 
-       
         <button type="submit" class="btn btn-success">Shto</button>
     </form>
 </div>

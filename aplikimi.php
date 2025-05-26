@@ -5,7 +5,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css">
-<title>Faleminderit për Aplikimin</title>
+<title>Aplikimet</title>
+ <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+        }
+    </style>
 </head>
 
 <body>
