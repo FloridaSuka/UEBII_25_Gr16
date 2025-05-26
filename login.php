@@ -7,7 +7,7 @@ session_start();
 require 'db.php';
 header('Content-Type: application/json');
 
-// 💡 Kontrollo nëse POST vjen siç duhet
+//  Kontrollo nëse POST vjen siç duhet
 if (!isset($_POST['emri_perdoruesit']) || !isset($_POST['password'])) {
     echo json_encode([
         "sukses" => false,
@@ -40,6 +40,7 @@ if ($result->num_rows === 1) {
             "redirect" => ($user['Roli'] === 'admin') ? "home.php" : $redirect
         ]);
     } else {
+        sleep(5);
         echo json_encode(["sukses" => false, "mesazh" => "Fjalëkalimi është gabim."]);
     }
 } else {
