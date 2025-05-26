@@ -7,36 +7,30 @@ document.getElementById("myInput2").onclick = function(event) {
 function resetFilters() {
   location.reload(); // Rifreskon faqen
 }
+function filterFunction() {
+    let input = document.getElementById("myInput");
+    let filter = input.value.toLowerCase().trim();
+    let dropdown = document.getElementById("myDropdown");
+    let links = dropdown.getElementsByTagName("a");
+
+   for (let i = 0; i < links.length; i++) {
+        let text = links[i].textContent || links[i].innerText;
+        links[i].style.display = text.toLowerCase().includes(filter) ? "" : "none";
+    }
+
+  }
 function filterFunction2() {
-  var input, filter, ul, li, a, i;
-  input = document.getElementById("myInput");
-  filter = input.value.toUpperCase();
-  div = document.getElementById("myDropdown");
-  a = div.getElementsByTagName("a");
-  for (i = 0; i < a.length; i++) {
-    txtValue = a[i].textContent || a[i].innerText;
-    if (txtValue.toUpperCase().indexOf(filter) > -1) {
-      a[i].style.display = "";
-    } else {
-      a[i].style.display = "none";
+    let input = document.getElementById("myInput2");
+    let filter = input.value.toLowerCase();
+    let dropdown = document.getElementById("myDropdown2");
+    let links = dropdown.getElementsByTagName("a");
+
+    for (let i = 0; i < links.length; i++) {
+        let text = links[i].textContent || links[i].innerText;
+        links[i].style.display = text.toLowerCase().includes(filter) ? "" : "none";
     }
-  }
 }
-  function filterFunction2() {
-    var input, filter, ul, li, a, i;
-    input = document.getElementById("myInput2");
-    filter = input.value.toUpperCase();
-    div = document.getElementById("myDropdown2");
-    a = div.getElementsByTagName("a");
-    for (i = 0; i < a.length; i++) {
-      txtValue = a[i].textContent || a[i].innerText;
-      if (txtValue.toUpperCase().indexOf(filter) > -1) {
-        a[i].style.display = "";
-      } else {
-        a[i].style.display = "none";
-      }
-    }
-  }
+
  
  window.onclick = function(event) {
         if (!event.target.matches('.dropbtn') && !event.target.matches('.dropbtn *')) {
@@ -155,3 +149,25 @@ function filterByCategory(element) {
   }
 
 }
+function kerko() {
+    const input = document.getElementById("kerko").value.toLowerCase();
+    const cards = document.querySelectorAll(".card-item");
+
+    cards.forEach(card => {
+        const pozita = card.getAttribute("pozita").toLowerCase();
+        const kompania = card.getAttribute("kompania").toLowerCase();
+        const kategoria = card.getAttribute("kategoria").toLowerCase();
+        const lokacioni = card.getAttribute("lokacioni").toLowerCase();
+        const pershkrimi = card.getAttribute("pershkrimi").toLowerCase();
+
+        const visible =
+            pozita.includes(input) ||
+            kompania.includes(input) ||
+            kategoria.includes(input) ||
+            lokacioni.includes(input) ||
+            pershkrimi.includes(input);
+
+        card.style.display = visible ? "block" : "none";
+    });
+}
+

@@ -1,18 +1,23 @@
 <?php include 'nav.php'; ?>
 <?php
 require 'db.php'; // Lidhja me databazën
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     $titulli = $_POST['pozita'];
     $pershkrimi = $_POST['pershkrimi'];
-    $kompania = $_POST['kategoria'];
+    $kompania = $_POST['kompania'];
+    $kategoria = $_POST['kategoria'];
     $lokacioni = $_POST['lokacioni'];
     $paga = $_POST['paga'];
     $afati = $_POST['afatiAplikimit'];
-   
     $kerkesa = $_POST['kerkesa'];
-    $user_id = 1; // ose: $_SESSION['user_id'];
+    $user_id = $_SESSION['user_id'];
+    $data = date("Y-m-d"); // vetë gjenerohet data aktuale
 
     // Fotoja - ose file ose link
     $foto_path = '';
@@ -35,15 +40,28 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 
     // Insertim në databazë
-   $sql = "INSERT INTO shpalljet (titulli, foto, kompania, lokacioni, paga, pershkrimi, afati, kerkesa) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+    $sql = "INSERT INTO shpalljet (titulli, foto, kompania,kategoria, lokacioni, paga, data_publikimit, pershkrimi, afati, kerkesa, user_id)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)";
+    $stmt = $con->prepare($sql);
 
-$stmt = $con->prepare($sql);
+    if (!$stmt) {
+        die("Gabim në prepare(): " . $con->error);
+    }
 
-if (!$stmt) {
-    die("Gabim në prepare(): " . $con->error);
-}
-
-$stmt->bind_param("ssssssss", $titulli, $foto_path, $kompania, $lokacioni, $paga, $pershkrimi, $afati, $kerkesa);
+   $stmt->bind_param(
+    "ssssssssssi",  // 11 shkronja: 10 s = string, 1 i = integer (për user_id)
+    $titulli,
+    $foto_path,
+    $kompania,
+    $kategoria,
+    $lokacioni,
+    $paga,
+    $data,
+    $pershkrimi,
+    $afati,
+    $kerkesa,
+    $user_id
+);
 
 
     if ($stmt->execute()) {
@@ -92,7 +110,9 @@ $stmt->bind_param("ssssssss", $titulli, $foto_path, $kompania, $lokacioni, $paga
             <input type="text" name="foto_link" class="form-control" placeholder="Vendos linkun e fotos">
         </div>
 
-        <div class="form-group"><label>Kompania (ose Kategoria):</label>
+        <div class="form-group"><label>Kompania :</label>
+            <input type="text" name="kompania" class="form-control" required></div>
+             <div class="form-group"><label> Kategoria</label>
             <input type="text" name="kategoria" class="form-control" required></div>
 
         <div class="form-group"><label>Paga (€):</label>
@@ -110,7 +130,6 @@ $stmt->bind_param("ssssssss", $titulli, $foto_path, $kompania, $lokacioni, $paga
         <div class="form-group"><label>Afati i aplikimit:</label>
             <input type="date" name="afatiAplikimit" class="form-control" required></div>
 
-       
         <button type="submit" class="btn btn-success">Shto</button>
     </form>
 </div>

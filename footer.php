@@ -220,8 +220,25 @@ function validoEmail($email) {
             <a href="https://maps.app.goo.gl/8Hw7bdG147Xg8SWv7" target="_blank">
                 <abbr style="color: white;" title="Fakulteti i Inxhinierisë Elektrike dhe Kompjuterike">FIEK</abbr>, Bregu i Diellit, Prishtinë
             </a>
-            <iframe style="margin-top: 20px;" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d883.7419795612805!2d21.167981821531953!3d42.64797775698764!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x13549ec1b0cdc52b%3A0xdc5147a159d868a9!2sFakulteti%20i%20Inxhinieris%C3%AB%20Elektrike%20dhe%20Kompjuterike!5e0!3m2!1sen!2s!4v1736000829542!5m2!1sen!2s" width="400" height="200" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
-        </address>
+        <div id="map"  style="margin-top:20px;height: 200px;"></div>
+
+<!-- Leaflet JS & CSS -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
+<script>
+  // Koordinatat për FIEK, Bregu i Diellit
+  const map = L.map('map').setView([42.6486, 21.1690], 17); // zoom më i madh për fokus
+
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; OpenStreetMap contributors'
+  }).addTo(map);
+
+  L.marker([42.6486, 21.1690]).addTo(map)
+    .bindPopup('FIEK - Fakulteti i Inxhinierisë Elektrike dhe Kompjuterike')
+    .openPopup();
+</script>
+
     </div>
 
     <div class="footer-bottom">

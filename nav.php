@@ -11,6 +11,9 @@ $isLoggedIn = isset($_SESSION['user_id']);
     <title>Navigation and Login</title>
        <style>
     nav {
+    margin: auto;
+    padding: 10px 20px;
+    box-sizing: border-box;
         position: fixed;
         top: 0;
         left: 0;
@@ -20,7 +23,7 @@ $isLoggedIn = isset($_SESSION['user_id']);
         display: flex;
         align-items: center;
         justify-content: space-between;
-        padding: 10px 20px;
+  
     }
     body {
         padding-top: 70px;
@@ -229,11 +232,21 @@ $isLoggedIn = isset($_SESSION['user_id']);
         <h3 style="font-family: 'myfont1regular' , sans-serif;">Find Your Way</h3>
     </div>
     <ul class="nav-links" style = "justify-content: flex-end">
+        
         <li><a href="home.php">Ballina</a></li>
         <li><a href="rrethnesh.php">Rreth nesh</a></li>
         <li><a href="shpalljet.php" <?php if (!$isLoggedIn): ?>
            onclick="event.preventDefault(); window.location.href='index.php?mesazh=<?= urlencode('Ju duhet të kyçeni për të parë shpalljet.') ?>&redirect=shpalljet.php';"
        <?php endif; ?> >Shpallje</a></li>
+       <?php if (isset($_SESSION['roli']) && $_SESSION['roli'] === 'admin'): ?>
+    <li class="nav-item">
+        <a class="nav-link" href="dashboard.php">Shpalljet e Mia</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="aplikimet.php">Aplikimet</a>
+    </li>
+<?php endif; ?>
+
         <li><a href="keshilla.php">Këshilla</a></li>
         <div class="user-icon">
             <div class="dropdown">
