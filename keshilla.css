@@ -220,7 +220,6 @@ table th{
     padding: 20px;
     border-radius: 50%;
     cursor: pointer;
-    z-index: 10;
 }
 
 /* Butoni mund të ndryshojë gjatë lojës */
