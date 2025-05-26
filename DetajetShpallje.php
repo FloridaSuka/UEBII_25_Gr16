@@ -137,7 +137,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         echo "</ul></div>";
     } ?>
 
-    <form method="POST" enctype="multipart/form-data">
+    <form method="POST" enctype="multipart/form-data" class="universalForm">
         <label>Emri</label>
         <input type="text" name="first-name" required>
 
@@ -170,6 +170,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <br><input type="submit" value="Apliko">
     </form>
 </div>
+<script src="form_handler.js"></script>
 <?php include 'footer.php'; ?>
 </body>
 </html>
