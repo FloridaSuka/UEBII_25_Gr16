@@ -41,14 +41,28 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     // Insertim në databazë
     $sql = "INSERT INTO shpalljet (titulli, foto, kompania,kategoria, lokacioni, paga, data_publikimit, pershkrimi, afati, kerkesa, user_id)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)";
     $stmt = $con->prepare($sql);
 
     if (!$stmt) {
         die("Gabim në prepare(): " . $con->error);
     }
 
-    $stmt->bind_param("sssssssssi", $titulli, $foto_path, $kompania,$kategoria, $lokacioni, $paga, $data, $pershkrimi, $afati, $kerkesa, $user_id);
+   $stmt->bind_param(
+    "ssssssssssi",  // 11 shkronja: 10 s = string, 1 i = integer (për user_id)
+    $titulli,
+    $foto_path,
+    $kompania,
+    $kategoria,
+    $lokacioni,
+    $paga,
+    $data,
+    $pershkrimi,
+    $afati,
+    $kerkesa,
+    $user_id
+);
+
 
     if ($stmt->execute()) {
         $mesazhSukses = "✅ Shpallja u ruajt në databazë!";
