@@ -336,7 +336,7 @@ window.addEventListener("DOMContentLoaded", () => {
       })
       .then(response => response.json())
         .then(data => {
-        console.log("Përgjigja nga serveri:", data); // 🔍 Debug: kontrollo formatin e JSON
+        console.log("Përgjigja nga serveri:", data); // Debug: kontrollo formatin e JSON
         if (data.sukses) {
             alert("✅ Kyçja u realizua me sukses!");
             window.location.href = data.redirect;

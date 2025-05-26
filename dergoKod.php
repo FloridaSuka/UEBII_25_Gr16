@@ -47,7 +47,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $mail->Host       = 'smtp.gmail.com';
     $mail->SMTPAuth   = true;
     $mail->Username   = 'findyourway.2024.25@gmail.com';
-    $mail->Password   = 'obszazgpwveinsmz'; // Ndroje nëse ndryshon App Password
+    $mail->Password   = 'obszazgpwveinsmz';
     $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
     $mail->Port       = 587;
     $mail->CharSet    = 'UTF-8';
@@ -67,7 +67,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         throw new Exception("Dërgimi i emailit dështoi: " . $mail->ErrorInfo);
     }
 
-    // ✅ Ruajtja e kodit në një fajll log
+    //Ruajtja e kodit në një fajll log
     $folder = __DIR__ . "/logs";
     if (!file_exists($folder)) {
         if (!mkdir($folder, 0777, true)) {
@@ -87,6 +87,5 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 } catch (Exception $e) {
     // Trajto gabimin në mënyrë të personalizuar
     echo json_encode(["status" => "error", "message" => "Gabim: " . $e->getMessage()]);
-    // Opsionale: mund të logosh edhe gabimin në një fajll tjetër nëse dëshiron
 }
 }
