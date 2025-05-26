@@ -338,7 +338,7 @@ window.addEventListener("DOMContentLoaded", () => {
         .then(data => {
         console.log("Përgjigja nga serveri:", data); // Debug: kontrollo formatin e JSON
         if (data.sukses) {
-            alert("✅ Kyçja u realizua me sukses!");
+            alert("Kyçja u realizua me sukses!");
             window.location.href = data.redirect;
         } else {
             alert(data.mesazh);

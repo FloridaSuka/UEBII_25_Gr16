@@ -129,7 +129,7 @@ document.querySelector("#login").addEventListener("submit", function(e) {
             document.getElementById("btn").style.left = "110px";
         }
 
-        // ✅ Shfaq alert nëse vjen mesazh përmes URL-së
+        //Shfaq alert nëse vjen mesazh përmes URL-së
        window.addEventListener("DOMContentLoaded", () => {
     const params = new URLSearchParams(window.location.search);
     if (params.has("mesazh")) {
