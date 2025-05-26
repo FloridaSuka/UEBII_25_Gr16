@@ -88,7 +88,7 @@
                     $kopje->titulli = "Arkitekt i Brendshëm"; 
 
                     $punet[] = $stomatolog;
-                    unset($punet[2]); // largon Inxhinierin
+                    unset($punet[2]); 
 
                     foreach ($punet as $pune) {
                         $pune->shfaq();
