@@ -254,47 +254,41 @@ document.getElementById("shtoShpalljeBtn").addEventListener("click", function ()
 
 
  
-$result = $con->query("SELECT * FROM shpalljet WHERE afati >= CURDATE() ORDER BY data_publikimit DESC");
 
-    
-    if ($result->num_rows > 0) {
-        while ($row = $result->fetch_assoc()) {
-            $id = $row['id'];
-            $pozita = $row['titulli'];
-            $foto = $row['foto']; // merre foton nga databaza
-            $data = $row['data_publikimit'];
-            $kategoria = $row['kompania'];
-            $paga = $row['paga'];
-            $lokacioni = $row['lokacioni'];
-            $pershkrimi = $row['pershkrimi'];
-            $afati = $row['afati'];
-            $onclick = "window.location.href='DetajetShpallje.php?id=$id'";
-            
-    
-            $onclick = "window.location.href='DetajetShpallje.php?id={$row['id']}'";
-
-            
-            $c = new Card($pozita, $foto, $data, $kategoria, $paga, $lokacioni, $pershkrimi, $afati, $onclick);
-            $c->shfaq();
-        }
+$cards = [];
+$sql = "SELECT * FROM shpalljet WHERE afati >= CURDATE()";
+$result = $con->query($sql);
+if ($result && $result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        $cards[] = new Card(
+            $row['titulli'], $row['foto'], $row['data_publikimit'],
+            $row['kompania'], $row['paga'], $row['lokacioni'],
+            $row['pershkrimi'], $row['afati'],
+            "window.location.href='DetajetShpallje.php?id={$row['id']}'"
+        );
     }
+}
+
+if (isset($_GET['rendit']) && !empty($cards)) {
+    $rendit = $_GET['rendit'];
+    usort($cards, function($a, $b) use ($rendit) {
+        switch ($rendit) {
+            case 'paga_desc': return (float)$b->paga - (float)$a->paga;
+            case 'paga_asc': return (float)$a->paga - (float)$b->paga;
+            case 'data_asc': return strtotime($a->dataShpalljes) - strtotime($b->dataShpalljes);
+            case 'data_desc': return strtotime($b->dataShpalljes) - strtotime($a->dataShpalljes);
+        }
+        return 0;
+    });
+}
+foreach ($cards as $card) {
+    $card->shfaq();
+}
+
     
 
     
-?><script>
-function shkoTeFaqja1() { window.location.href = "DetajetMesuese.php"; }
-function shkoTeFaqja2() { window.location.href = "DetajetArkitekt.php"; }
-function shkoTeFaqja3() { window.location.href = "DetajetInxhinier.php"; }
-function shkoTeFaqja4() { window.location.href = "DetajetIT.php"; }
-function shkoTeFaqja5() { window.location.href = "DetajetKuzhinier.php"; }
-function shkoTeFaqja6() { window.location.href = "DetajetShofer.php"; }
-function shkoTeFaqja7() { window.location.href = "DetajetStomatolog.php"; }
-function shkoTeFaqja8() { window.location.href = "DetajetFotograf.php"; }
-function shkoTeFaqja9() { window.location.href = "DetajetKontabilist.php"; }
-function shkoTeFaqja10() { window.location.href = "DetajetSoftware.php"; }
-function shkoTeFaqja11() { window.location.href = "DetajetMarketing.php"; }
-function shkoTeFaqja12() { window.location.href = "DetajetAvokat.php"; }
-</script>
+?>
      
   </div>
  
