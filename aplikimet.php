@@ -1,4 +1,5 @@
 <?php
+ob_start();
 require 'db.php';
 include 'nav.php';
 include 'cookie-box.php';
